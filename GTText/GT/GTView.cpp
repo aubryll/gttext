@@ -1,0 +1,1532 @@
+// GTView.cpp: implementación de la clase CGTView
+//
+
+#include "stdafx.h"
+#include "GT.h"
+
+#include "GTDoc.h"
+#include "GTView.h"
+#include "GTXMLView.h"
+#include "MainFrm.h"
+
+
+
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+
+
+// CGTView
+
+IMPLEMENT_DYNCREATE(CGTView, CScrollView)
+
+BEGIN_MESSAGE_MAP(CGTView, CScrollView)
+	ON_COMMAND(ID_FILE_PRINT, &CScrollView::OnFilePrint)
+	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CScrollView::OnFilePrint)
+	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CScrollView::OnFilePrintPreview)
+	ON_WM_LBUTTONUP()
+	ON_WM_RBUTTONUP()
+	ON_WM_LBUTTONDOWN()
+	ON_WM_RBUTTONDOWN()
+	ON_WM_MOUSEMOVE()
+	ON_WM_MOUSEWHEEL()
+	//ON_WM_ERASEBKGND()
+END_MESSAGE_MAP()
+
+
+CGTView::CGTView()
+{
+	m_nImageSize = SIZE_NONE;
+	m_zoom = 1;
+	m_floodDistance = 10;
+	m_bright = 128;
+	m_nPenSize = PEN_1;
+	m_isOutline = false;
+	m_showPen = false;
+	m_isZoomed = false;
+	m_isExt = false;
+	m_cursorMap.Create(1,1,24);
+	m_cursorMap.SetPixelRGB(0,0,255,255,255);
+	m_isHold = false;
+}
+
+CGTView::~CGTView()
+{
+	m_Map.Destroy();
+	m_cursorMap.Destroy();
+}
+
+BOOL CGTView::PreCreateWindow(CREATESTRUCT& cs)
+{
+	// TODO: modificar aquí la clase Window o los estilos cambiando
+	//  CREATESTRUCT cs
+
+	return CScrollView::PreCreateWindow(cs);
+}
+
+BOOL CGTView::OnEraseBkgnd(CDC* pDC)
+{
+	
+	if(!m_showPen && m_isZoomed)
+		return CView::OnEraseBkgnd(pDC);
+	return TRUE;
+}
+void CGTView::OnFileOpen()
+{
+	SetActiveWindow();
+	CFrameWnd* pMainWnd = (CFrameWnd*)AfxGetMainWnd();
+	CSplitterWnd* pParentSplitter = GetParentSplitter(this,true);
+	CXMLView* xmlView = ((CXMLView*)((CSplitterWnd*)pParentSplitter->GetPane(0,1))->GetPane(0,0));
+	xmlView->OnFileOpen();
+}
+
+void CGTView::OnLButtonDown(UINT nFlag,CPoint point)
+{
+	CGTDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	if (!pDoc)
+		return;
+	SectionPtrs* sec = pDoc->GetCurrentSection();
+	if(sec == NULL)
+		return;
+	if(pDoc->GetImage()->IsNull())
+		return;
+	if(pDoc->GetEditState() != EDIT_NONE && (sec->type == glyph))
+	{
+		pDoc->Backup();
+		pDoc->SetModifiedFlag(TRUE);
+		pDoc->SetDirty(true);
+		pDoc->SetPenPoint(CPoint(-1,-1));
+		m_showPen = true;
+		OnLPaint(nFlag,point);
+	}
+}
+
+BOOL CGTView::OnMouseWheel(UINT nFlags,short zDelta,CPoint point)
+{
+	CGTDoc* pDoc = GetDocument();
+	int pos,step;
+	CSize barSize;
+	CPoint PxlReal,ul;
+	if(pDoc->GetImage()->IsNull())
+		return FALSE;
+	GetScrollBarSizes(barSize);
+	step = int(pDoc->GetImage()->GetHeight()*m_zoom)/120;
+	ul = this->GetScrollPosition();
+	PxlReal = ul + point;
+	PxlReal.x = int(PxlReal.x / m_zoom);
+	PxlReal.y = int(PxlReal.y / m_zoom);
+	if(zDelta < 0)
+	{
+		if(pDoc->GetToolState() == ZOOM_TOOL)
+		{	
+			if(m_zoom  > 1/3000)
+			{
+				pDoc->SetZoomPoint(PxlReal,point);
+				m_zoom = m_zoom / 5 * 4;
+				//Uncomment/Comment to zoom using mouse point
+				m_isZoomed = true;
+				m_showPen = false;
+				OnChangeSize(ID_ZOOM);
+	
+				
+			}
+		}
+		else if(!m_showPen)
+		{
+			pos = GetScrollPos(1);
+			pos = pos + step*barSize.cy;
+			if(pos < GetScrollLimit(1))
+				SetScrollPos(1,(pos+1));
+			else
+				SetScrollPos(1,GetScrollLimit(1));
+		}
+	}
+	else
+	{
+		if(pDoc->GetToolState() == ZOOM_TOOL)
+		{
+			if(m_zoom < 3000)
+			{
+				pDoc->SetZoomPoint(PxlReal,point);
+				m_zoom = m_zoom / 4 * 5;
+				//Uncomment/Comment to zoom using mouse point
+				m_isZoomed = true;
+				OnChangeSize(ID_ZOOM);
+			}
+			
+		}
+		else if(!m_showPen)
+		{
+			pos = GetScrollPos(1);
+			pos = pos - step*barSize.cy;
+			if(pos > 0)
+				SetScrollPos(1,(pos-1));
+			else
+				SetScrollPos(1,0);
+		}
+	}
+	
+	Invalidate(false);
+	return TRUE;
+}
+
+void CGTView::OnRButtonDown(UINT nFlag,CPoint point)
+{
+	CGTDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	if (!pDoc)
+		return;
+	SectionPtrs* sec = pDoc->GetCurrentSection();
+	if(sec == NULL)
+		return;
+	if(pDoc->GetImage()->IsNull())
+		return;
+	if((pDoc->GetEditState() != EDIT_NONE) && (sec->type == glyph))
+	{	
+		pDoc->Backup();
+		pDoc->SetModifiedFlag(TRUE);
+		pDoc->SetDirty(true);
+		OnRPaint(nFlag,point);
+	}
+}
+
+void CGTView::OnLButtonUp(UINT nFlag,CPoint point)
+{
+	CGTDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	if (!pDoc)
+		return;
+	CPoint ul,penPoint;
+	CPoint PxlReal;
+	CRect penRect;
+	BYTE r,g,b;
+	COLORREF imagePixel;
+	int penSize; 
+	int halfSize; 
+	if(pDoc->GetImage()->IsNull())
+		return;
+	
+	ul = this->GetScrollPosition();
+	PxlReal = ul + point;
+	PxlReal.x = int(PxlReal.x / m_zoom);
+	PxlReal.y = int(PxlReal.y / m_zoom);
+	ToolEnum state = pDoc->GetToolState();
+	switch(state)
+	{
+		case REGION_TOOL:
+			if(pDoc->GetEditState() != EDIT_NONE)
+			{
+				if((PxlReal.x >= 0) && (PxlReal.x < pDoc->GetImage()->GetWidth()) && (PxlReal.y >= 0) && (PxlReal.y < pDoc->GetImage()->GetHeight()))
+				{
+					imagePixel = pDoc->GetImage()->GetPixel(PxlReal.x,PxlReal.y);
+					b = GetBValue(imagePixel);
+					r = GetRValue(imagePixel);
+					g = GetGValue(imagePixel);
+					OnFloodFill(r,g,b,pDoc->GetImage(),pDoc->GetImageSelection()->GetImageMask(),PxlReal,pDoc->GetImageSelection()->GetCurrentMaskVector(pDoc->GetEditState()),true);
+					pDoc->SetPenPoint(CPoint(-1,-1));
+					m_showPen = true;
+				}
+				m_isHold = false;
+			}
+			break;
+		case PIXEL_TOOL:
+			if(pDoc->GetEditState() != EDIT_NONE)
+			{
+				pDoc->GetImageSelection()->ChangePoint(CPoint(PxlReal.x,PxlReal.y),pDoc->GetEditState(),true,GetPenSize());
+				pDoc->SetPenPoint(CPoint(-1,-1));
+				m_showPen = true;
+			}
+			break;
+		case ZOOM_TOOL:
+
+			if(m_zoom < 3000)
+			{
+				pDoc->SetZoomPoint(PxlReal,point);
+				m_zoom = m_zoom / 4 * 5;
+				m_isZoomed = true;
+				m_showPen = false;
+				OnChangeSize(ID_ZOOM);
+			}
+			break;
+
+		case INVERT_TOOL:
+			
+			penSize = GetPenSize();
+			halfSize = penSize/2;
+			penPoint = pDoc->GetPenPoint();
+
+			penRect.left = penPoint.x - halfSize;
+			penRect.right = penRect.left + penSize;
+			penRect.top = penPoint.y - halfSize;
+			penRect.bottom = penRect.top + penSize;
+			
+			if(penRect.left < 0)
+				penRect.left = 0;
+			if(penRect.top < 0)
+				penRect.top = 0;
+			pDoc->GetImageSelection()->InvertMask(penRect,pDoc->GetEditState());
+
+			pDoc->GetImageSelection()->LoadMaskPoints(pDoc->GetEditState());
+			break;
+		default:break;
+	}
+	PrintPoint(PxlReal);
+	Invalidate(false);
+}
+
+
+//Currently using the diference of speed in the color change as the stop decision
+
+BOOL CGTView::OnExtendedFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlue,CImage *picture,CImage *mask,CPoint point,MaskVector *pointsVector,bool isAdded)
+{
+	CGTDoc* pDoc = GetDocument();
+	FloodFillPoints seedPoints;
+	FloodFillPoints newSeedPoints;
+	FloodFillPoints::iterator it,itb;
+	CImageSelection *sel;
+	CImage floodMask;
+	EditEnum region = pDoc->GetEditState();
+	COLORREF maskPixel, imagePixel,zeroPix,targetPixel,floodColor,editColor;
+	BYTE r,g,b;
+	int j = 0;
+	BOOL morePix = TRUE;
+	CPoint nextPoint;
+	long double targetColor,floodDistance,pixelColor;
+	CRect Clrect,imageRect;
+	GetClientRect(&Clrect);
+	Clrect.OffsetRect(GetScrollPosition());
+	imageRect.left = int(Clrect.left / m_zoom);
+	imageRect.top = int(Clrect.top / m_zoom);
+	imageRect.bottom = int(Clrect.bottom / m_zoom)+1;
+	imageRect.right = int(Clrect.right / m_zoom)+1;
+		
+	ASSERT_VALID(pDoc);
+	if (!pDoc)
+		return FALSE;
+	if(mask->IsNull())
+		return FALSE;
+
+	CGTView::BeginWaitCursor();
+
+	if(imageRect.left < 0)
+		imageRect.left = 0;
+	if(imageRect.Width() > mask->GetWidth())
+		imageRect.right = imageRect.left + mask->GetWidth();
+	if(imageRect.bottom < 0)
+		imageRect.bottom = 0;
+	if(imageRect.Height() > mask->GetHeight())
+		imageRect.bottom = imageRect.top + mask->GetHeight();
+
+	
+	floodDistance =(long double(m_floodDistance));
+	floodDistance = 3*(floodDistance*floodDistance);
+	floodDistance = floodDistance*floodDistance;
+	floodMask.Create(mask->GetWidth(),mask->GetHeight(),24);
+	sel = pDoc->GetImageSelection();
+	switch(region)
+	{
+		case EDIT_CORE:
+			editColor = RGB(255,0,0);
+			break;
+
+		case EDIT_OUTLINE:
+			editColor = RGB(0,255,0);
+			break;
+		
+		case EDIT_SHADE:
+			editColor = RGB(0,0,255);
+			break;
+
+		default:break;
+	}
+		
+	floodColor = RGB(255,255,255);
+	
+	if(floodMask.GetBPP() != 24)
+		return FALSE;
+
+	floodMask.SetPixel(point.x,point.y,floodColor);
+
+	newSeedPoints.push_back(FloodFillPair(point,FloodFillPair3(RGB(targetRed,targetGreen,targetBlue),0)));
+	while(!newSeedPoints.empty())
+	{
+		seedPoints.clear();
+		seedPoints = newSeedPoints;
+		newSeedPoints.clear();
+
+		for(it=seedPoints.begin();it!=seedPoints.end();it++)
+		{
+			point = it->first;
+			targetPixel = it->second.first;
+
+			targetRed = GetRValue(targetPixel);
+			targetGreen = GetGValue(targetPixel);
+			targetBlue = GetBValue(targetPixel);
+			imagePixel = picture->GetPixel(point.x,point.y);
+			maskPixel = mask->GetPixel(point.x,point.y);
+
+			r = GetRValue(imagePixel);
+			g = GetGValue(imagePixel);
+			b = GetBValue(imagePixel);
+			zeroPix = RGB(0,0,0);
+			targetColor = long double(targetRed)*long double(targetRed)+long double(targetBlue)*long double(targetBlue)+long double(targetGreen)*long double(targetGreen);
+			pixelColor = long double(r)*long double(r)+long double(b)*long double(b)+long double(g)*long double(g);
+
+			double dis = (pixelColor - targetColor)*(pixelColor - targetColor);
+			if((dis <= it->second.second + floodDistance) &&
+				(dis >= it->second.second - floodDistance))
+			{
+				if((((maskPixel & editColor) == zeroPix) == isAdded) && (!m_isOutline))
+				{
+					pointsVector->push_back(point);
+					
+					if(isAdded)
+					{
+						sel->UpdateEditBox(point);
+						mask->SetPixel(point.x,point.y,(editColor | maskPixel));
+					}
+					else
+						mask->SetPixel(point.x,point.y,(maskPixel & (~editColor) ));
+				}
+				
+				
+				// 1 2 3
+				// 4 x 5
+				// 6 7 8
+				
+				for(int i = 0;i<8;i++)
+				{
+					j=i;
+					switch(j)
+					{
+					case 1:
+						//1
+						nextPoint = point;
+						nextPoint.x--;
+						nextPoint.y--;
+						break;
+					case 2:
+						//5
+						nextPoint = point;
+						nextPoint.x++;
+						//nextPoint.y;
+						break;
+					case 3:
+						//6
+						nextPoint = point;
+						nextPoint.x--;
+						nextPoint.y++;
+						break;
+					case 4:
+						//2
+						nextPoint = point;
+						//nextPoint.x;
+						nextPoint.y--;
+						break;
+					case 5:
+						//8
+						nextPoint = point;
+						nextPoint.x++;
+						nextPoint.y++;
+						break;
+					case 6:
+						//4
+						nextPoint = point;
+						nextPoint.x--;
+						//nextPoint.y;
+						break;
+					case 7:
+						//3
+						nextPoint = point;
+						nextPoint.x++;
+						nextPoint.y--;
+						break;
+					case 0:
+						//7
+						nextPoint = point;
+						//nextPoint.x;
+						nextPoint.y++;
+						break;
+						
+					}
+					//if(!((nextPoint.x >= picture->GetWidth()) || (nextPoint.x < 0) || (nextPoint.y >= picture->GetHeight()) || (nextPoint.y < 0)))
+					if(!((nextPoint.x >= imageRect.right) || (nextPoint.x < imageRect.left) || (nextPoint.y >= imageRect.bottom) || (nextPoint.y < imageRect.top)))
+					{
+						maskPixel = floodMask.GetPixel(nextPoint.x,nextPoint.y);
+						if(maskPixel != floodColor)
+						{
+							double dist = it->second.second-dis;
+							if (dist<0)
+								dist = -dist;
+							newSeedPoints.push_back(FloodFillPair(nextPoint,FloodFillPair3(RGB(r,g,b),dist)));
+							floodMask.SetPixel(nextPoint.x,nextPoint.y,floodColor);
+						}
+					}							
+				}
+			}
+			else
+			{
+				if(m_isOutline)
+				{
+					if(((maskPixel & editColor) == zeroPix) == isAdded)
+					{
+						pointsVector->push_back(point);
+						if(isAdded)
+						{
+							sel->UpdateEditBox(point);
+							mask->SetPixel(point.x,point.y,(editColor | maskPixel));
+						}
+						else
+							mask->SetPixel(point.x,point.y,((~editColor) & maskPixel));
+					}
+				}
+			}
+		}
+	}
+	CGTView::EndWaitCursor();
+	return TRUE;
+}
+
+
+BOOL CGTView::OnFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlue,CImage *picture,CImage *mask,CPoint point,MaskVector *pointsVector,bool isAdded)
+{
+	CGTDoc* pDoc = GetDocument();
+	FloodFillPoints2 seedPoints;
+	FloodFillPoints2 newSeedPoints;
+	FloodFillPoints2::iterator it,itb;
+	CImageSelection *sel;
+	EditEnum region = pDoc->GetEditState();
+	CImage floodMask;
+	COLORREF maskPixel, imagePixel,zeroPix,targetPixel,floodColor,editColor;
+	BYTE r,g,b;
+	int j = 0;
+	BOOL morePix = TRUE;
+	CPoint nextPoint;
+	long double targetColor,floodDistance,pixelColor;
+	CRect Clrect,imageRect;
+	GetClientRect(&Clrect);
+	Clrect.OffsetRect(GetScrollPosition());
+	imageRect.left = int(Clrect.left / m_zoom);
+	imageRect.top = int(Clrect.top / m_zoom);
+	imageRect.bottom = int(Clrect.bottom / m_zoom)+1;
+	imageRect.right = int(Clrect.right / m_zoom)+1;
+		
+	if(m_isExt)
+	{
+		return OnExtendedFloodFill(targetRed,targetGreen,targetBlue,picture,mask,point,pointsVector,isAdded);
+	}
+	ASSERT_VALID(pDoc);
+	if (!pDoc)
+		return FALSE;
+	if(mask->IsNull())
+		return FALSE;
+	CGTView::BeginWaitCursor();
+
+	if(imageRect.left < 0)
+		imageRect.left = 0;
+	if(imageRect.Width() > mask->GetWidth())
+		imageRect.right = imageRect.left + mask->GetWidth();
+	if(imageRect.bottom < 0)
+		imageRect.bottom = 0;
+	if(imageRect.Height() > mask->GetHeight())
+		imageRect.bottom = imageRect.top + mask->GetHeight();
+
+
+	floodDistance =(long double(m_floodDistance));
+	floodDistance = 3*(floodDistance*floodDistance);
+	floodMask.Create(mask->GetWidth(),mask->GetHeight(),24);
+	sel = pDoc->GetImageSelection();
+	
+	switch(region)
+	{
+		case EDIT_CORE:
+			editColor = RGB(255,0,0);
+			break;
+
+		case EDIT_OUTLINE:
+			editColor = RGB(0,255,0);
+			break;
+		
+		case EDIT_SHADE:
+			editColor = RGB(0,0,255);
+			break;
+
+		default:break;
+	}
+
+	floodColor = RGB(255,255,255);
+	
+	if(floodMask.GetBPP() != 24)
+		return FALSE;
+
+	floodMask.SetPixel(point.x,point.y,floodColor);
+
+	newSeedPoints.push_back(FloodFillPair2(point,RGB(targetRed,targetGreen,targetBlue)));
+	while(!newSeedPoints.empty())
+	{
+		seedPoints.clear();
+		seedPoints = newSeedPoints;
+		newSeedPoints.clear();
+
+		for(it=seedPoints.begin();it!=seedPoints.end();it++)
+		{
+			point = it->first;
+			targetPixel = it->second;
+
+			targetRed = GetRValue(targetPixel);
+			targetGreen = GetGValue(targetPixel);
+			targetBlue = GetBValue(targetPixel);
+			imagePixel = picture->GetPixel(point.x,point.y);
+			maskPixel = mask->GetPixel(point.x,point.y);
+
+			r = GetRValue(imagePixel);
+			g = GetGValue(imagePixel);
+			b = GetBValue(imagePixel);
+			zeroPix = RGB(0,0,0);
+			targetColor = long double(targetRed)*long double(targetRed)+long double(targetBlue)*long double(targetBlue)+long double(targetGreen)*long double(targetGreen);
+			pixelColor = long double(r)*long double(r)+long double(b)*long double(b)+long double(g)*long double(g);
+
+			double dis = (pixelColor - targetColor)*(pixelColor - targetColor);
+			if((pixelColor <= targetColor + floodDistance) &&
+				(pixelColor >= targetColor - floodDistance))
+			{
+				if((((maskPixel & editColor) == zeroPix) == isAdded) && (!m_isOutline))
+				{
+					pointsVector->push_back(point);	
+					if(isAdded)
+					{
+						sel->UpdateEditBox(point);
+						mask->SetPixel(point.x,point.y,(editColor | maskPixel));
+					}
+					else
+						mask->SetPixel(point.x,point.y,(maskPixel & (~editColor)));
+				}
+				
+				
+				// 1 2 3
+				// 4 x 5
+				// 6 7 8
+				
+				for(int i = 0;i<8;i++)
+				{
+					j=i;
+					switch(j)
+					{
+					case 1:
+						//1
+						nextPoint = point;
+						nextPoint.x--;
+						nextPoint.y--;
+						break;
+					case 2:
+						//5
+						nextPoint = point;
+						nextPoint.x++;
+						//nextPoint.y;
+						break;
+					case 3:
+						//6
+						nextPoint = point;
+						nextPoint.x--;
+						nextPoint.y++;
+						break;
+					case 4:
+						//2
+						nextPoint = point;
+						//nextPoint.x;
+						nextPoint.y--;
+						break;
+					case 5:
+						//8
+						nextPoint = point;
+						nextPoint.x++;
+						nextPoint.y++;
+						break;
+					case 6:
+						//4
+						nextPoint = point;
+						nextPoint.x--;
+						//nextPoint.y;
+						break;
+					case 7:
+						//3
+						nextPoint = point;
+						nextPoint.x++;
+						nextPoint.y--;
+						break;
+					case 0:
+						//7
+						nextPoint = point;
+						//nextPoint.x;
+						nextPoint.y++;
+						break;
+						
+					}
+					//if(!((nextPoint.x >= picture->GetWidth()) || (nextPoint.x < 0) || (nextPoint.y >= picture->GetHeight()) || (nextPoint.y < 0)))
+					if(!((nextPoint.x >= imageRect.right) || (nextPoint.x < imageRect.left) || (nextPoint.y >= imageRect.bottom) || (nextPoint.y < imageRect.top)))
+					{
+						maskPixel = floodMask.GetPixel(nextPoint.x,nextPoint.y);
+						if(maskPixel != floodColor)
+						{
+							newSeedPoints.push_back(FloodFillPair2(nextPoint,RGB(r,g,b)));
+							floodMask.SetPixel(nextPoint.x,nextPoint.y,floodColor);
+						}
+					}							
+				}
+			}
+			else
+			{
+				if(m_isOutline)
+				{
+					if(((maskPixel & editColor) == zeroPix) == isAdded)
+					{
+						pointsVector->push_back(point);
+						if(isAdded)
+						{
+							sel->UpdateEditBox(point);
+							mask->SetPixel(point.x,point.y,(editColor | maskPixel));
+						}
+						else
+							mask->SetPixel(point.x,point.y,((~editColor) & maskPixel));
+					}
+				}
+			}
+		}
+	}
+	CGTView::EndWaitCursor();
+	return TRUE;
+}
+
+double CGTView::GetZoom()
+{
+	return m_zoom;
+}
+
+void CGTView::OnRButtonUp(UINT nFlag,CPoint point)
+{
+	CGTDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	if (!pDoc)
+		return;
+	BYTE r,g,b;
+	COLORREF imagePixel;
+	CPoint ul;
+	CPoint PxlReal;
+	MaskVector deletePoints;
+	if(pDoc->GetImage()->IsNull())
+		return;
+	
+	ul = this->GetScrollPosition();
+	PxlReal = ul + point;
+	PxlReal.x = int(PxlReal.x / m_zoom);
+	PxlReal.y = int(PxlReal.y / m_zoom);
+	ToolEnum state = pDoc->GetToolState();
+	switch(state)
+	{
+		case PIXEL_TOOL:
+			if(pDoc->GetEditState() != EDIT_NONE)
+			{
+				pDoc->GetImageSelection()->ChangePoint(CPoint(PxlReal.x,PxlReal.y),pDoc->GetEditState(),false,GetPenSize());
+				BeginWaitCursor();
+				pDoc->GetImageSelection()->LoadMaskPoints(pDoc->GetEditState());
+				EndWaitCursor();
+				pDoc->SetPenPoint(CPoint(-1,-1));
+				m_showPen = true;
+			}
+			break;
+		case REGION_TOOL:
+			if((pDoc->GetEditState() != EDIT_NONE)&&(PxlReal.x >= 0) && (PxlReal.x < pDoc->GetImage()->GetWidth()) && (PxlReal.y >= 0) && (PxlReal.y < pDoc->GetImage()->GetHeight()))
+			{
+				imagePixel = pDoc->GetImage()->GetPixel(PxlReal.x,PxlReal.y);
+				b = GetBValue(imagePixel);
+				r = GetRValue(imagePixel);
+				g = GetGValue(imagePixel);
+				OnFloodFill(r,g,b,pDoc->GetImage(),pDoc->GetImageSelection()->GetImageMask(),PxlReal,&deletePoints,false);
+				BeginWaitCursor();
+				pDoc->GetImageSelection()->LoadMaskPoints(pDoc->GetEditState());
+				EndWaitCursor();
+				pDoc->SetPenPoint(CPoint(-1,-1));
+				m_showPen = true;
+				m_isHold = false;
+			}
+			break;
+		case ZOOM_TOOL:
+			if(m_zoom > 1/3000)
+			{
+				pDoc->SetZoomPoint(PxlReal,point);
+				m_zoom = m_zoom /5 * 4;
+				m_isZoomed = true;
+				OnChangeSize(ID_ZOOM);
+			}
+			
+			break;
+		default:break;
+	}
+	PrintPoint(PxlReal);
+	Invalidate(false);
+}
+
+void CGTView::OnLPaint(UINT nFlag,CPoint point)
+{
+	CGTDoc* pDoc = GetDocument();
+	BYTE r,g,b;
+	COLORREF imagePixel;
+	ASSERT_VALID(pDoc);
+	if (!pDoc)
+		return;
+		
+	if(pDoc->GetEditState()!= EDIT_NONE)
+	{
+		CPoint ul;
+		CPoint PxlReal;
+		ul = this->GetScrollPosition();
+		PxlReal = ul + point;
+		PxlReal.x = int(PxlReal.x / m_zoom);
+		PxlReal.y = int(PxlReal.y / m_zoom);
+		ToolEnum toolState = pDoc->GetToolState();
+
+		switch(toolState)
+		{
+		case PIXEL_TOOL:
+			if(pDoc->GetImageSelection()->ChangePoint(CPoint(PxlReal.x,PxlReal.y),pDoc->GetEditState(),true,GetPenSize()))
+			{
+				Invalidate(false);
+			}
+			break;
+		case REGION_TOOL:
+			if((PxlReal.x >= 0) && (PxlReal.x < pDoc->GetImage()->GetWidth()) && (PxlReal.y >= 0) && (PxlReal.y < pDoc->GetImage()->GetHeight()))
+			{
+				imagePixel = pDoc->GetImage()->GetPixel(PxlReal.x,PxlReal.y);
+				b = GetBValue(imagePixel);
+				r = GetRValue(imagePixel);
+				g = GetGValue(imagePixel);
+				if(((nFlag & MK_CONTROL) != 0) || m_isHold)
+				{
+					m_isHold = true;
+					OnFloodFill(r,g,b,pDoc->GetImage(),pDoc->GetImageSelection()->GetImageMask(),PxlReal,pDoc->GetImageSelection()->GetCurrentMaskVector(pDoc->GetEditState()));
+					Invalidate(false);
+				}
+			}		
+			break;
+		default:break;
+		}
+	}
+}
+
+int CGTView::GetPenSize()
+{
+	switch(m_nPenSize)
+	{
+	case PEN_1: return 1;
+		break;
+	case PEN_3: return 3;
+		break;
+	case PEN_5: return 5;
+		break;
+	case PEN_10: return 10;
+		break;
+	case PEN_20: return 20;
+		break;
+	case PEN_40: return 40;
+		break;
+	case PEN_80: return 80;
+		break;
+	default:break;
+	}
+	return 1;
+}
+
+void CGTView::OnRPaint(UINT nFlag,CPoint point)
+{
+	CGTDoc* pDoc = GetDocument();
+	BYTE r,g,b;
+	COLORREF imagePixel;
+	CImageSelection *sel = pDoc->GetImageSelection();
+	ASSERT_VALID(pDoc);
+	if (!pDoc)
+		return;
+	
+	if(pDoc->GetEditState()!= EDIT_NONE)
+	{
+		ToolEnum toolState = pDoc->GetToolState();
+		CPoint ul;
+		CPoint PxlReal;
+		ul = this->GetScrollPosition();
+		PxlReal = ul + point;
+		PxlReal.x = int(PxlReal.x / m_zoom);
+		PxlReal.y = int(PxlReal.y / m_zoom);
+
+		switch(toolState)
+		{
+		case PIXEL_TOOL:
+			if(pDoc->GetImageSelection()->ChangePoint(CPoint(PxlReal.x,PxlReal.y),pDoc->GetEditState(),false,GetPenSize()))
+			{
+				Invalidate(false);
+			}
+			break;
+		case REGION_TOOL:
+			if((PxlReal.x >= 0) && (PxlReal.x < pDoc->GetImage()->GetWidth()) && (PxlReal.y >= 0) && (PxlReal.y < pDoc->GetImage()->GetHeight()))
+			{
+				imagePixel = pDoc->GetImage()->GetPixel(PxlReal.x,PxlReal.y);
+				b = GetBValue(imagePixel);
+				r = GetRValue(imagePixel);
+				g = GetGValue(imagePixel);
+				if(((nFlag & MK_CONTROL) != 0) || m_isHold)
+				{
+					m_isHold = true;
+					OnFloodFill(r,g,b,pDoc->GetImage(),pDoc->GetImageSelection()->GetImageMask(),PxlReal,pDoc->GetImageSelection()->GetCurrentMaskVector(pDoc->GetEditState()),false);
+				//	pDoc->SetPenPoint(CPoint(-1,-1));
+				//	m_showPen = true;
+					Invalidate(false);			
+				}		
+			}
+			break;
+		default:break;
+		}
+	}
+}
+
+BOOL CGTView::OnFileImageOpen()
+{
+	SetActiveWindow();
+	CGTDoc* pDoc = GetDocument();
+	CImage *m_imgOriginal;	
+	ASSERT_VALID(pDoc);
+	if (!pDoc)
+		return FALSE;
+	CString file = pDoc->GetImagePath();
+	CSize sizeTotal;
+	CString strFilter;
+	CSimpleArray<GUID> aguidFileTypes;
+	HRESULT hResult;
+	m_imgOriginal = pDoc->GetImage();
+
+	
+
+	hResult = m_imgOriginal->GetExporterFilterString(strFilter,aguidFileTypes);
+	if (FAILED(hResult)) {
+		CString fmt;
+		fmt.Format(_T("GetExporterFilter failed:\n%x - %s"), hResult, _com_error(hResult).ErrorMessage());
+		::AfxMessageBox(fmt);
+		pDoc->SetLoad(false);
+		return FALSE;
+	}
+	
+	if (file.IsEmpty())
+	{
+		CFileDialog dlg(TRUE, NULL, NULL, OFN_FILEMUSTEXIST, strFilter);
+		dlg.m_ofn.nFilterIndex = m_nFilterLoad;
+
+		hResult = (int)dlg.DoModal();
+		if(FAILED(hResult)||hResult == 2) {
+			pDoc->SetLoad(false);
+				return FALSE;
+		}
+
+		m_nFilterLoad = dlg.m_ofn.nFilterIndex;
+		file =dlg.GetFileName();
+
+		
+	}
+
+	pDoc->LoadMask();
+	
+	MSXML2::IXMLDOMAttributePtr pNodeA;
+	
+	pDoc->UpdateSection(NULL,page);
+	pNodeA = pDoc->GetNodeFromCurrSection(image_filename);
+	if (pNodeA != NULL)
+		pNodeA->put_text(BSTR(file.GetString()));
+	
+	m_imgOriginal->Destroy();
+	if(pDoc->GetImagePath().IsEmpty())
+		hResult = m_imgOriginal->Load(file);
+	else
+		hResult = m_imgOriginal->Load((pDoc->GetLinkPath().Left(pDoc->GetLinkPath().ReverseFind(wchar_t('\\'))+ 1)) + file);
+		
+	
+	
+	if (FAILED(hResult)) {
+		CString fmt;
+		fmt = _T("Image \"")+file + _T("\" could not be opened in path \"") + (pDoc->GetLinkPath().Left(pDoc->GetLinkPath().ReverseFind(wchar_t('\\'))+ 1)+_T("\".") );
+	
+		::AfxMessageBox(fmt);
+		pDoc->SetLoad(true);
+		return FALSE;
+	}
+	pDoc->SetImagePath(file);
+	
+	sizeTotal.cx = m_imgOriginal->GetWidth();
+	sizeTotal.cy = m_imgOriginal->GetHeight();
+	SetScrollSizes(MM_TEXT, sizeTotal);
+
+	m_nImageSize = SIZE_ORIGINAL;
+	m_zoom = 1;
+	Invalidate(false);
+	UpdateWindow();
+	pDoc->UpdateAllViews(this);
+	return TRUE;
+}
+void CGTView::SetBright(int bright)
+{
+	if(bright<256 && bright>=0)
+		m_bright = bright;
+}
+
+void CGTView::SetSesitivity(int sensitivity)
+{
+	if(sensitivity<256 && sensitivity>=0)
+		m_floodDistance = sensitivity;
+}
+
+// Draw of CGTView
+
+void CGTView::OnDraw(CDC* pDC)
+{
+	CGTDoc* pDoc = GetDocument();
+	CImage *m_imgOriginal;
+	CImageSelection* sel;
+	ASSERT_VALID(pDoc);
+	if (!pDoc)
+		return;
+
+	m_imgOriginal = pDoc->GetImage();
+	CImage *mask;
+	CRect Clrect;
+	BYTE  grade = 0;
+	int height,width;
+	
+	GetClientRect(&Clrect);
+
+	if (!m_imgOriginal->IsNull()) 
+	{
+		sel = pDoc->GetImageSelection();
+		if(sel->GetCore() || sel->GetOutline() || sel->GetShade())
+			grade = m_bright;
+		sel->ResetMask();
+		mask = sel->GetImageMask();
+		if(mask->IsNull())
+		{
+			sel->MergePoints(m_imgOriginal);
+		}
+		
+		m_Map = *mask;
+
+		if(!m_showPen)
+		{
+			switch (m_nImageSize)
+			{
+				case SIZE_HALF:
+					m_zoom = double(0.5);
+					break;
+				case SIZE_ORIGINAL:
+					m_zoom = 1;
+					break;
+				case SIZE_DOUBLE:
+					m_zoom = 2;
+					break;
+				case SIZE_x4:
+					m_zoom = 4;
+					break;
+				case SIZE_x8:
+					m_zoom = 8;
+					break;
+				case SIZE_x16:
+					m_zoom = 16;
+					break;
+				case SIZE_NONE:
+				case SIZE_ZOOM:
+					break;
+				case SIZE_FILL:
+					m_zoom = (double) Clrect.Width()/m_imgOriginal->GetWidth();
+					if((m_imgOriginal->GetHeight()*m_zoom) > Clrect.Height())
+						m_zoom = (double) Clrect.Height()/m_imgOriginal->GetHeight();
+					break;
+			};
+			width = int(m_imgOriginal->GetWidth()*m_zoom);
+			height = int(m_imgOriginal->GetHeight()*m_zoom);
+
+			
+			SetScrollSizes(MM_TEXT, CSize(width,height), CSize(Clrect.Width(), Clrect.Height()), CSize((int) m_zoom, (int) m_zoom));
+		}
+		else if(m_nImageSize == SIZE_FILL)
+		{
+			m_zoom = (double) Clrect.Width()/m_imgOriginal->GetWidth();
+			if((m_imgOriginal->GetHeight()*m_zoom) > Clrect.Height())
+				m_zoom = (double) Clrect.Height()/m_imgOriginal->GetHeight();
+
+			width = int(m_imgOriginal->GetWidth()*m_zoom);
+			height = int(m_imgOriginal->GetHeight()*m_zoom);
+
+			SetScrollSizes(MM_TEXT, CSize(width,height), CSize(Clrect.Width(), Clrect.Height()), CSize((int) m_zoom, (int) m_zoom));
+		}
+		else
+		{
+			width = int(m_imgOriginal->GetWidth()*m_zoom);
+			height = int(m_imgOriginal->GetHeight()*m_zoom);
+		}
+
+		if(m_isZoomed)
+		{
+			CPoint PxlReal,ul,point;
+			pDoc->GetZoomPoint(PxlReal,point);
+			PxlReal.x = int(PxlReal.x * m_zoom);
+			PxlReal.y = int(PxlReal.y * m_zoom);
+			ul = PxlReal - point;
+
+			if(width>Clrect.Width())
+			{
+				if(ul.x<0)
+					SetScrollPos(SB_HORZ ,0,TRUE);
+				else if(ul.x > GetScrollLimit(SB_HORZ))
+					SetScrollPos(SB_HORZ ,GetScrollLimit(SB_HORZ),TRUE);
+				else
+					SetScrollPos(SB_HORZ ,ul.x,TRUE);
+			}
+			
+			if(height>Clrect.Height())
+			{
+				if(ul.y<0)
+					SetScrollPos(SB_VERT ,0,TRUE);
+				else if(ul.y > GetScrollLimit(SB_VERT))
+					SetScrollPos(SB_VERT ,GetScrollLimit(SB_VERT),TRUE);
+				else
+					SetScrollPos(SB_VERT ,ul.y,TRUE);
+			}
+			
+			
+		}
+
+		if(!m_isZoomed && m_showPen)
+		{
+			int zoomWidth = int(Clrect.Width()/m_zoom)+2;
+			int zoomHeight = int(Clrect.Height()/m_zoom)+2;
+			int zoomX = int(GetScrollPos(SB_HORZ)/m_zoom);
+			int zoomY = int(GetScrollPos(SB_VERT)/m_zoom);
+			
+			HDC memDC = CreateCompatibleDC(pDC->GetSafeHdc());
+			HBITMAP hMemBmp;
+			if( (zoomWidth+zoomX) > m_Map.GetWidth() || (zoomHeight+zoomY) > m_Map.GetHeight())
+				hMemBmp = CreateCompatibleBitmap(pDC->GetSafeHdc(), width, height);
+			else
+				hMemBmp = CreateCompatibleBitmap(pDC->GetSafeHdc(), int(zoomWidth*m_zoom), int(zoomHeight*m_zoom));
+			
+			HBITMAP hOldBmp = (HBITMAP) SelectObject(memDC, hMemBmp);
+
+			// Now all your drawing is done in memDC instead of in hDC
+
+			
+			
+			if( (zoomWidth+zoomX) > m_Map.GetWidth() || (zoomHeight+zoomY) > m_Map.GetHeight())
+			{
+				m_imgOriginal->StretchBlt(memDC,0,0,width,height,SRCCOPY);
+				m_Map.AlphaBlend(memDC, 0, 0, width,height, 0, 0, m_imgOriginal->GetWidth(), m_imgOriginal->GetHeight(), grade);
+			}
+			else
+			{
+				m_imgOriginal->StretchBlt(memDC,0,0,int(zoomWidth*m_zoom),int(zoomHeight*m_zoom),zoomX,zoomY,zoomWidth,zoomHeight,SRCCOPY);
+				m_Map.AlphaBlend(memDC,0,0,int(zoomWidth*m_zoom),int(zoomHeight*m_zoom),zoomX,zoomY,zoomWidth,zoomHeight,grade);
+			}
+
+			CPoint penPoint = pDoc->GetPenPoint();
+
+			if(penPoint.x > 0 && penPoint.y > 0 && m_showPen)
+			{				
+				int penSize = GetPenSize();
+				int halfSize = penSize/2;
+				 
+				CRect penRect;
+
+				penRect.left = penPoint.x - halfSize;
+				penRect.right = penRect.left + penSize;
+				penRect.top = penPoint.y - halfSize;
+				penRect.bottom = penRect.top + penSize;
+				
+				if(penRect.left < 0)
+					penRect.left = 0;
+				if(penRect.top < 0)
+					penRect.top = 0;
+
+				if( (zoomWidth+zoomX) > m_Map.GetWidth() || (zoomHeight+zoomY) > m_Map.GetHeight())		
+					m_cursorMap.AlphaBlend(memDC,int(penRect.left*m_zoom),int(penRect.top*m_zoom), int(penRect.Width()*m_zoom),int(penRect.Height()*m_zoom), 0, 0, 1, 1, grade);
+				else
+					m_cursorMap.AlphaBlend(memDC,int(penRect.left*m_zoom)-int(zoomX*m_zoom),int(penRect.top*m_zoom)-int(zoomY*m_zoom), int(penRect.Width()*m_zoom),int(penRect.Height()*m_zoom), 0, 0, 1, 1, grade);
+
+			}
+			else
+				m_showPen = false;
+
+		
+			if( (zoomWidth+zoomX) > m_Map.GetWidth() || (zoomHeight+zoomY) > m_Map.GetHeight())			
+				BitBlt(pDC->GetSafeHdc(), 0, 0, width, height, memDC, 0, 0, SRCCOPY);
+			else
+				BitBlt(pDC->GetSafeHdc(),int(zoomX*m_zoom), int(zoomY*m_zoom), int(zoomWidth*m_zoom),int(zoomHeight*m_zoom), memDC, 0, 0, SRCCOPY);
+		
+			// The old bitmap is selected back into the device context
+			SelectObject(memDC, hOldBmp);
+			DeleteObject(hMemBmp);
+			DeleteDC(memDC);
+			
+	
+		}
+		else
+		{
+			if(!m_isZoomed)
+			{
+				m_cursorMap.StretchBlt(pDC->GetSafeHdc(),0,0,Clrect.Width(),Clrect.Height(),SRCCOPY);
+				m_imgOriginal->StretchBlt(pDC->GetSafeHdc(),0,0,width,height,SRCCOPY);
+				m_Map.AlphaBlend(pDC->GetSafeHdc(), 0, 0, width,height, 0, 0, m_imgOriginal->GetWidth(), m_imgOriginal->GetHeight(), grade);
+			}
+			m_isZoomed = false;
+		}
+	}
+}
+
+void CGTView::OnInitialUpdate()
+{
+	CScrollView::OnInitialUpdate();
+
+	CSize sizeTotal;
+	sizeTotal.cx = 100;
+	sizeTotal.cy = 100;
+	SetScrollSizes(MM_TEXT, sizeTotal);
+	m_nImageSize = SIZE_ORIGINAL;
+	OnChangeSize(ID_ZOOM);
+
+}
+
+void  CGTView::OnChangePen(PenEnum pen)
+{
+	m_nPenSize = pen;
+}
+
+
+// Print of CGTView
+
+BOOL CGTView::OnPreparePrinting(CPrintInfo* pInfo)
+{
+	return DoPreparePrinting(pInfo);
+}
+
+void CGTView::OnBeginPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
+{
+}
+
+void CGTView::OnEndPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
+{
+}
+
+CGTDoc* CGTView::GetDocument() const
+{
+	return (CGTDoc*)m_pDocument;
+}
+
+
+// Debug of CGTView
+
+#ifdef _DEBUG
+void CGTView::AssertValid() const
+{
+	CScrollView::AssertValid();
+}
+
+void CGTView::Dump(CDumpContext& dc) const
+{
+	CScrollView::Dump(dc);
+}
+
+
+#endif //_DEBUG
+
+
+
+
+void CGTView::OnFileSaveImage(void) 
+{
+	CString strFilter;
+	CSimpleArray<GUID> aguidFileTypes;
+	HRESULT hResult;
+	CGTDoc* pDoc = GetDocument();
+	CImage *m_imgOriginal;	
+	ASSERT_VALID(pDoc);
+	if (!pDoc)
+		return;
+	m_imgOriginal = pDoc->GetImage();
+
+
+
+	strFilter = "Bitmap image|*.bmp|JPEG image|*.jpg|GIF image|*.gif|PNG image|*.png||";
+
+	CFileDialog dlg(FALSE,NULL,NULL,OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_EXPLORER,strFilter);
+	dlg.m_ofn.nFilterIndex = m_nFilterLoad;
+	hResult = (int)dlg.DoModal();
+	if (FAILED(hResult)) {
+		return;
+	}
+
+    // Add the appropriate extension if the user didn't type one
+
+	CString strFileName;
+	CString strExtension;
+
+	strFileName = dlg.m_ofn.lpstrFile;
+
+
+	// add the file extension if the user didn't supply one
+	if (dlg.m_ofn.nFileExtension == 0) 
+	{
+		switch (dlg.m_ofn.nFilterIndex)
+		{
+		case 1:
+			strExtension = "bmp";
+			break;
+		case 2:
+			strExtension = "jpg";
+			break;
+		case 3:
+			strExtension = "gif";
+			break;
+		case 4:
+			strExtension = "png";
+			break;
+		default:
+			break;
+		}
+
+		strFileName = strFileName + '.' + strExtension;
+
+	}
+
+	// the extension on the file name will determine the file type that is saved
+	hResult = m_imgOriginal->Save(strFileName);
+	if (FAILED(hResult)) {
+		CString fmt;
+		fmt.Format(_T("Save image failed:\n%x - %s"), hResult, _com_error(hResult).ErrorMessage());
+		::AfxMessageBox(fmt);
+		return;
+	}
+
+}
+
+void CGTView::OnToolsMakeBW(void)
+{
+
+	CWaitCursor wait;
+	CGTDoc* pDoc = GetDocument();
+	CImage *m_imgOriginal;	
+	ASSERT_VALID(pDoc);
+	if (!pDoc)
+		return;
+	m_imgOriginal = pDoc->GetImage();
+
+	if (!m_imgOriginal->IsIndexed()) {
+
+		// the image does not use an indexed palette, so we will change each pixel to B&W (slow)
+		COLORREF pixel;
+		int maxY = m_imgOriginal->GetHeight(), maxX = m_imgOriginal->GetWidth();
+		byte r,g,b,avg;
+		for (int x=0; x<maxX; x++) {
+			for (int y=0; y<maxY; y++) {
+				pixel = m_imgOriginal->GetPixel(x,y);
+				r = GetRValue(pixel);
+				g = GetGValue(pixel);
+				b = GetBValue(pixel);
+				avg = ((r + g + b)/3);
+				m_imgOriginal->SetPixelRGB(x,y,avg,avg,avg);
+			}
+		}
+
+	} else {
+
+		// the image uses an indexed palette, so we will just change the palette table entries to
+		// their B&W equivalents 
+		int MaxColors = m_imgOriginal->GetMaxColorTableEntries();
+		RGBQUAD* ColorTable;
+		ColorTable = new RGBQUAD[MaxColors];
+
+		m_imgOriginal->GetColorTable(0,MaxColors,ColorTable);
+		for (int i=0; i<MaxColors; i++)
+		{
+			int avg = (ColorTable[i].rgbBlue + ColorTable[i].rgbGreen + ColorTable[i].rgbRed)/3;
+			ColorTable[i].rgbBlue = (BYTE)avg;
+			ColorTable[i].rgbGreen = (BYTE)avg;
+			ColorTable[i].rgbRed = (BYTE)avg;
+		}
+		m_imgOriginal->SetColorTable(0,MaxColors,ColorTable);
+	
+		delete[] ColorTable;
+	}
+
+	Invalidate(false);
+	UpdateWindow();
+}
+
+
+
+void CGTView::OnChangeSize(UINT nID)
+{
+	CGTDoc* pDoc = GetDocument();
+	CImage *m_imgOriginal;
+	ASSERT_VALID(pDoc);
+	if (!pDoc)
+		return;
+
+	m_imgOriginal = pDoc->GetImage();
+	CRect Clrect;
+	
+	GetClientRect(&Clrect);
+
+	CMainFrame* pMainWnd = (CMainFrame*)AfxGetMainWnd();
+	m_nImageSize = (SizesEnum)(nID - ID_SIZE_BASE);
+	pMainWnd->OnCombozoom(nID);
+	if (m_imgOriginal->IsNull())
+		return;
+
+	if((m_imgOriginal->GetWidth()*m_zoom)<=Clrect.Width() || (m_imgOriginal->GetHeight()*m_zoom)<=Clrect.Height() || m_isZoomed)
+		Invalidate(false);
+	else
+		Invalidate(false);
+
+	UpdateWindow();
+}
+
+void CGTView::OnUpdateSizeHalf(CCmdUI* pCmdUI)
+{
+	pCmdUI->SetCheck((UINT)(m_nImageSize == SIZE_HALF));
+}
+
+void CGTView::OnUpdateSizeOriginal(CCmdUI* pCmdUI)
+{
+	pCmdUI->SetCheck((UINT)(m_nImageSize == SIZE_ORIGINAL));
+}
+
+void CGTView::OnUpdateSizeDouble(CCmdUI* pCmdUI)
+{
+	pCmdUI->SetCheck((UINT)(m_nImageSize == SIZE_DOUBLE));
+}
+
+void CGTView::OnUpdateSizeX4(CCmdUI* pCmdUI)
+{
+	pCmdUI->SetCheck((UINT)(m_nImageSize == SIZE_x4));
+}
+
+void CGTView::OnUpdateSizeX8(CCmdUI* pCmdUI)
+{
+	pCmdUI->SetCheck((UINT)(m_nImageSize == SIZE_x8));
+}
+
+void CGTView::OnUpdateSizeX16(CCmdUI* pCmdUI)
+{
+	pCmdUI->SetCheck((UINT)(m_nImageSize == SIZE_x16));
+}
+
+void CGTView::OnUpdateSizeFill(CCmdUI* pCmdUI)
+{
+	pCmdUI->SetCheck((UINT)(m_nImageSize == SIZE_FILL));
+}
+
+void  CGTView::PrintPoint(CPoint PxlReal)
+{
+	CMainFrame* pMainWnd = (CMainFrame*)AfxGetMainWnd();
+	CString x,y;
+	CGTDoc* pDoc = GetDocument();
+	if(!pDoc->IsPointBar())
+		return;
+	x="";
+	x = wchar_t(PxlReal.x % 10 + 48) + x;
+	PxlReal.x /= 10;
+	
+	while(PxlReal.x != 0)
+	{
+		x = wchar_t(PxlReal.x % 10 + 48) + x;
+		PxlReal.x /= 10;
+
+	}
+
+	y="";
+	y = wchar_t(PxlReal.y % 10 + 48) + y;
+	PxlReal.y /= 10;
+	
+	while(PxlReal.y != 0)
+	{
+		y = wchar_t(PxlReal.y % 10 + 48) + y;
+		PxlReal.y /= 10;
+
+	}
+
+	pMainWnd->SetMessageText(LPCTSTR( CString(CString(_T("(")) + x  + CString(_T(",")) + y + CString(_T(")")))));
+
+}
+
+void CGTView::OnMouseMove(UINT nFlags, CPoint point)
+{
+	CGTDoc* pDoc = GetDocument();
+	ToolEnum state;
+
+	if(pDoc->GetImage()->IsNull())
+		return;
+
+	if(((nFlags & MK_LBUTTON) != 0) || ((nFlags & MK_RBUTTON) != 0) || ((nFlags & MK_CONTROL) != 0)/* || (pDoc->GetToolState() == INVERT_TOOL)*/)
+	{
+		
+		CPoint ul;
+		CPoint PxlReal;
+		ul = this->GetScrollPosition();
+		PxlReal = ul + point;
+		PxlReal.x = int(PxlReal.x / m_zoom);
+		PxlReal.y = int(PxlReal.y / m_zoom);
+		state = pDoc->GetToolState();
+
+		if((state == PIXEL_TOOL) || (state == REGION_TOOL)/* || (pDoc->GetToolState() == INVERT_TOOL)*/)
+		{
+			if((PxlReal.x < (pDoc->GetImage()->GetWidth())) && (PxlReal.y < (pDoc->GetImage()->GetHeight())))
+			{
+				if(state == REGION_TOOL)
+					pDoc->SetPenPoint(CPoint(-1,-1));
+				else
+					pDoc->SetPenPoint(PxlReal);
+				m_showPen =  true;
+				if((nFlags & MK_CONTROL) != 0)
+				{
+					Invalidate(false);
+					m_showPen =  true;
+				}	
+				
+			}
+			else if(m_showPen ==  true)
+			{
+				m_showPen = false;
+				Invalidate(false);
+			}
+		}
+
+		PrintPoint(PxlReal);
+	}
+	else if(m_showPen ==  true)
+	{
+		pDoc->SetPenPoint(CPoint(-1,-1));
+		m_showPen = true;
+		Invalidate(false);
+	}
+
+	if( (nFlags & MK_LBUTTON) != 0)
+	{
+		OnLPaint(nFlags,point);
+	}
+	else if((nFlags & MK_RBUTTON) != 0)
+	{
+		OnRPaint(nFlags,point);
+	}
+}
+
+void CGTView::SetBorder(bool state)
+{
+	m_isOutline = !m_isOutline;
+}
+void CGTView::SetExt()
+{
+	m_isExt = !m_isExt;
+}
