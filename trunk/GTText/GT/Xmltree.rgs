@@ -1,0 +1,11 @@
+HKCR
+{
+	NoRemove AppID
+	{
+		{936DD755-4225-48B2-956C-EB9CC3C4EE50} = s 'Xmltree'
+		'Xmltree.EXE'
+		{
+			val AppID = s {936DD755-4225-48B2-956C-EB9CC3C4EE50}
+		}
+	}
+}
