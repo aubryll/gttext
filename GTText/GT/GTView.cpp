@@ -122,7 +122,7 @@ BOOL CGTView::OnMouseWheel(UINT nFlags,short zDelta,CPoint point)
 	{
 		if(pDoc->GetToolState() == ZOOM_TOOL)
 		{	
-			if(m_zoom  > 1/3000)
+			if(m_zoom  > 1/300)
 			{
 				pDoc->SetZoomPoint(PxlReal,point);
 				m_zoom = m_zoom / 5 * 4;
@@ -148,7 +148,7 @@ BOOL CGTView::OnMouseWheel(UINT nFlags,short zDelta,CPoint point)
 	{
 		if(pDoc->GetToolState() == ZOOM_TOOL)
 		{
-			if(m_zoom < 3000)
+			if(m_zoom < 300)
 			{
 				pDoc->SetZoomPoint(PxlReal,point);
 				m_zoom = m_zoom / 4 * 5;
@@ -242,7 +242,7 @@ void CGTView::OnLButtonUp(UINT nFlag,CPoint point)
 			break;
 		case ZOOM_TOOL:
 
-			if(m_zoom < 3000)
+			if(m_zoom < 300)
 			{
 				pDoc->SetZoomPoint(PxlReal,point);
 				m_zoom = m_zoom / 4 * 5;
@@ -754,7 +754,7 @@ void CGTView::OnRButtonUp(UINT nFlag,CPoint point)
 			}
 			break;
 		case ZOOM_TOOL:
-			if(m_zoom > 1/3000)
+			if(m_zoom > 1/300)
 			{
 				pDoc->SetZoomPoint(PxlReal,point);
 				m_zoom = m_zoom /5 * 4;
