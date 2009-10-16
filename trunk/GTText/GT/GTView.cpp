@@ -759,6 +759,7 @@ void CGTView::OnRButtonUp(UINT nFlag,CPoint point)
 				pDoc->SetZoomPoint(PxlReal,point);
 				m_zoom = m_zoom /5 * 4;
 				m_isZoomed = true;
+				m_showPen = false;
 				OnChangeSize(ID_ZOOM);
 			}
 			
