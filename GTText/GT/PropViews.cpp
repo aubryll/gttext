@@ -888,7 +888,6 @@ void CTextEquivalView::OnBnClickedChangedText()
 		{
 			if(c_text.Compare(_T("")) != 0)
 			{
-				isNew = true;
 				name = _T("text_equiv");
 				bstrName = (_bstr_t)(LPCTSTR)name;
 				pNewNode->get_namespaceURI(&nameSpace);
@@ -907,6 +906,7 @@ void CTextEquivalView::OnBnClickedChangedText()
 			}
 
 			pDoc->AddNodeToCurrSection(pNodeP,plain_text);
+			xmlView->PrintNodeName(pNewNode,c_text);
 		}
 		pDoc->SetModifiedFlag(TRUE);
 		if(isNew)
@@ -1086,7 +1086,6 @@ void CGlyphView::OnBnClickedChangeGlph()
 		{
 			if(c_textglyph.Compare(_T("")) != 0)
 			{
-				isNew = true;
 				name = _T("text_equiv");
 				bstrName = (_bstr_t)(LPCTSTR)name;
 				pNewNode->get_namespaceURI(&nameSpace);
@@ -1105,6 +1104,7 @@ void CGlyphView::OnBnClickedChangeGlph()
 				pNodeP->appendChild(pNodeC);
 
 				pDoc->AddNodeToCurrSection(pNodeP,plain_text);
+				xmlView->PrintNodeName(pNewNode,c_textglyph);
 			}
 		}
 
