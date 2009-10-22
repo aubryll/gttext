@@ -510,7 +510,6 @@ void CMainFrame::OnDeltaposSpinsens(NMHDR *pNMHDR, LRESULT *pResult)
 		}
 		pCEdit->SetWindowTextW(LPCTSTR(posS));
 		pCEdit->UpdateData(false);
-		gtView->Invalidate(false);
 	}
 }
 
