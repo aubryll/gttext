@@ -838,6 +838,7 @@ void CXMLView::OnTreepopupDelete()
 		{
 			pParentNode = m_pCurNode->GetparentNode();
 			pParentNode->removeChild(m_pCurNode);
+			m_wndXMLTree.DeleteItem(m_hCurItem);
 		}
 
 		m_hCurItem = NULL;
@@ -2077,7 +2078,7 @@ void CXMLView::OnContextgtNewtextregion()
 	AddNodeToTree(pNewElem, m_hCurItem,true);
 	
 	pDoc->SwitchToView(RUNTIME_CLASS(CTextRegionView));
-	((CTextRegionView*)pParentSplitter->GetPane(1,0))->OnUpdate();
+	//((CTextRegionView*)pParentSplitter->GetPane(1,0))->OnUpdate();
 	pDoc->SetModifiedFlag(TRUE);
 	m_no_text_regions++;
 }
@@ -2141,7 +2142,7 @@ void CXMLView::OnContextgtNewtextline()
 	AddNodeToTree(pNewElem, m_hCurItem,true);
 
 	pDoc->SwitchToView(RUNTIME_CLASS(CTextEquivalView));
-	((CTextEquivalView*)pParentSplitter->GetPane(1,0))->OnUpdate();
+	//((CTextEquivalView*)pParentSplitter->GetPane(1,0))->OnUpdate();
 	pDoc->SetModifiedFlag(TRUE);
 }
 
@@ -2204,7 +2205,7 @@ void CXMLView::OnContextgtNewword()
 	pDoc->AddNodeToCurrSection(pNewElem,word);
 	AddNodeToTree(pNewElem, m_hCurItem,true);
 	pDoc->SwitchToView(RUNTIME_CLASS(CTextEquivalView));
-	((CTextEquivalView*)pParentSplitter->GetPane(1,0))->OnUpdate();
+	//((CTextEquivalView*)pParentSplitter->GetPane(1,0))->OnUpdate();
 	pDoc->SetModifiedFlag(TRUE);
 }
 
@@ -2268,7 +2269,7 @@ void CXMLView::OnContextgtNewglyph()
 	pDoc->AddNodeToCurrSection(pNewElem,glyph);
 	AddNodeToTree(pNewElem, m_hCurItem,true);
 	pDoc->SwitchToView(RUNTIME_CLASS(CGlyphView));
-	((CGlyphView*)pParentSplitter->GetPane(1,0))->OnUpdate();
+	//((CGlyphView*)pParentSplitter->GetPane(1,0))->OnUpdate();
 	pDoc->SetModifiedFlag(TRUE);
 }
 
@@ -2312,8 +2313,20 @@ void CXMLView::OnContextgtDelete()
 	if (!pDoc)
 		return;
 
+	SectionPtrs* section = pDoc->GetCurrentSection();
+
 	HTREEITEM hParentItem = m_wndXMLTree.GetParentItem(m_hCurItem);
 	pDoc->GetImageSelection()->LoadMaskPoints(pDoc->GetEditState());
+	
+	if(pDoc->IsDirty())
+	{
+		if(section != NULL)
+			if(section->type == glyph)
+				pDoc->SavePoints();
+		pDoc->SetDirty(false);
+	}
+	pDoc->LoadMask();
+
 	pDoc->Backup(1);
 	pDoc->SetModifiedFlag(TRUE);
 	pNode = GetNodeFromTree();
@@ -2330,22 +2343,23 @@ void CXMLView::OnContextgtDelete()
 		}
 
 		
-	if(pDoc->GetCurrentSection() != NULL)
+	if(section != NULL)
 	{
-		if(pDoc->GetCurrentSection()->type == text_region)
+		if(section->type == text_region)
 				m_no_text_regions--;
 	}
 	else
 		return;
+
 	DeleteGlyphBranch(pNode);
 	OnTreepopupDelete();
-	pDoc->Release(false);
-	pDoc->SetLock(false);
-	ParseLinkXML(pDoc->GetLinkDom());
-	OnPageRefresh();
-	ParseGlyphXMLTree(pDoc->GetGlyphDom());
+	//pDoc->Release(false);
+	//pDoc->SetLock(false);
+//	ParseLinkXML(pDoc->GetLinkDom());
+	//OnPageRefresh();
+	//ParseGlyphXMLTree(pDoc->GetGlyphDom());
 
-	pDoc->UpdateAllViews(this);
+	//pDoc->UpdateAllViews(this);
 }
 
 void CXMLView::OnFileSave(bool browse)
@@ -2660,8 +2674,7 @@ void CXMLView::OnContextgtCreatewordglyph()
 		pNewNode = pDoc->GetNodeFromCurrSection(glyph);
 		if (pNewNode != NULL)
 		{
-			if(c_text.Mid(i,1).Compare(CString("")))
-				int a = 3;
+			PrintNodeName(pNewNode,c_text.Mid(i,1));
 			pAttrList = pNewNode->Getattributes();
 			pNodeP = pDoc->GetNodeFromCurrSection(plain_text);
 	
@@ -2684,6 +2697,7 @@ void CXMLView::OnContextgtCreatewordglyph()
 			pNodeP->appendChild(pNodeC);
 
 			pDoc->AddNodeToCurrSection(pNodeP,plain_text);
+			
 		}
 		else
 		{	
@@ -2698,9 +2712,9 @@ void CXMLView::OnContextgtCreatewordglyph()
 		m_hCurItem = hCurItem;
 		m_pCurNode = pCurNode;
 	}
-	pDoc->SetLoad(false);
+	//pDoc->SetLoad(false);
 	pDoc->SetModifiedFlag(TRUE);
-	pDoc->UpdateAllViews(gtView);
+	//pDoc->UpdateAllViews(gtView);
 	
 }
 
@@ -2719,7 +2733,10 @@ BOOL CXMLView::PrintNodeName(MSXML2::IXMLDOMNodePtr pNode,CString name)
 	MSXML2::DOMNodeType nodeType = pNodeParent->GetnodeType();
 	
 	if(nodeType == MSXML2::NODE_ELEMENT)
-		strTextToAdd = strTextToAdd + _T(" (")+ name +_T(")");
+	{
+		if(name.Compare(_T("")) != 0)
+			strTextToAdd = strTextToAdd + _T(" (")+ name +_T(")");
+	}
 	else if(nodeType == MSXML2::NODE_ATTRIBUTE)
 		strTextToAdd.Format(_T("%s = %s"), W2T(pNode->GetnodeName()), W2T(_bstr_t(pNode->GetnodeValue())));
 	else if(nodeType == MSXML2::NODE_TEXT)
