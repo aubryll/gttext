@@ -76,7 +76,7 @@ private:
 	int m_floodDistance;
 	int m_bright;
 	bool m_isOutline;
-	bool m_isExt;
+	int m_isExt;
 	bool m_showPen;
 	CImage m_Map;
 	CImage m_cursorMap;
@@ -92,6 +92,8 @@ protected:
 protected:
 	DECLARE_MESSAGE_MAP()
 public:
+	COLORREF GetPixelFast(CImage *pImage,int x, int y);
+	void SetPixelFast(CImage *pImage,int x, int y, COLORREF color);
 	double GetZoom();
 	void SetExt();
 	void SetBright(int bright);

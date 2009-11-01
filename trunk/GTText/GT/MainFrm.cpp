@@ -481,7 +481,6 @@ void CMainFrame::OnNMReleasedcaptureOnfillSlider(NMHDR *pNMHDR, LRESULT *pResult
 		}
 		pCEdit->SetWindowTextW(LPCTSTR(posS));
 		pCEdit->UpdateData(false);
-		gtView->Invalidate(false);
 	}
 }
 

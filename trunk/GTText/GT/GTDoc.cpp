@@ -2171,9 +2171,9 @@ CImage* CImageSelection::MergePoints(CImage* source)
 		{
 			p = m_coreVector[i];
 			UpdateEditBox(p);
-			color = newMask.GetPixel(p.x, p.y);
+			color = GetPixelFast(&newMask,p.x, p.y);
 			color = color | RGB(255,0, 0);
-			newMask.SetPixel(p.x, p.y, color);
+			SetPixelFast(&newMask,p.x, p.y, color);
 		}
 	}
 	if(m_outline)
@@ -2182,9 +2182,9 @@ CImage* CImageSelection::MergePoints(CImage* source)
 		{
 			p = m_outlineVector[i];
 			UpdateEditBox(p);
-			color = newMask.GetPixel(p.x, p.y);
+			color = GetPixelFast(&newMask,p.x, p.y);
 			color = color | RGB(0,255, 0);
-			newMask.SetPixel(p.x, p.y, color);
+			SetPixelFast(&newMask,p.x, p.y, color);
 			
 		}
 	}
@@ -2194,9 +2194,9 @@ CImage* CImageSelection::MergePoints(CImage* source)
 		{
 			p = m_shadeVector[i];
 			UpdateEditBox(p);
-			color = newMask.GetPixel(p.x, p.y);
+			color = GetPixelFast(&newMask,p.x, p.y);
 			color = color | RGB(0,0, 255);
-			newMask.SetPixel(p.x, p.y,color);
+			SetPixelFast(&newMask,p.x, p.y, color);
 			
 		}
 	}
@@ -2234,14 +2234,14 @@ void CImageSelection::InvertMask(CRect size,EditEnum region)
 	{
 		for(int y = size.top;y<size.bottom;y++)
 		{
-			imagePix = m_imgMask.GetPixel(x,y);
+			imagePix = GetPixelFast(&m_imgMask,x,y);
 
 			if((imagePix & editColor) == editColor)
-				m_imgMask.SetPixel(x,y,(imagePix & (~editColor)));
+				SetPixelFast(&m_imgMask,x,y,(imagePix & (~editColor)));
 			else
 			{	
 				UpdateEditBox(CPoint(x,y));
-				m_imgMask.SetPixel(x,y,(imagePix | editColor));
+				SetPixelFast(&m_imgMask,x,y,(imagePix | editColor));
 			}
 		}
 	}
@@ -2278,7 +2278,7 @@ void CImageSelection::EraseArea(CRect size,EditEnum region)
 			imagePix = m_imgMask.GetPixel(x,y);
 
 			if((imagePix & editColor) == editColor)
-				m_imgMask.SetPixel(x,y,(imagePix & (~editColor)));
+				SetPixelFast(&m_imgMask,x,y,(imagePix & (~editColor)));
 		}
 	}
 }
@@ -2368,7 +2368,7 @@ void CImageSelection::LoadMaskPoints(EditEnum region,CRect loadRect)
 	{
 		for(int j = maskRect.top ; j<maskRect.bottom;j++)
 		{
-			pixColor = m_imgMask.GetPixel(i,j);
+			pixColor = GetPixelFast(&m_imgMask,i,j);
 			if ((pixColor & editColor) != emptyPix)
 			{	
 				mask->push_back(CPoint(i,j));
@@ -2432,16 +2432,16 @@ BOOL CImageSelection::ChangePoint(CPoint point,EditEnum region,bool isAdded,int 
 			point.y = mainPoint.y-halfSize+j;
 			if(!(point.x <0 || point.x >= m_imgMask.GetWidth() || point.y<0 || point.y >= m_imgMask.GetHeight()))
 			{
-				pixColor = m_imgMask.GetPixel(point.x,point.y);
-
+				pixColor = GetPixelFast(&m_imgMask,point.x,point.y);
+			
 				if (((pixColor & editColor) == 0) && isAdded)
 				{	
 					pointsVector->push_back(point);
-					m_imgMask.SetPixel(point.x,point.y,(pixColor | editColor));
+					SetPixelFast(&m_imgMask,point.x,point.y,(pixColor | editColor));
 				}
 				else if (((pixColor & editColor) == editColor) && !isAdded)
 				{	
-					m_imgMask.SetPixel(point.x,point.y,(pixColor & (~editColor)));
+					SetPixelFast(&m_imgMask,point.x,point.y,(pixColor & (~editColor)));
 				}
 			}
 		}
@@ -2496,14 +2496,14 @@ std::vector<std::map<CPoint,__int8>> CImageSelection::GetAllPoints()
 	{
 		for(int j = m_editRect.top ; j<m_editRect.bottom;j++)
 		{
-			pixColor = m_imgMask.GetPixel(i,j);
+			pixColor = GetPixelFast(&m_imgMask,i,j);
 			switch(pixColor)
 			{
-			case RGB(255,0,0):		value.first = CPoint(i,j);
+			case RGB(255,0,0):	value.first = CPoint(i,j);
 								value.second = 0x01;
 								mapPoints[0].insert(value);
 								break;
-			case RGB(0,255,0):		value.first = CPoint(i,j);
+			case RGB(0,255,0):	value.first = CPoint(i,j);
 								value.second = 0x02;
 								mapPoints[1].insert(value);
 								break;
@@ -2574,6 +2574,122 @@ CImageSelection & CImageSelection::operator= (const CImageSelection &copy)
 	}
 	return *this;
 }
+
+COLORREF CImageSelection::GetPixelFast(CImage *pImage,int x, int y)
+{
+   ASSERT(pImage != NULL);
+   ASSERT((x<pImage->GetWidth() && x>=0 && y>=0 && y<pImage->GetHeight()));
+   int bbp = pImage->GetBPP();
+   BYTE* p = NULL;
+   BYTE r,g,b;
+   switch(bbp)
+   {
+   case 32:
+   case 24:
+			p=(BYTE*)pImage->GetPixelAddress(x,y);
+			b=*p;
+			p++;
+			g=*p;
+			p++;
+			r=*p;
+			break;
+   case 16:
+			WORD* pW;
+			pW =(WORD*)pImage->GetPixelAddress(x,y);
+			b=(*pW & 0x001f);
+			g=(*pW & 0x03e0);
+			r=(*pW & 0x7c00);
+			break;
+   case 8:
+			RGBQUAD colorQuad8;
+			p=(BYTE*)pImage->GetPixelAddress(x,y);
+			pImage->GetColorTable(UINT(*p),1,&colorQuad8);
+			b = colorQuad8.rgbBlue;
+			g = colorQuad8.rgbGreen;
+			r = colorQuad8.rgbRed;
+			break;
+	case 4:
+			RGBQUAD colorQuad4;
+			UINT pos;
+			p=(BYTE*)pImage->GetPixelAddress(x,y);
+			if(((x*y) % 2) == 0)
+				pos = *p & 0x0F;
+			else
+				pos = *p & 0xF0;
+
+			pImage->GetColorTable(pos,1,&colorQuad4);
+			b = colorQuad4.rgbBlue;
+			g = colorQuad4.rgbGreen;
+			r = colorQuad4.rgbRed;
+			break;
+	case 1:
+			RGBQUAD colorQuad1;
+			BYTE bitPos;
+			BYTE maskPos;
+			maskPos= 1;
+			p=(BYTE*)pImage->GetPixelAddress(x,y);
+			bitPos = 8-((x) % 8);
+			for(int i = 1 ;i<bitPos;i++)
+				maskPos = maskPos<<1;
+			maskPos = (*p) & maskPos;
+			if(maskPos > 0)
+				pImage->GetColorTable(1,1,&colorQuad1);
+			else
+				pImage->GetColorTable(0,1,&colorQuad1);
+			b = colorQuad1.rgbBlue;
+			g = colorQuad1.rgbGreen;
+			r = colorQuad1.rgbRed;
+			break;
+   default:
+			return pImage->GetPixel(x,y);
+			break;
+
+   }
+   
+   return RGB(r,g,b);
+}
+
+void CImageSelection::SetPixelFast(CImage *pImage,int x, int y, COLORREF color)
+{
+   ASSERT(pImage != NULL);
+   ASSERT((x<pImage->GetWidth() && x>=0 && y>=0 && y<pImage->GetHeight()));
+   int bbp = pImage->GetBPP();
+   BYTE r,g,b;
+   BYTE* p = NULL;
+  
+   WORD pColor = 0;
+   b = GetBValue(color);
+   r = GetRValue(color);
+   g = GetGValue(color);
+   switch(bbp)
+   {
+   case 32:
+   case 24:
+			
+			p=(BYTE*)pImage->GetPixelAddress(x,y);
+			*p++=b;
+			*p++=g;
+			*p=r;
+			break;
+   case 16:
+			WORD* pW;
+			pW =(WORD*)pImage->GetPixelAddress(x,y);
+			b=(b & 0x1f);
+			g=(g & 0x1f);
+			r=(r & 0x1f);
+			pColor = r;
+			pColor = pColor<5;
+			pColor = pColor | g;
+			pColor = pColor<5;
+			pColor = pColor | b;
+			*pW = pColor;
+			break;
+   default:
+			pImage->SetPixel(x,y,color);
+			break;
+
+   }
+ }
 
 bool operator< (const MSXML2::IXMLDOMNodePtr &op1,const MSXML2::IXMLDOMNodePtr &op2)
 {
