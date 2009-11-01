@@ -126,6 +126,8 @@ public:
 	CImageSelection(const CImageSelection &copy);
 	CImageSelection(CImage* source);
 	~CImageSelection();
+	COLORREF GetPixelFast(CImage *pImage,int x, int y);
+	void SetPixelFast(CImage *pImage,int x, int y, COLORREF color);
 	bool GetCore();
 	bool GetShade();
 	bool GetOutline();

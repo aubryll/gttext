@@ -46,7 +46,7 @@ CGTView::CGTView()
 	m_isOutline = false;
 	m_showPen = false;
 	m_isZoomed = false;
-	m_isExt = false;
+	m_isExt = 1;
 	m_cursorMap.Create(1,1,24);
 	m_cursorMap.SetPixelRGB(0,0,255,255,255);
 	m_isHold = false;
@@ -277,6 +277,122 @@ void CGTView::OnLButtonUp(UINT nFlag,CPoint point)
 	Invalidate(false);
 }
 
+COLORREF CGTView::GetPixelFast(CImage *pImage,int x, int y)
+{
+   ASSERT(pImage != NULL);
+   ASSERT((x<pImage->GetWidth() && x>=0 && y>=0 && y<pImage->GetHeight()));
+   int bbp = pImage->GetBPP();
+   BYTE* p = NULL;
+   BYTE r,g,b;
+   switch(bbp)
+   {
+   case 32:
+   case 24:
+			p=(BYTE*)pImage->GetPixelAddress(x,y);
+			b=*p;
+			p++;
+			g=*p;
+			p++;
+			r=*p;
+			break;
+   case 16:
+			WORD* pW;
+			pW =(WORD*)pImage->GetPixelAddress(x,y);
+			b=(*pW & 0x001f);
+			g=(*pW & 0x03e0);
+			r=(*pW & 0x7c00);
+			break;
+   case 8:
+			RGBQUAD colorQuad8;
+			p=(BYTE*)pImage->GetPixelAddress(x,y);
+			pImage->GetColorTable(UINT(*p),1,&colorQuad8);
+			b = colorQuad8.rgbBlue;
+			g = colorQuad8.rgbGreen;
+			r = colorQuad8.rgbRed;
+			break;
+	case 4:
+			RGBQUAD colorQuad4;
+			UINT pos;
+			p=(BYTE*)pImage->GetPixelAddress(x,y);
+			if(((x*y) % 2) == 0)
+				pos = *p & 0x0F;
+			else
+				pos = *p & 0xF0;
+
+			pImage->GetColorTable(pos,1,&colorQuad4);
+			b = colorQuad4.rgbBlue;
+			g = colorQuad4.rgbGreen;
+			r = colorQuad4.rgbRed;
+			break;
+	case 1:
+			RGBQUAD colorQuad1;
+			BYTE bitPos;
+			BYTE maskPos;
+			maskPos= 1;
+			p=(BYTE*)pImage->GetPixelAddress(x,y);
+			bitPos = 8-((x) % 8);
+			for(int i = 1 ;i<bitPos;i++)
+				maskPos = maskPos<<1;
+			maskPos = (*p) & maskPos;
+			if(maskPos > 0)
+				pImage->GetColorTable(1,1,&colorQuad1);
+			else
+				pImage->GetColorTable(0,1,&colorQuad1);
+			b = colorQuad1.rgbBlue;
+			g = colorQuad1.rgbGreen;
+			r = colorQuad1.rgbRed;
+			break;
+   default:
+			return pImage->GetPixel(x,y);
+			break;
+
+   }
+   
+   return RGB(r,g,b);
+}
+
+void CGTView::SetPixelFast(CImage *pImage,int x, int y, COLORREF color)
+{
+   ASSERT(pImage != NULL);
+   ASSERT((x<pImage->GetWidth() && x>=0 && y>=0 && y<pImage->GetHeight()));
+   int bbp = pImage->GetBPP();
+   BYTE r,g,b;
+   BYTE* p = NULL;
+  
+   WORD pColor = 0;
+   b = GetBValue(color);
+   r = GetRValue(color);
+   g = GetGValue(color);
+   switch(bbp)
+   {
+   case 32:
+   case 24:
+			
+			p=(BYTE*)pImage->GetPixelAddress(x,y);
+			*p++=b;
+			*p++=g;
+			*p=r;
+			break;
+   case 16:
+			WORD* pW;
+			pW =(WORD*)pImage->GetPixelAddress(x,y);
+			b=(b & 0x1f);
+			g=(g & 0x1f);
+			r=(r & 0x1f);
+			pColor = r;
+			pColor = pColor<5;
+			pColor = pColor | g;
+			pColor = pColor<5;
+			pColor = pColor | b;
+			*pW = pColor;
+			break;
+   default:
+			pImage->SetPixel(x,y,color);
+			break;
+
+   }
+  
+}
 
 //Currently using the diference of speed in the color change as the stop decision
 
@@ -348,7 +464,7 @@ BOOL CGTView::OnExtendedFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlu
 	if(floodMask.GetBPP() != 24)
 		return FALSE;
 
-	floodMask.SetPixel(point.x,point.y,floodColor);
+	SetPixelFast(&floodMask,point.x,point.y,floodColor);
 
 	newSeedPoints.push_back(FloodFillPair(point,FloodFillPair3(RGB(targetRed,targetGreen,targetBlue),0)));
 	while(!newSeedPoints.empty())
@@ -365,8 +481,9 @@ BOOL CGTView::OnExtendedFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlu
 			targetRed = GetRValue(targetPixel);
 			targetGreen = GetGValue(targetPixel);
 			targetBlue = GetBValue(targetPixel);
-			imagePixel = picture->GetPixel(point.x,point.y);
-			maskPixel = mask->GetPixel(point.x,point.y);
+			imagePixel = GetPixelFast(picture,point.x,point.y);
+			maskPixel = GetPixelFast(mask,point.x,point.y);
+			
 
 			r = GetRValue(imagePixel);
 			g = GetGValue(imagePixel);
@@ -386,10 +503,10 @@ BOOL CGTView::OnExtendedFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlu
 					if(isAdded)
 					{
 						sel->UpdateEditBox(point);
-						mask->SetPixel(point.x,point.y,(editColor | maskPixel));
+						SetPixelFast(mask,point.x,point.y,(editColor | maskPixel));
 					}
 					else
-						mask->SetPixel(point.x,point.y,(maskPixel & (~editColor) ));
+						SetPixelFast(mask,point.x,point.y,(maskPixel & (~editColor)));
 				}
 				
 				
@@ -412,7 +529,6 @@ BOOL CGTView::OnExtendedFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlu
 						//5
 						nextPoint = point;
 						nextPoint.x++;
-						//nextPoint.y;
 						break;
 					case 3:
 						//6
@@ -423,7 +539,6 @@ BOOL CGTView::OnExtendedFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlu
 					case 4:
 						//2
 						nextPoint = point;
-						//nextPoint.x;
 						nextPoint.y--;
 						break;
 					case 5:
@@ -436,7 +551,6 @@ BOOL CGTView::OnExtendedFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlu
 						//4
 						nextPoint = point;
 						nextPoint.x--;
-						//nextPoint.y;
 						break;
 					case 7:
 						//3
@@ -447,22 +561,21 @@ BOOL CGTView::OnExtendedFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlu
 					case 0:
 						//7
 						nextPoint = point;
-						//nextPoint.x;
 						nextPoint.y++;
 						break;
 						
 					}
-					//if(!((nextPoint.x >= picture->GetWidth()) || (nextPoint.x < 0) || (nextPoint.y >= picture->GetHeight()) || (nextPoint.y < 0)))
 					if(!((nextPoint.x >= imageRect.right) || (nextPoint.x < imageRect.left) || (nextPoint.y >= imageRect.bottom) || (nextPoint.y < imageRect.top)))
 					{
-						maskPixel = floodMask.GetPixel(nextPoint.x,nextPoint.y);
+						maskPixel = GetPixelFast(&floodMask,nextPoint.x,nextPoint.y);
 						if(maskPixel != floodColor)
 						{
 							double dist = it->second.second-dis;
 							if (dist<0)
 								dist = -dist;
 							newSeedPoints.push_back(FloodFillPair(nextPoint,FloodFillPair3(RGB(r,g,b),dist)));
-							floodMask.SetPixel(nextPoint.x,nextPoint.y,floodColor);
+							SetPixelFast(&floodMask,nextPoint.x,nextPoint.y,floodColor);
+
 						}
 					}							
 				}
@@ -477,10 +590,10 @@ BOOL CGTView::OnExtendedFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlu
 						if(isAdded)
 						{
 							sel->UpdateEditBox(point);
-							mask->SetPixel(point.x,point.y,(editColor | maskPixel));
+							SetPixelFast(mask,point.x,point.y,(editColor | maskPixel));
 						}
 						else
-							mask->SetPixel(point.x,point.y,((~editColor) & maskPixel));
+							SetPixelFast(mask,point.x,point.y,((~editColor) & maskPixel));
 					}
 				}
 			}
@@ -514,7 +627,7 @@ BOOL CGTView::OnFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlue,CImage
 	imageRect.bottom = int(Clrect.bottom / m_zoom)+1;
 	imageRect.right = int(Clrect.right / m_zoom)+1;
 		
-	if(m_isExt)
+	if(m_isExt == 2)
 	{
 		return OnExtendedFloodFill(targetRed,targetGreen,targetBlue,picture,mask,point,pointsVector,isAdded);
 	}
@@ -562,7 +675,7 @@ BOOL CGTView::OnFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlue,CImage
 	if(floodMask.GetBPP() != 24)
 		return FALSE;
 
-	floodMask.SetPixel(point.x,point.y,floodColor);
+	SetPixelFast(&floodMask,point.x,point.y,floodColor);
 
 	newSeedPoints.push_back(FloodFillPair2(point,RGB(targetRed,targetGreen,targetBlue)));
 	while(!newSeedPoints.empty())
@@ -579,9 +692,9 @@ BOOL CGTView::OnFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlue,CImage
 			targetRed = GetRValue(targetPixel);
 			targetGreen = GetGValue(targetPixel);
 			targetBlue = GetBValue(targetPixel);
-			imagePixel = picture->GetPixel(point.x,point.y);
-			maskPixel = mask->GetPixel(point.x,point.y);
-
+			imagePixel = GetPixelFast(picture,point.x,point.y);
+			maskPixel = GetPixelFast(mask,point.x,point.y);
+			
 			r = GetRValue(imagePixel);
 			g = GetGValue(imagePixel);
 			b = GetBValue(imagePixel);
@@ -589,7 +702,6 @@ BOOL CGTView::OnFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlue,CImage
 			targetColor = long double(targetRed)*long double(targetRed)+long double(targetBlue)*long double(targetBlue)+long double(targetGreen)*long double(targetGreen);
 			pixelColor = long double(r)*long double(r)+long double(b)*long double(b)+long double(g)*long double(g);
 
-			double dis = (pixelColor - targetColor)*(pixelColor - targetColor);
 			if((pixelColor <= targetColor + floodDistance) &&
 				(pixelColor >= targetColor - floodDistance))
 			{
@@ -599,10 +711,10 @@ BOOL CGTView::OnFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlue,CImage
 					if(isAdded)
 					{
 						sel->UpdateEditBox(point);
-						mask->SetPixel(point.x,point.y,(editColor | maskPixel));
+						SetPixelFast(mask,point.x,point.y,(editColor | maskPixel));
 					}
 					else
-						mask->SetPixel(point.x,point.y,(maskPixel & (~editColor)));
+						SetPixelFast(mask,point.x,point.y,(maskPixel & (~editColor)));
 				}
 				
 				
@@ -625,7 +737,6 @@ BOOL CGTView::OnFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlue,CImage
 						//5
 						nextPoint = point;
 						nextPoint.x++;
-						//nextPoint.y;
 						break;
 					case 3:
 						//6
@@ -636,7 +747,6 @@ BOOL CGTView::OnFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlue,CImage
 					case 4:
 						//2
 						nextPoint = point;
-						//nextPoint.x;
 						nextPoint.y--;
 						break;
 					case 5:
@@ -649,7 +759,6 @@ BOOL CGTView::OnFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlue,CImage
 						//4
 						nextPoint = point;
 						nextPoint.x--;
-						//nextPoint.y;
 						break;
 					case 7:
 						//3
@@ -660,19 +769,20 @@ BOOL CGTView::OnFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlue,CImage
 					case 0:
 						//7
 						nextPoint = point;
-						//nextPoint.x;
 						nextPoint.y++;
 						break;
 						
 					}
-					//if(!((nextPoint.x >= picture->GetWidth()) || (nextPoint.x < 0) || (nextPoint.y >= picture->GetHeight()) || (nextPoint.y < 0)))
 					if(!((nextPoint.x >= imageRect.right) || (nextPoint.x < imageRect.left) || (nextPoint.y >= imageRect.bottom) || (nextPoint.y < imageRect.top)))
 					{
-						maskPixel = floodMask.GetPixel(nextPoint.x,nextPoint.y);
+						maskPixel = GetPixelFast(&floodMask,nextPoint.x,nextPoint.y);
 						if(maskPixel != floodColor)
 						{
-							newSeedPoints.push_back(FloodFillPair2(nextPoint,RGB(r,g,b)));
-							floodMask.SetPixel(nextPoint.x,nextPoint.y,floodColor);
+							if(m_isExt == 1)
+								newSeedPoints.push_back(FloodFillPair2(nextPoint,RGB(r,g,b)));
+							else
+								newSeedPoints.push_back(FloodFillPair2(nextPoint,RGB(targetRed,targetGreen,targetBlue)));
+							SetPixelFast(&floodMask,nextPoint.x,nextPoint.y,floodColor);
 						}
 					}							
 				}
@@ -687,10 +797,10 @@ BOOL CGTView::OnFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlue,CImage
 						if(isAdded)
 						{
 							sel->UpdateEditBox(point);
-							mask->SetPixel(point.x,point.y,(editColor | maskPixel));
+							SetPixelFast(mask,point.x,point.y,(editColor | maskPixel));
 						}
 						else
-							mask->SetPixel(point.x,point.y,((~editColor) & maskPixel));
+							SetPixelFast(mask,point.x,point.y,((~editColor) & maskPixel));
 					}
 				}
 			}
@@ -740,7 +850,7 @@ void CGTView::OnRButtonUp(UINT nFlag,CPoint point)
 		case REGION_TOOL:
 			if((pDoc->GetEditState() != EDIT_NONE)&&(PxlReal.x >= 0) && (PxlReal.x < pDoc->GetImage()->GetWidth()) && (PxlReal.y >= 0) && (PxlReal.y < pDoc->GetImage()->GetHeight()))
 			{
-				imagePixel = pDoc->GetImage()->GetPixel(PxlReal.x,PxlReal.y);
+				imagePixel = GetPixelFast(pDoc->GetImage(),PxlReal.x,PxlReal.y);
 				b = GetBValue(imagePixel);
 				r = GetRValue(imagePixel);
 				g = GetGValue(imagePixel);
@@ -800,7 +910,7 @@ void CGTView::OnLPaint(UINT nFlag,CPoint point)
 		case REGION_TOOL:
 			if((PxlReal.x >= 0) && (PxlReal.x < pDoc->GetImage()->GetWidth()) && (PxlReal.y >= 0) && (PxlReal.y < pDoc->GetImage()->GetHeight()))
 			{
-				imagePixel = pDoc->GetImage()->GetPixel(PxlReal.x,PxlReal.y);
+				imagePixel = GetPixelFast(pDoc->GetImage(),PxlReal.x,PxlReal.y);
 				b = GetBValue(imagePixel);
 				r = GetRValue(imagePixel);
 				g = GetGValue(imagePixel);
@@ -871,7 +981,7 @@ void CGTView::OnRPaint(UINT nFlag,CPoint point)
 		case REGION_TOOL:
 			if((PxlReal.x >= 0) && (PxlReal.x < pDoc->GetImage()->GetWidth()) && (PxlReal.y >= 0) && (PxlReal.y < pDoc->GetImage()->GetHeight()))
 			{
-				imagePixel = pDoc->GetImage()->GetPixel(PxlReal.x,PxlReal.y);
+				imagePixel = GetPixelFast(pDoc->GetImage(),PxlReal.x,PxlReal.y);
 				b = GetBValue(imagePixel);
 				r = GetRValue(imagePixel);
 				g = GetGValue(imagePixel);
@@ -1529,5 +1639,6 @@ void CGTView::SetBorder(bool state)
 }
 void CGTView::SetExt()
 {
-	m_isExt = !m_isExt;
+	m_isExt++;
+	m_isExt = m_isExt % 3;
 }

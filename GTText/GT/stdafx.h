@@ -23,10 +23,6 @@
 #include <afxole.h>
 
 
-//#import <msxml.dll>
-
-
-
 #import "msxml6.dll"
 
 
