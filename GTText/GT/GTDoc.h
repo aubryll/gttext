@@ -136,14 +136,14 @@ public:
 	void SetShade(bool shade);
 	void SetOutline(bool outline);
 	void SetPixelMask(int x,int y,int group);
-	CImage* MergePoints(CImage* source);
+	CImage* MergePoints(CImage* source,bool changeSelection = true);
 	void ResetMask();
 	void InvertMask(CRect size,EditEnum region);
 	void DeltePoints();
 	void UpdateEditBox(CPoint point);
 	void LoadMaskPoints(EditEnum region,CRect loadRect = CRect(0,0,0,0));
 	BOOL ChangePoint(CPoint point,EditEnum region,bool isAdded,int size=1);
-	std::vector<std::map<CPoint,__int8>>  GetAllPoints();
+	std::vector<std::vector<CPoint>>  GetAllPoints();
 	MaskVector* GetCurrentMaskVector(EditEnum region);
 	CImageSelection & operator= (const CImageSelection &copy);
 	void EraseArea(CRect size,EditEnum region);

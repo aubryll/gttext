@@ -753,8 +753,8 @@ void CGTDoc::SavePoints()
 	MSXML2::IXMLDOMNodeListPtr pNodeList;
 	MSXML2::IXMLDOMAttributePtr pNewAttr,pGlyphIdAttr,pWordIdAttr;
 	MSXML2::IXMLDOMNamedNodeMapPtr pAttrList,pNewAttrList,pointAttrs;
-	std::vector<std::map<CPoint,__int8>> pointsMap;
-	std::map<CPoint,__int8>::iterator it;
+	std::vector<std::vector<CPoint>> pointsMap;
+	std::vector<CPoint>::iterator it;
 
 	int i,n;
 	__int8 g;
@@ -889,50 +889,49 @@ void CGTDoc::SavePoints()
 		pNewAttr->PutnodeValue(BSTR(name.GetString()));
 		pAttrList->setNamedItem(pNewAttr);
 
-		for(it = pointsMap[g-1].begin();it != pointsMap[g-1].end();it++)
+		for(unsigned j = 0;j<pointsMap[g-1].size();j++)
 		{
-			if(it->second == g)
+			
+			name = _T("p");
+			bstrName = (_bstr_t)(LPCTSTR)name;
+			pPointEl = GetLinkDom()->createNode(_variant_t((short)pNewNode->GetnodeType()), bstrName, nameSpace);
+			pointAttrs = pPointEl->Getattributes();
+			
+			name = _T("x");
+			bstrName = (_bstr_t)(LPCTSTR)name;
+			pNewAttr = GetLinkDom()->createAttribute(bstrName);
+			n = pointsMap[g-1][j].x;
+			name = "";
+			if(n==0)
+				name = "0";
+			while(n != 0)
 			{
-				name = _T("p");
-				bstrName = (_bstr_t)(LPCTSTR)name;
-				pPointEl = GetLinkDom()->createNode(_variant_t((short)pNewNode->GetnodeType()), bstrName, nameSpace);
-				pointAttrs = pPointEl->Getattributes();
-				
-				name = _T("x");
-				bstrName = (_bstr_t)(LPCTSTR)name;
-				pNewAttr = GetLinkDom()->createAttribute(bstrName);
-				n = it->first.x;
-				name = "";
-				if(n==0)
-					name = "0";
-				while(n != 0)
-				{
-					name = wchar_t(n%10+48) + name;
-					n = n/10;
-				}
-				
-				pNewAttr->PutnodeValue(BSTR(name.GetString()));
-				pointAttrs->setNamedItem(pNewAttr);
-
-				name = _T("y");
-				bstrName = (_bstr_t)(LPCTSTR)name;
-				pNewAttr = GetLinkDom()->createAttribute(bstrName);
-				
-				n = it->first.y;
-				name = "";
-				if(n==0)
-					name = "0";
-				while(n != 0)
-				{
-					name = wchar_t(n%10+48) + name;
-					n = n/10;
-				}
-				pNewAttr->PutnodeValue(BSTR(name.GetString()));
-				pointAttrs->setNamedItem(pNewAttr);
-				i++;
-				pCoorElem->appendChild(pPointEl);
-
+				name = wchar_t(n%10+48) + name;
+				n = n/10;
 			}
+			
+			pNewAttr->PutnodeValue(BSTR(name.GetString()));
+			pointAttrs->setNamedItem(pNewAttr);
+
+			name = _T("y");
+			bstrName = (_bstr_t)(LPCTSTR)name;
+			pNewAttr = GetLinkDom()->createAttribute(bstrName);
+			
+			n = pointsMap[g-1][j].y;
+			name = "";
+			if(n==0)
+				name = "0";
+			while(n != 0)
+			{
+				name = wchar_t(n%10+48) + name;
+				n = n/10;
+			}
+			pNewAttr->PutnodeValue(BSTR(name.GetString()));
+			pointAttrs->setNamedItem(pNewAttr);
+			i++;
+			pCoorElem->appendChild(pPointEl);
+
+		
 		}
 		if(i>0)
 		{
@@ -2150,14 +2149,15 @@ void CImageSelection::UpdateEditBox(CPoint point)
 	}
 }
 
-CImage* CImageSelection::MergePoints(CImage* source)
+//Delete CImage pointer later if changeSelection == false
+CImage* CImageSelection::MergePoints(CImage* source,bool changeSelection)
 {
 	CPoint p;
 	COLORREF color;
-	CImage newMask;
+	CImage *newMask = new CImage();
 	if(source != NULL)
 	{
-		newMask.Create(source->GetWidth(), source->GetHeight(), 24,0);
+		newMask->Create(source->GetWidth(), source->GetHeight(), 24,0);
 	}
 	else
 		return NULL;
@@ -2171,9 +2171,9 @@ CImage* CImageSelection::MergePoints(CImage* source)
 		{
 			p = m_coreVector[i];
 			UpdateEditBox(p);
-			color = GetPixelFast(&newMask,p.x, p.y);
+			color = GetPixelFast(newMask,p.x, p.y);
 			color = color | RGB(255,0, 0);
-			SetPixelFast(&newMask,p.x, p.y, color);
+			SetPixelFast(newMask,p.x, p.y, color);
 		}
 	}
 	if(m_outline)
@@ -2182,9 +2182,9 @@ CImage* CImageSelection::MergePoints(CImage* source)
 		{
 			p = m_outlineVector[i];
 			UpdateEditBox(p);
-			color = GetPixelFast(&newMask,p.x, p.y);
+			color = GetPixelFast(newMask,p.x, p.y);
 			color = color | RGB(0,255, 0);
-			SetPixelFast(&newMask,p.x, p.y, color);
+			SetPixelFast(newMask,p.x, p.y, color);
 			
 		}
 	}
@@ -2194,17 +2194,26 @@ CImage* CImageSelection::MergePoints(CImage* source)
 		{
 			p = m_shadeVector[i];
 			UpdateEditBox(p);
-			color = GetPixelFast(&newMask,p.x, p.y);
+			color = GetPixelFast(newMask,p.x, p.y);
 			color = color | RGB(0,0, 255);
-			SetPixelFast(&newMask,p.x, p.y, color);
+			SetPixelFast(newMask,p.x, p.y, color);
 			
 		}
 	}
-	if(!m_imgMask.IsNull())
-			m_imgMask.Destroy();
-	m_imgMask.Attach(newMask);
-	newMask.Detach();
-	return source;
+	if(changeSelection)
+	{
+		if(!m_imgMask.IsNull())
+				m_imgMask.Destroy();
+		m_imgMask.Attach(*newMask);
+		newMask->Detach();
+		delete newMask;
+
+		return &m_imgMask;
+	}
+	else
+	{
+		return newMask;
+	}
 }
 
 void CImageSelection::InvertMask(CRect size,EditEnum region)
@@ -2477,66 +2486,51 @@ BOOL CImageSelection::ChangePoint(CPoint point,EditEnum region,bool isAdded,int 
 }
 
 
-std::vector<std::map<CPoint,__int8>> CImageSelection::GetAllPoints()
+std::vector<std::vector<CPoint>> CImageSelection::GetAllPoints()
 {
-	std::vector<std::map<CPoint,__int8>> mapPoints;
-	std::pair<CPoint,__int8> value;
+	std::vector<std::vector<CPoint>> mapPoints;
 	bool c = m_core,o = m_outline,s = m_shade;
 
 	COLORREF pixColor;
+	CImage *pointsMask;
 
 	m_core = m_outline = m_shade = true;
 	for(int i = 0;i<7;i++)
 	{
-		mapPoints.push_back(std::map<CPoint,__int8>());
+		mapPoints.push_back(std::vector<CPoint>());
 	}
 
-	MergePoints(&m_imgMask);
+	pointsMask = MergePoints(&m_imgMask,false);
 	for(int i = m_editRect.left ; i<m_editRect.right;i++)
 	{
 		for(int j = m_editRect.top ; j<m_editRect.bottom;j++)
 		{
-			pixColor = GetPixelFast(&m_imgMask,i,j);
+			pixColor = GetPixelFast(pointsMask,i,j);
 			switch(pixColor)
 			{
-			case RGB(255,0,0):	value.first = CPoint(i,j);
-								value.second = 0x01;
-								mapPoints[0].insert(value);
+			case RGB(255,0,0):	mapPoints[0].push_back(CPoint(i,j));
 								break;
-			case RGB(0,255,0):	value.first = CPoint(i,j);
-								value.second = 0x02;
-								mapPoints[1].insert(value);
+			case RGB(0,255,0):	mapPoints[1].push_back(CPoint(i,j));
 								break;
-			case RGB(255,255,0):	value.first = CPoint(i,j);
-								value.second = 0x03;
-								mapPoints[2].insert(value);
+			case RGB(255,255,0):mapPoints[2].push_back(CPoint(i,j));
 								break;
-			case RGB(0,0,255):		value.first = CPoint(i,j);
-								value.second = 0x04;
-								mapPoints[3].insert(value);
+			case RGB(0,0,255):	mapPoints[3].push_back(CPoint(i,j));
 								break;
-			case RGB(255,0,255):	value.first = CPoint(i,j);
-								value.second = 0x05;
-								mapPoints[4].insert(value);
+			case RGB(255,0,255):mapPoints[4].push_back(CPoint(i,j));
 								break;
-			case RGB(0,255,255):	value.first = CPoint(i,j);
-								value.second = 0x06;
-								mapPoints[5].insert(value);
+			case RGB(0,255,255):mapPoints[5].push_back(CPoint(i,j));
 								break;
-			case RGB(255,255,255):	value.first = CPoint(i,j);
-								value.second = 0x07;
-								mapPoints[6].insert(value);
+			case RGB(255,255,255):mapPoints[6].push_back(CPoint(i,j));
 								break;
 			default: break;
 				
 			}
 		}
 	}
-	ResetMask();
 	m_core = c;
 	m_shade = s;
 	m_outline = o;
-	MergePoints(&m_imgMask);
+	delete pointsMask;
 	return mapPoints;
 }
 

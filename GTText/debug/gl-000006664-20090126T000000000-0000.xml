@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<pcGts xmlns="http://schema.primaresearch.org/gt/gts/glyph" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://schema.primaresearch.org/gt/gts/glyph http://schema.primaresearch.org/gt/gts/glyph/glyph.xsd" pcGtsId="gl-000000000-20090126T000000000-0000">
+  <pcMetadata>
+    <pcCreator>David Torne</pcCreator>
+    <pcCreated>time</pcCreated>
+    <pcLastChange>2009-01-26T00:00:00</pcLastChange>
+    <pcComments>By GT Text v1.0</pcComments>
+  </pcMetadata>
+</pcGts>
