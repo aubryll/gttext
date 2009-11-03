@@ -15,31 +15,25 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_143AE342F9694A33A8C5D57894E166F2"
-        "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_37A0213F50794317BF8638FCC6EC8EFC"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_44EFD6B16DB9C5318A04A699016E356B"
+        "MsmKey" = "8:_4FDE4D32BF1745BBA8B4119466033367"
         "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_5955A2CB1F004D0B8F10AF371CD92E5F"
-        "OwnerKey" = "8:_5F7DF2C40DBD4F8FA8D5DD8684463EFC"
+        "MsmKey" = "8:_5D433773C7430477108CA03C5BBC500B"
+        "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_5F7DF2C40DBD4F8FA8D5DD8684463EFC"
+        "MsmKey" = "8:_7061524BE166400E93195F7D2CD751AF"
         "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -51,8 +45,14 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_94347949920546DD9EF12F192870C1FE"
-        "OwnerKey" = "8:_143AE342F9694A33A8C5D57894E166F2"
+        "MsmKey" = "8:_89DC80DFD9F740ABB5BB5FE3A9F3BB09"
+        "OwnerKey" = "8:_4FDE4D32BF1745BBA8B4119466033367"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_AAAFC3CFF34E527D82F55634C09CCDA9"
+        "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -63,8 +63,8 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_AF30F5F894BD466BF3EF856A9D3C1FA7"
-        "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
+        "MsmKey" = "8:_C08382E4E119465EA138EEAEC156350E"
+        "OwnerKey" = "8:_7061524BE166400E93195F7D2CD751AF"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -75,7 +75,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_F3BA2064C6139B0A87E2BB970D26A786"
+        "MsmKey" = "8:_DBF5A449668082F4A01DB9FAAC5C2DCF"
         "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -182,10 +182,10 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_44EFD6B16DB9C5318A04A699016E356B"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5D433773C7430477108CA03C5BBC500B"
             {
-            "SourcePath" = "8:MSIMG32.dll"
-            "TargetName" = "8:MSIMG32.dll"
+            "SourcePath" = "8:msxml6.dll"
+            "TargetName" = "8:msxml6.dll"
             "Tag" = "8:"
             "Folder" = "8:_B878568AE37B4A0E8EBF1B5F66A7FC32"
             "Condition" = "8:"
@@ -197,8 +197,8 @@
             "Permanent" = "11:FALSE"
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
+            "Register" = "3:4"
+            "Exclude" = "11:TRUE"
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
@@ -222,6 +222,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_AAAFC3CFF34E527D82F55634C09CCDA9"
+            {
+            "SourcePath" = "8:gdiplus.dll"
+            "TargetName" = "8:gdiplus.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_B878568AE37B4A0E8EBF1B5F66A7FC32"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_AE57506523AC45EB89E71039FC2643F2"
             {
             "SourcePath" = "8:..\\debug\\gl-000006664-20090126T000000000-0000.xml"
@@ -242,10 +262,10 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_AF30F5F894BD466BF3EF856A9D3C1FA7"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_DBF5A449668082F4A01DB9FAAC5C2DCF"
             {
-            "SourcePath" = "8:gdiplus.dll"
-            "TargetName" = "8:gdiplus.dll"
+            "SourcePath" = "8:MSIMG32.dll"
+            "TargetName" = "8:MSIMG32.dll"
             "Tag" = "8:"
             "Folder" = "8:_B878568AE37B4A0E8EBF1B5F66A7FC32"
             "Condition" = "8:"
@@ -259,26 +279,6 @@
             "PackageAs" = "3:1"
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F3BA2064C6139B0A87E2BB970D26A786"
-            {
-            "SourcePath" = "8:msxml6.dll"
-            "TargetName" = "8:msxml6.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_B878568AE37B4A0E8EBF1B5F66A7FC32"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:4"
-            "Exclude" = "11:TRUE"
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
@@ -368,18 +368,18 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Ground Truth Text"
-        "ProductCode" = "8:{379E6EFF-5705-493A-A904-84F84354DE04}"
-        "PackageCode" = "8:{134BFCB9-C2BB-4988-9E19-B041309BE594}"
+        "ProductCode" = "8:{917607A8-5F7A-42D1-B7D3-956074B39B1C}"
+        "PackageCode" = "8:{0C4B6587-026A-4481-9CB6-2155C8F87397}"
         "UpgradeCode" = "8:{C81FD9C0-7B3A-4D76-94E7-740A1324E374}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.2"
+        "ProductVersion" = "8:1.0.4"
         "Manufacturer" = "8:Universitat Autònoma de Barcelona"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
-        "Title" = "8:SetupGT"
+        "Title" = "8:GTText"
         "Subject" = "8:"
         "ARPCONTACT" = "8:David Torne"
         "Keywords" = "8:"
@@ -912,7 +912,7 @@
         }
         "MergeModule"
         {
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_143AE342F9694A33A8C5D57894E166F2"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_4FDE4D32BF1745BBA8B4119466033367"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
@@ -926,21 +926,7 @@
             "Feature" = "8:"
             "IsolateTo" = "8:"
             }
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_5955A2CB1F004D0B8F10AF371CD92E5F"
-            {
-            "UseDynamicProperties" = "11:TRUE"
-            "IsDependency" = "11:TRUE"
-            "SourcePath" = "8:policy_8_0_microsoft_vc80_mfc_x86.msm"
-                "Properties"
-                {
-                }
-            "LanguageId" = "3:0"
-            "Exclude" = "11:FALSE"
-            "Folder" = "8:"
-            "Feature" = "8:"
-            "IsolateTo" = "8:"
-            }
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_5F7DF2C40DBD4F8FA8D5DD8684463EFC"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_7061524BE166400E93195F7D2CD751AF"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
@@ -954,11 +940,25 @@
             "Feature" = "8:"
             "IsolateTo" = "8:"
             }
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_94347949920546DD9EF12F192870C1FE"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_89DC80DFD9F740ABB5BB5FE3A9F3BB09"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
             "SourcePath" = "8:policy_8_0_microsoft_vc80_crt_x86.msm"
+                "Properties"
+                {
+                }
+            "LanguageId" = "3:0"
+            "Exclude" = "11:FALSE"
+            "Folder" = "8:"
+            "Feature" = "8:"
+            "IsolateTo" = "8:"
+            }
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_C08382E4E119465EA138EEAEC156350E"
+            {
+            "UseDynamicProperties" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "SourcePath" = "8:policy_8_0_microsoft_vc80_mfc_x86.msm"
                 "Properties"
                 {
                 }

@@ -809,6 +809,7 @@ void CXMLView::OnTreepopupDelete()
 	MSXML2::IXMLDOMNamedNodeMapPtr pAttrs;
 	_bstr_t bstrNameRemove;
 	CGTDoc* pDoc = GetDocument();
+	HTREEITEM parentItem;
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
 		return;
@@ -816,12 +817,16 @@ void CXMLView::OnTreepopupDelete()
 	if (!SetSelectedNode())
 		return;
 
+
 	try
 	{
 		MSXML2::DOMNodeType nodeType;
 		m_pCurNode->get_nodeType(&nodeType);
 
 		UpdateData();
+
+		if(m_hCurItem != NULL)
+			parentItem = m_wndXMLTree.GetParentItem(m_hCurItem);
 
 		if (MSXML2::NODE_DOCUMENT == nodeType ||
 			MSXML2::NODE_DOCUMENT_FRAGMENT == nodeType)
@@ -841,8 +846,10 @@ void CXMLView::OnTreepopupDelete()
 			m_wndXMLTree.DeleteItem(m_hCurItem);
 		}
 
-		m_hCurItem = NULL;
+		m_hCurItem = parentItem;
 		m_pCurNode = NULL;
+
+		m_wndXMLTree.SelectItem(m_hCurItem);
 
 
 	}
@@ -2078,7 +2085,6 @@ void CXMLView::OnContextgtNewtextregion()
 	AddNodeToTree(pNewElem, m_hCurItem,true);
 	
 	pDoc->SwitchToView(RUNTIME_CLASS(CTextRegionView));
-	//((CTextRegionView*)pParentSplitter->GetPane(1,0))->OnUpdate();
 	pDoc->SetModifiedFlag(TRUE);
 	m_no_text_regions++;
 }
@@ -2142,7 +2148,6 @@ void CXMLView::OnContextgtNewtextline()
 	AddNodeToTree(pNewElem, m_hCurItem,true);
 
 	pDoc->SwitchToView(RUNTIME_CLASS(CTextEquivalView));
-	//((CTextEquivalView*)pParentSplitter->GetPane(1,0))->OnUpdate();
 	pDoc->SetModifiedFlag(TRUE);
 }
 
@@ -2205,7 +2210,6 @@ void CXMLView::OnContextgtNewword()
 	pDoc->AddNodeToCurrSection(pNewElem,word);
 	AddNodeToTree(pNewElem, m_hCurItem,true);
 	pDoc->SwitchToView(RUNTIME_CLASS(CTextEquivalView));
-	//((CTextEquivalView*)pParentSplitter->GetPane(1,0))->OnUpdate();
 	pDoc->SetModifiedFlag(TRUE);
 }
 
@@ -2269,7 +2273,6 @@ void CXMLView::OnContextgtNewglyph()
 	pDoc->AddNodeToCurrSection(pNewElem,glyph);
 	AddNodeToTree(pNewElem, m_hCurItem,true);
 	pDoc->SwitchToView(RUNTIME_CLASS(CGlyphView));
-	//((CGlyphView*)pParentSplitter->GetPane(1,0))->OnUpdate();
 	pDoc->SetModifiedFlag(TRUE);
 }
 
@@ -2353,13 +2356,6 @@ void CXMLView::OnContextgtDelete()
 
 	DeleteGlyphBranch(pNode);
 	OnTreepopupDelete();
-	//pDoc->Release(false);
-	//pDoc->SetLock(false);
-//	ParseLinkXML(pDoc->GetLinkDom());
-	//OnPageRefresh();
-	//ParseGlyphXMLTree(pDoc->GetGlyphDom());
-
-	//pDoc->UpdateAllViews(this);
 }
 
 void CXMLView::OnFileSave(bool browse)
@@ -2712,10 +2708,8 @@ void CXMLView::OnContextgtCreatewordglyph()
 		m_hCurItem = hCurItem;
 		m_pCurNode = pCurNode;
 	}
-	//pDoc->SetLoad(false);
 	pDoc->SetModifiedFlag(TRUE);
-	//pDoc->UpdateAllViews(gtView);
-	
+		
 }
 
 
