@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by GT.rc
+// Used by xmltree.rc
 //
 #define IDOK                            1
 #define IDM_ABOUTBOX                    0x0010

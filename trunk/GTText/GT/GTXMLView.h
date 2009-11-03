@@ -74,8 +74,7 @@ protected:
 
 	MSXML2::IXMLDOMNodePtr GetParentNodeFromTree(HTREEITEM hItem = NULL);
 	MSXML2::IXMLDOMNodePtr GetNodeFromTree(HTREEITEM hItem = NULL);
-	HTREEITEM CXMLView::AddNodeToTree(MSXML2::IXMLDOMNodePtr pNode, HTREEITEM hParentItem, bool bSelect = true);
-	CString NodeToTextImage(MSXML2::IXMLDOMNodePtr pNode, int& nImageToAdd, int& nSelectedImageToAdd);
+		CString NodeToTextImage(MSXML2::IXMLDOMNodePtr pNode, int& nImageToAdd, int& nSelectedImageToAdd);
 	bool SetSelectedNode();
 	HTREEITEM FindItemOnTree(const HTREEITEM hItem,MSXML2::IXMLDOMNodePtr pNode);
 
@@ -98,6 +97,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 public:
+	HTREEITEM CXMLView::AddNodeToTree(MSXML2::IXMLDOMNodePtr pNode, HTREEITEM hParentItem, bool bSelect = true);
 	HRESULT ParseGlyphXMLTree(MSXML2::IXMLDOMNodePtr pNode, bool bRecurse = true);
 	HRESULT ParseLinkXML(MSXML2::IXMLDOMNodePtr pNode, bool bRecurse = true);
 	BOOL PrintNodeName(MSXML2::IXMLDOMNodePtr pNode,CString name);
