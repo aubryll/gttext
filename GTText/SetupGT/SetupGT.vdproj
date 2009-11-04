@@ -15,8 +15,14 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_03CC8F532DA7468E91291B73D21A1A15"
-        "OwnerKey" = "8:_F30A98AA825D4EF89FBC9176885E6606"
+        "MsmKey" = "8:_0A17BD9E7C444D81884DD6C48C1469EC"
+        "OwnerKey" = "8:_BCDB046354754E9B90E7D973A629898B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_1A9D99111FBA4CED821533B5CDA8CEC3"
+        "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -51,31 +57,25 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_BCDB046354754E9B90E7D973A629898B"
+        "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_C4F9EF9AA2C04D2EA3956B707188DB0B"
-        "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_D9A88F6FF8C442DA9C949F3C36F4FA06"
-        "OwnerKey" = "8:_C4F9EF9AA2C04D2EA3956B707188DB0B"
+        "MsmKey" = "8:_CEB2E2DE81AE4DC3AA95B5F584452A21"
+        "OwnerKey" = "8:_1A9D99111FBA4CED821533B5CDA8CEC3"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_DBF5A449668082F4A01DB9FAAC5C2DCF"
-        "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_F30A98AA825D4EF89FBC9176885E6606"
         "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -368,14 +368,14 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Ground Truth Text"
-        "ProductCode" = "8:{8F08C78D-18CE-46CA-ACF4-3DC3328B12E1}"
-        "PackageCode" = "8:{2220A442-51A2-40B2-9154-0E9104966FCC}"
+        "ProductCode" = "8:{C966D056-8C2D-460A-A393-169E2866F767}"
+        "PackageCode" = "8:{F23ABC43-6F4D-41ED-84D8-44660373F52E}"
         "UpgradeCode" = "8:{C81FD9C0-7B3A-4D76-94E7-740A1324E374}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.1.0"
+        "ProductVersion" = "8:1.1.1"
         "Manufacturer" = "8:Universitat Autònoma de Barcelona"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -912,7 +912,7 @@
         }
         "MergeModule"
         {
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_03CC8F532DA7468E91291B73D21A1A15"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_0A17BD9E7C444D81884DD6C48C1469EC"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
@@ -926,7 +926,7 @@
             "Feature" = "8:"
             "IsolateTo" = "8:"
             }
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_C4F9EF9AA2C04D2EA3956B707188DB0B"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_1A9D99111FBA4CED821533B5CDA8CEC3"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
@@ -940,11 +940,11 @@
             "Feature" = "8:"
             "IsolateTo" = "8:"
             }
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_D9A88F6FF8C442DA9C949F3C36F4FA06"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_BCDB046354754E9B90E7D973A629898B"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
-            "SourcePath" = "8:policy_8_0_microsoft_vc80_mfc_x86.msm"
+            "SourcePath" = "8:Microsoft_VC80_CRT_x86.msm"
                 "Properties"
                 {
                 }
@@ -954,11 +954,11 @@
             "Feature" = "8:"
             "IsolateTo" = "8:"
             }
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_F30A98AA825D4EF89FBC9176885E6606"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_CEB2E2DE81AE4DC3AA95B5F584452A21"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
-            "SourcePath" = "8:Microsoft_VC80_CRT_x86.msm"
+            "SourcePath" = "8:policy_8_0_microsoft_vc80_mfc_x86.msm"
                 "Properties"
                 {
                 }
@@ -1001,7 +1001,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_C40CDAE4E73A42F8B8D591390D639DFB"
             {
-            "SourcePath" = "8:..\\debug\\GT.exe"
+            "SourcePath" = "8:..\\release\\GT.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_B878568AE37B4A0E8EBF1B5F66A7FC32"
