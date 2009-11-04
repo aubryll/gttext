@@ -96,6 +96,7 @@ public:
 	void SetPixelFast(CImage *pImage,int x, int y, COLORREF color);
 	double GetZoom();
 	void SetExt();
+	void SetShowPen();
 	void SetBright(int bright);
 	void SetSesitivity(int sensitivity);
 	void OnFileSaveImage(void);
@@ -127,5 +128,4 @@ public:
 	afx_msg void OnRButtonUp(UINT nFlag,CPoint point);
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
-	afx_msg void CGTView::OnKeyDown(UINT nChar,UINT nRepCnt,UINT nFlags);
 };

@@ -86,10 +86,11 @@ typedef std::pair<NodeName, MSXML2::IXMLDOMNodePtr> PtrPair;
 typedef std::pair<COLORREF,double> FloodFillPair3;
 typedef std::pair<CPoint,FloodFillPair3> FloodFillPair;
 typedef std::pair<CPoint,COLORREF> FloodFillPair2;
-typedef std::vector<std::vector<__int8>> Matrix;
+typedef std::pair<CPoint,int> VectorRun;
+//typedef std::vector<std::vector<__int8>> Matrix;
 
 
-typedef std::vector<CPoint> MaskVector;
+typedef std::vector<VectorRun> MaskVector;
 typedef std::vector<FloodFillPair> FloodFillPoints;
 typedef std::vector<FloodFillPair2> FloodFillPoints2;
 
@@ -135,7 +136,7 @@ public:
 	void SetCore(bool core);
 	void SetShade(bool shade);
 	void SetOutline(bool outline);
-	void SetPixelMask(int x,int y,int group);
+	void SetPixelMask(int x,int y,int r,int group);
 	CImage* MergePoints(CImage* source,bool changeSelection = true);
 	void ResetMask();
 	void InvertMask(CRect size,EditEnum region);
@@ -143,7 +144,7 @@ public:
 	void UpdateEditBox(CPoint point);
 	void LoadMaskPoints(EditEnum region,CRect loadRect = CRect(0,0,0,0));
 	BOOL ChangePoint(CPoint point,EditEnum region,bool isAdded,int size=1);
-	std::vector<std::vector<CPoint>>  GetAllPoints();
+	std::vector<MaskVector>  GetAllPoints();
 	MaskVector* GetCurrentMaskVector(EditEnum region);
 	CImageSelection & operator= (const CImageSelection &copy);
 	void EraseArea(CRect size,EditEnum region);

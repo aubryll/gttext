@@ -15,14 +15,14 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_37A0213F50794317BF8638FCC6EC8EFC"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_03CC8F532DA7468E91291B73D21A1A15"
+        "OwnerKey" = "8:_F30A98AA825D4EF89FBC9176885E6606"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_4FDE4D32BF1745BBA8B4119466033367"
-        "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
+        "MsmKey" = "8:_37A0213F50794317BF8638FCC6EC8EFC"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -33,20 +33,8 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_7061524BE166400E93195F7D2CD751AF"
-        "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_7B8246637F604F8193FE43446C4836BD"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_89DC80DFD9F740ABB5BB5FE3A9F3BB09"
-        "OwnerKey" = "8:_4FDE4D32BF1745BBA8B4119466033367"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -63,19 +51,31 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_C08382E4E119465EA138EEAEC156350E"
-        "OwnerKey" = "8:_7061524BE166400E93195F7D2CD751AF"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
+        "MsmKey" = "8:_C4F9EF9AA2C04D2EA3956B707188DB0B"
+        "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D9A88F6FF8C442DA9C949F3C36F4FA06"
+        "OwnerKey" = "8:_C4F9EF9AA2C04D2EA3956B707188DB0B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_DBF5A449668082F4A01DB9FAAC5C2DCF"
+        "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F30A98AA825D4EF89FBC9176885E6606"
         "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -368,14 +368,14 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Ground Truth Text"
-        "ProductCode" = "8:{917607A8-5F7A-42D1-B7D3-956074B39B1C}"
-        "PackageCode" = "8:{0C4B6587-026A-4481-9CB6-2155C8F87397}"
+        "ProductCode" = "8:{8F08C78D-18CE-46CA-ACF4-3DC3328B12E1}"
+        "PackageCode" = "8:{2220A442-51A2-40B2-9154-0E9104966FCC}"
         "UpgradeCode" = "8:{C81FD9C0-7B3A-4D76-94E7-740A1324E374}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.4"
+        "ProductVersion" = "8:1.1.0"
         "Manufacturer" = "8:Universitat Autònoma de Barcelona"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -912,35 +912,7 @@
         }
         "MergeModule"
         {
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_4FDE4D32BF1745BBA8B4119466033367"
-            {
-            "UseDynamicProperties" = "11:TRUE"
-            "IsDependency" = "11:TRUE"
-            "SourcePath" = "8:Microsoft_VC80_CRT_x86.msm"
-                "Properties"
-                {
-                }
-            "LanguageId" = "3:0"
-            "Exclude" = "11:FALSE"
-            "Folder" = "8:"
-            "Feature" = "8:"
-            "IsolateTo" = "8:"
-            }
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_7061524BE166400E93195F7D2CD751AF"
-            {
-            "UseDynamicProperties" = "11:TRUE"
-            "IsDependency" = "11:TRUE"
-            "SourcePath" = "8:Microsoft_VC80_MFC_x86.msm"
-                "Properties"
-                {
-                }
-            "LanguageId" = "3:0"
-            "Exclude" = "11:FALSE"
-            "Folder" = "8:"
-            "Feature" = "8:"
-            "IsolateTo" = "8:"
-            }
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_89DC80DFD9F740ABB5BB5FE3A9F3BB09"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_03CC8F532DA7468E91291B73D21A1A15"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
@@ -954,11 +926,39 @@
             "Feature" = "8:"
             "IsolateTo" = "8:"
             }
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_C08382E4E119465EA138EEAEC156350E"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_C4F9EF9AA2C04D2EA3956B707188DB0B"
+            {
+            "UseDynamicProperties" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "SourcePath" = "8:Microsoft_VC80_MFC_x86.msm"
+                "Properties"
+                {
+                }
+            "LanguageId" = "3:0"
+            "Exclude" = "11:FALSE"
+            "Folder" = "8:"
+            "Feature" = "8:"
+            "IsolateTo" = "8:"
+            }
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_D9A88F6FF8C442DA9C949F3C36F4FA06"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
             "SourcePath" = "8:policy_8_0_microsoft_vc80_mfc_x86.msm"
+                "Properties"
+                {
+                }
+            "LanguageId" = "3:0"
+            "Exclude" = "11:FALSE"
+            "Folder" = "8:"
+            "Feature" = "8:"
+            "IsolateTo" = "8:"
+            }
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_F30A98AA825D4EF89FBC9176885E6606"
+            {
+            "UseDynamicProperties" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "SourcePath" = "8:Microsoft_VC80_CRT_x86.msm"
                 "Properties"
                 {
                 }
@@ -1001,7 +1001,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_C40CDAE4E73A42F8B8D591390D639DFB"
             {
-            "SourcePath" = "8:..\\release\\GT.exe"
+            "SourcePath" = "8:..\\debug\\GT.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_B878568AE37B4A0E8EBF1B5F66A7FC32"
