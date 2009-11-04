@@ -1834,7 +1834,7 @@ void CGTDoc::OnEditCopy()
 		fullWitdthVector = *maskVector;
 		maskVector->clear();
 		m_imgSelection.LoadMaskPoints(m_edition_state,imageRect);
-		m_copyVector = * maskVector;
+		m_copyVector = *maskVector;
 		*maskVector = fullWitdthVector;
 	}
 	else
@@ -1864,6 +1864,7 @@ void CGTDoc::OnEditPaste()
 	CGTView* gtView = (CGTView*) GetNextView(pos);
 	if(gtView == NULL)
 		return;
+	CPoint point;
 	if(m_edition_state != EDIT_NONE)
 	{
 		if(m_copyVector.size() != 0)
@@ -1873,7 +1874,12 @@ void CGTDoc::OnEditPaste()
 			Backup();
 			for(unsigned i = 0;i<m_copyVector.size();i++)
 			{
-				m_imgSelection.ChangePoint(m_copyVector[i].first,m_edition_state,true,1);
+				for(int k = 0;k<m_copyVector[i].second;k++)
+				{
+					point = m_copyVector[i].first;
+					point.x += k; 
+					m_imgSelection.ChangePoint(point,m_edition_state,true,1);
+				}
 			}
 			m_imgSelection.LoadMaskPoints(m_edition_state);
 			SetDirty(true);
