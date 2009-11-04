@@ -564,7 +564,7 @@ HTREEITEM CXMLView::FindItemOnTree(const HTREEITEM hItem,MSXML2::IXMLDOMNodePtr 
 		return NULL;
 	if(pNode == NULL)
 		return NULL;
-	LPARAM itemdata = m_wndXMLTree.GetItemData(hItem);
+	LPARAM itemdataAttr,itemdata = m_wndXMLTree.GetItemData(hItem);
 	MSXML2::IXMLDOMNodePtr pNodeToComp = (MSXML2::IXMLDOMNodePtr)(LPUNKNOWN)itemdata;
 	HTREEITEM hItemFound = NULL;
 	if(pNode->GetnodeType() == MSXML2::NODE_TEXT)
@@ -621,18 +621,21 @@ HTREEITEM CXMLView::FindItemOnTree(const HTREEITEM hItem,MSXML2::IXMLDOMNodePtr 
 	}
 	else
 	{
-		MSXML2::IXMLDOMNamedNodeMapPtr pAttrList = pNodeToComp->Getattributes();
 		MSXML2::IXMLDOMAttributePtr pNodeA;
 		hItemFound = hItem;
 		if(pNodeToComp == pNode)
 			return hItemFound;
-		if(pAttrList != NULL)
-			while((pNodeA = pAttrList->nextNode()) != NULL)
-			{			
+		if(hItemFound != NULL)
+		{
+			while((hItemFound = m_wndXMLTree.GetNextVisibleItem(hItemFound)) != NULL)
+			{		
+				itemdataAttr = m_wndXMLTree.GetItemData(hItemFound);
+				pNodeA = (MSXML2::IXMLDOMNodePtr)(LPUNKNOWN)itemdataAttr;
 				if(pNodeA == pNode)
 					return hItemFound;
-				hItemFound = m_wndXMLTree.GetNextVisibleItem(hItemFound);
+				
 			}
+		}
 
 	}
 	if ( m_wndXMLTree.ItemHasChildren(hItem))
@@ -2008,10 +2011,29 @@ void CXMLView::OnTvnSelchangedXmltree(NMHDR *pNMHDR, LRESULT *pResult)
 	}
 	if(pDoc->IsLoad())
 	{
+		pDoc->SetPenPoint(CPoint(-1,-1));
+		gtView->SetShowPen();
 		gtView->Invalidate(false);
 	}
 	pDoc->SetLoad(true);
 	EndWaitCursor();
+}
+
+HTREEITEM CXMLView::GetSelectionItem()
+{
+	if(m_hCurItem == NULL)
+		return NULL;
+	SetSelectedNode();
+	LPARAM itemdata = m_wndXMLTree.GetItemData(m_hCurItem);
+	MSXML2::IXMLDOMNodePtr pNode = (MSXML2::IXMLDOMNodePtr)(LPUNKNOWN)itemdata;
+	if(pNode == NULL)
+		return NULL;
+	MSXML2::DOMNodeType nodeType = pNode->GetnodeType();
+	
+	if(nodeType == MSXML2::NODE_ATTRIBUTE)
+		return m_wndXMLTree.GetParentItem(m_hCurItem);
+	else
+		return m_hCurItem;
 }
 
 void CXMLView::OnFileOpen()
@@ -2715,11 +2737,11 @@ void CXMLView::OnContextgtCreatewordglyph()
 
 BOOL CXMLView::PrintNodeName(MSXML2::IXMLDOMNodePtr pNode,CString name)
 {
-	HTREEITEM hParentItem = FindItemOnTree(m_wndXMLTree.GetParentItem(m_hCurItem),pNode);
-	if(hParentItem == NULL)
+	HTREEITEM hItem = FindItemOnTree(m_wndXMLTree.GetParentItem(m_hCurItem),pNode);
+	if(hItem == NULL)
 		return FALSE;
 	
-	LPARAM itemdata = m_wndXMLTree.GetItemData(hParentItem);
+	LPARAM itemdata = m_wndXMLTree.GetItemData(hItem);
 	MSXML2::IXMLDOMNodePtr pNodeParent = (MSXML2::IXMLDOMNodePtr)(LPUNKNOWN)itemdata;
 	if(pNodeParent == NULL)
 		return FALSE;
@@ -2736,7 +2758,7 @@ BOOL CXMLView::PrintNodeName(MSXML2::IXMLDOMNodePtr pNode,CString name)
 	else if(nodeType == MSXML2::NODE_TEXT)
 		strTextToAdd = name;
 
-	m_wndXMLTree.SetItemText(hParentItem,strTextToAdd);
+	m_wndXMLTree.SetItemText(hItem,strTextToAdd);
 	
 	
 	return TRUE;

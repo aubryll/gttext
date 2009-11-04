@@ -405,8 +405,7 @@ void CTextRegionView::OnBnClickedChRegion()
 	MSXML2::IXMLDOMAttributePtr pNewAttr;
 	MSXML2::IXMLDOMElementPtr pNewElem;
 	BSTR nameSpace;
-	bool isNew = false;
-
+	
 	
 	CString name;
 	_bstr_t bstrName;
@@ -440,13 +439,14 @@ void CTextRegionView::OnBnClickedChRegion()
 		{	
 			if(c_bgrndColor.Compare(_T("")) != 0)
 			{
-				isNew = true;
 				name = _T("txt_bgcolor");
 				bstrName = (_bstr_t)(LPCTSTR)name;
 				pNewAttr = pDoc->GetPageDom()->createAttribute(bstrName);
 				pNewAttr->put_text(BSTR(c_bgrndColor.GetString()));
 				pAttrList->setNamedItem(pNewAttr);
 				pDoc->AddNodeToCurrSection(pNewAttr,txt_bgcolor);
+				xmlView->AddNodeToTree(pNewAttr,xmlView->GetSelectionItem());
+				xmlView->PrintNodeName(pNewAttr,c_bgrndColor);
 			}
 		}
 						
@@ -460,13 +460,14 @@ void CTextRegionView::OnBnClickedChRegion()
 		{	
 			if(c_txtcolor.Compare(_T("")) != 0)
 			{
-				isNew = true;
 				name = _T("txt_color");
 				bstrName = (_bstr_t)(LPCTSTR)name;
 				pNewAttr = pDoc->GetPageDom()->createAttribute(bstrName);
 				pNewAttr->put_text(BSTR(c_txtcolor.GetString()));
 				pAttrList->setNamedItem(pNewAttr);
 				pDoc->AddNodeToCurrSection(pNewAttr,txt_color);
+				xmlView->AddNodeToTree(pNewAttr,xmlView->GetSelectionItem());
+				xmlView->PrintNodeName(pNewAttr,c_txtcolor);
 			}
 		}
 				
@@ -480,13 +481,14 @@ void CTextRegionView::OnBnClickedChRegion()
 		{	
 			if(c_fontSize.Compare(_T("")) != 0)
 			{
-				isNew = true;
 				name = _T("txt_font_size");
 				bstrName = (_bstr_t)(LPCTSTR)name;
 				pNewAttr = pDoc->GetPageDom()->createAttribute(bstrName);
 				pNewAttr->put_text(BSTR(c_fontSize.GetString()));
 				pAttrList->setNamedItem(pNewAttr);
 				pDoc->AddNodeToCurrSection(pNewAttr,txt_font_size);
+				xmlView->AddNodeToTree(pNewAttr,xmlView->GetSelectionItem());
+				xmlView->PrintNodeName(pNewAttr,c_fontSize);
 			}
 		}
 
@@ -500,13 +502,14 @@ void CTextRegionView::OnBnClickedChRegion()
 		{	
 			if(c_language.Compare(_T("")) != 0)
 			{
-				isNew = true;
 				name = _T("txt_primary_language");
 				bstrName = (_bstr_t)(LPCTSTR)name;
 				pNewAttr = pDoc->GetPageDom()->createAttribute(bstrName);
 				pNewAttr->put_text(BSTR(c_language.GetString()));
 				pAttrList->setNamedItem(pNewAttr);
 				pDoc->AddNodeToCurrSection(pNewAttr,txt_primary_language);
+				xmlView->AddNodeToTree(pNewAttr,xmlView->GetSelectionItem());
+				xmlView->PrintNodeName(pNewAttr,c_language);
 			}
 		}
 		
@@ -520,13 +523,14 @@ void CTextRegionView::OnBnClickedChRegion()
 		{	
 			if(c_orientation.Compare(_T("")) != 0)
 			{
-				isNew = true;
 				name = _T("txt_orientation");
 				bstrName = (_bstr_t)(LPCTSTR)name;
 				pNewAttr = pDoc->GetPageDom()->createAttribute(bstrName);
 				pNewAttr->put_text(BSTR(c_orientation.GetString()));
 				pAttrList->setNamedItem(pNewAttr);
 				pDoc->AddNodeToCurrSection(pNewAttr,txt_orientation);
+				xmlView->AddNodeToTree(pNewAttr,xmlView->GetSelectionItem());
+				xmlView->PrintNodeName(pNewAttr,c_orientation);
 			}
 		}
 		
@@ -540,13 +544,14 @@ void CTextRegionView::OnBnClickedChRegion()
 		{	
 			if(c_txttype.Compare(_T("")) != 0)
 			{
-				isNew = true;
 				name = _T("txt_type");
 				bstrName = (_bstr_t)(LPCTSTR)name;
 				pNewAttr = pDoc->GetPageDom()->createAttribute(bstrName);
 				pNewAttr->put_text(BSTR(c_txttype.GetString()));
 				pAttrList->setNamedItem(pNewAttr);
 				pDoc->AddNodeToCurrSection(pNewAttr,txt_type);
+				xmlView->AddNodeToTree(pNewAttr,xmlView->GetSelectionItem());
+				xmlView->PrintNodeName(pNewAttr,c_txttype);
 			}
 		}
 			
@@ -560,13 +565,14 @@ void CTextRegionView::OnBnClickedChRegion()
 		{	
 			if(c_script.Compare(_T("")) != 0)
 			{
-				isNew = true;
 				name = _T("txt_primary_script");
 				bstrName = (_bstr_t)(LPCTSTR)name;
 				pNewAttr = pDoc->GetPageDom()->createAttribute(bstrName);
 				pNewAttr->put_text(BSTR(c_script.GetString()));
 				pAttrList->setNamedItem(pNewAttr);
 				pDoc->AddNodeToCurrSection(pNewAttr,txt_primary_script);
+				xmlView->AddNodeToTree(pNewAttr,xmlView->GetSelectionItem());
+				xmlView->PrintNodeName(pNewAttr,c_script);
 			}
 		}
 			
@@ -580,13 +586,14 @@ void CTextRegionView::OnBnClickedChRegion()
 		{	
 			if(c_readingOrient.Compare(_T("")) != 0)
 			{
-				isNew = true;
 				name = _T("txt_reading_orientation");
 				bstrName = (_bstr_t)(LPCTSTR)name;
 				pNewAttr = pDoc->GetPageDom()->createAttribute(bstrName);
 				pNewAttr->put_text(BSTR(c_readingOrient.GetString()));
 				pAttrList->setNamedItem(pNewAttr);
 				pDoc->AddNodeToCurrSection(pNewAttr,txt_reading_orientation);
+				xmlView->AddNodeToTree(pNewAttr,xmlView->GetSelectionItem());
+				xmlView->PrintNodeName(pNewAttr,c_readingOrient);
 			}
 		}
 
@@ -600,13 +607,14 @@ void CTextRegionView::OnBnClickedChRegion()
 		{	
 			if(c_readingDirection.Compare(_T("")) != 0)
 			{
-				isNew = true;
 				name = _T("txt_reading_direction");
 				bstrName = (_bstr_t)(LPCTSTR)name;
 				pNewAttr = pDoc->GetPageDom()->createAttribute(bstrName);
 				pNewAttr->put_text(BSTR(c_readingDirection.GetString()));
 				pAttrList->setNamedItem(pNewAttr);
 				pDoc->AddNodeToCurrSection(pNewAttr,txt_reading_direction);
+				xmlView->AddNodeToTree(pNewAttr,xmlView->GetSelectionItem());
+				xmlView->PrintNodeName(pNewAttr,c_readingDirection);
 			}
 		}
 			
@@ -620,13 +628,14 @@ void CTextRegionView::OnBnClickedChRegion()
 		{	
 			if(c_secondScript.Compare(_T("")) != 0)
 			{
-				isNew = true;
 				name = _T("txt_secondary_script");
 				bstrName = (_bstr_t)(LPCTSTR)name;
 				pNewAttr = pDoc->GetPageDom()->createAttribute(bstrName);
 				pNewAttr->put_text(BSTR(c_secondScript.GetString()));
 				pAttrList->setNamedItem(pNewAttr);
 				pDoc->AddNodeToCurrSection(pNewAttr,txt_secondary_script);
+				xmlView->AddNodeToTree(pNewAttr,xmlView->GetSelectionItem());
+				xmlView->PrintNodeName(pNewAttr,c_secondScript);
 			}
 		}
 			
@@ -640,13 +649,14 @@ void CTextRegionView::OnBnClickedChRegion()
 		{	
 			if(c_secondLange.Compare(_T("")) != 0)
 			{
-				isNew = true;
 				name = _T("txt_secondary_language");
 				bstrName = (_bstr_t)(LPCTSTR)name;
 				pNewAttr = pDoc->GetPageDom()->createAttribute(bstrName);
 				pNewAttr->put_text(BSTR(c_secondLange.GetString()));
 				pAttrList->setNamedItem(pNewAttr);
 				pDoc->AddNodeToCurrSection(pNewAttr,txt_secondary_language);
+				xmlView->AddNodeToTree(pNewAttr,xmlView->GetSelectionItem());
+				xmlView->PrintNodeName(pNewAttr,c_secondLange);
 			}
 		}
 			
@@ -660,13 +670,14 @@ void CTextRegionView::OnBnClickedChRegion()
 		{	
 			if(c_secondScript.Compare(_T("")) != 0)
 			{
-				isNew = true;
 				name = _T("txt_secondary_script");
 				bstrName = (_bstr_t)(LPCTSTR)name;
 				pNewAttr = pDoc->GetPageDom()->createAttribute(bstrName);
 				pNewAttr->put_text(BSTR(c_secondScript.GetString()));
 				pAttrList->setNamedItem(pNewAttr);
 				pDoc->AddNodeToCurrSection(pNewAttr,txt_secondary_script);
+				xmlView->AddNodeToTree(pNewAttr,xmlView->GetSelectionItem());
+				xmlView->PrintNodeName(pNewAttr,c_secondScript);
 			}
 		}
 
@@ -685,7 +696,6 @@ void CTextRegionView::OnBnClickedChRegion()
 		{
 			if(c_textEqui.Compare(_T("")) != 0)
 			{
-				isNew = true;
 				name = _T("text_equiv");
 				bstrName = (_bstr_t)(LPCTSTR)name;
 				pNewNode->get_namespaceURI(&nameSpace);
@@ -701,6 +711,8 @@ void CTextRegionView::OnBnClickedChRegion()
 				pNodeP->appendChild(pNodeC);
 
 				pDoc->AddNodeToCurrSection(pNodeP,plain_text);
+				xmlView->PrintNodeName(pNodeP,c_textEqui);
+
 			}
 		}
 
@@ -720,24 +732,17 @@ void CTextRegionView::OnBnClickedChRegion()
 		{
 			if(c_reVideo)
 			{
-				isNew = true;
 				name = _T("txt_reverse_video");
 				bstrName = (_bstr_t)(LPCTSTR)name;
 				pNewAttr = pDoc->GetPageDom()->createAttribute(bstrName);
-				if(c_reVideo)
-					pNewAttr->put_text(BSTR(_T("Yes")));
-				else
-					pNewAttr->put_text(BSTR(_T("No")));
+				pNewAttr->put_text(BSTR(_T("Yes")));
 				pAttrList->setNamedItem(pNewAttr);
 				pDoc->AddNodeToCurrSection(pNewAttr,txt_reverse_video);
+				xmlView->AddNodeToTree(pNewAttr,xmlView->GetSelectionItem());
+				xmlView->PrintNodeName(pNewAttr,CString("Yes"));
 			}
 		}
 		pDoc->SetModifiedFlag(TRUE);
-		if(isNew)
-		{
-			pDoc->SetLoad(false);
-			xmlView->OnUpdate(this,0,0);
-		}
 	}
 }
 
@@ -1050,7 +1055,6 @@ void CGlyphView::OnBnClickedChangeGlph()
 	MSXML2::IXMLDOMAttributePtr pNewAttr;
 	MSXML2::IXMLDOMElementPtr pNewElem;
 	BSTR nameSpace;
-	bool isNew = false;
 
 	
 	CString name;
@@ -1124,13 +1128,14 @@ void CGlyphView::OnBnClickedChangeGlph()
 		{
 			if(c_ligature)
 			{
-				isNew = true;
 				name = _T("ligature");
 				bstrName = (_bstr_t)(LPCTSTR)name;
 				pNewAttr = pDoc->GetPageDom()->createAttribute(bstrName);
 				pNewAttr->put_text(BSTR(_T("true")));
 				pAttrList->setNamedItem(pNewAttr);
 				pDoc->AddNodeToCurrSection(pNewAttr,ligature);
+				xmlView->AddNodeToTree(pNewAttr,xmlView->GetSelectionItem());
+				xmlView->PrintNodeName(pNewAttr,CString("true"));
 			}
 		}
 
@@ -1150,21 +1155,17 @@ void CGlyphView::OnBnClickedChangeGlph()
 		{
 			if(c_symbol)
 			{
-				isNew = true;
 				name = _T("symbol");
 				bstrName = (_bstr_t)(LPCTSTR)name;
 				pNewAttr = pDoc->GetPageDom()->createAttribute(bstrName);
 				pNewAttr->put_text(BSTR(_T("true")));
 				pAttrList->setNamedItem(pNewAttr);
 				pDoc->AddNodeToCurrSection(pNewAttr,symbol);
+				xmlView->AddNodeToTree(pNewAttr,xmlView->GetSelectionItem());
+				xmlView->PrintNodeName(pNewAttr,CString("true"));
 			}
 		}
 		pDoc->SetModifiedFlag(TRUE);
-		if(isNew)
-		{
-			pDoc->SetLoad(false);
-			xmlView->OnUpdate(this,0,0);
-		}
 	}
 }
 

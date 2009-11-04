@@ -753,10 +753,10 @@ void CGTDoc::SavePoints()
 	MSXML2::IXMLDOMNodeListPtr pNodeList;
 	MSXML2::IXMLDOMAttributePtr pNewAttr,pGlyphIdAttr,pWordIdAttr;
 	MSXML2::IXMLDOMNamedNodeMapPtr pAttrList,pNewAttrList,pointAttrs;
-	std::vector<std::vector<CPoint>> pointsMap;
+	std::vector<MaskVector> pointsMap;
 	std::vector<CPoint>::iterator it;
 
-	int i,n;
+	int i,n,r;
 	__int8 g;
 
 	CString name;
@@ -900,7 +900,7 @@ void CGTDoc::SavePoints()
 			name = _T("x");
 			bstrName = (_bstr_t)(LPCTSTR)name;
 			pNewAttr = GetLinkDom()->createAttribute(bstrName);
-			n = pointsMap[g-1][j].x;
+			n = pointsMap[g-1][j].first.x;
 			name = "";
 			if(n==0)
 				name = "0";
@@ -917,7 +917,7 @@ void CGTDoc::SavePoints()
 			bstrName = (_bstr_t)(LPCTSTR)name;
 			pNewAttr = GetLinkDom()->createAttribute(bstrName);
 			
-			n = pointsMap[g-1][j].y;
+			n = pointsMap[g-1][j].first.y;
 			name = "";
 			if(n==0)
 				name = "0";
@@ -928,7 +928,23 @@ void CGTDoc::SavePoints()
 			}
 			pNewAttr->PutnodeValue(BSTR(name.GetString()));
 			pointAttrs->setNamedItem(pNewAttr);
-			i++;
+
+			name = _T("r");
+			bstrName = (_bstr_t)(LPCTSTR)name;
+			pNewAttr = GetLinkDom()->createAttribute(bstrName);
+
+			r = n = pointsMap[g-1][j].second;
+			name = "";
+			if(n==0)
+				name = "0";
+			while(n != 0)
+			{
+				name = wchar_t(n%10+48) + name;
+				n = n/10;
+			}
+			pNewAttr->PutnodeValue(BSTR(name.GetString()));
+			pointAttrs->setNamedItem(pNewAttr);
+			i+=r;
 			pCoorElem->appendChild(pPointEl);
 
 		
@@ -1036,7 +1052,7 @@ void CGTDoc::LoadPointsSelected(MSXML2::IXMLDOMNodePtr pRootNode)
 	MSXML2::IXMLDOMNamedNodeMapPtr pAttrMap;
 	SectionPtrs* sec;
 		
-	int x,y;
+	int x,y,r;
 	
 	if(pRootNode != NULL)
 	{
@@ -1064,7 +1080,12 @@ void CGTDoc::LoadPointsSelected(MSXML2::IXMLDOMNodePtr pRootNode)
 						x =((pNodeA->GetnodeValue()));
 						 pNodeA = pAttrMap->nextNode();
 						y =((pNodeA->GetnodeValue()));
-						m_imgSelection.SetPixelMask(x,y,1);
+						pNodeA = pAttrMap->nextNode();
+						if(pNodeA != NULL)
+							r =((pNodeA->GetnodeValue()));
+						else
+							r = 1;
+						m_imgSelection.SetPixelMask(x,y,r,1);
 					}
 				}
 				pNode = GetNodeFromCurrSection(glyph_coordGroup2);
@@ -1078,7 +1099,12 @@ void CGTDoc::LoadPointsSelected(MSXML2::IXMLDOMNodePtr pRootNode)
 						x =((pNodeA->GetnodeValue()));
 						pNodeA = pAttrMap->nextNode();
 						y =((pNodeA->GetnodeValue()));
-						m_imgSelection.SetPixelMask(x,y,2);
+						pNodeA = pAttrMap->nextNode();
+						if(pNodeA != NULL)
+							r =((pNodeA->GetnodeValue()));
+						else
+							r = 1;
+						m_imgSelection.SetPixelMask(x,y,r,2);
 					}
 				}
 				pNode = GetNodeFromCurrSection(glyph_coordGroup3);
@@ -1092,7 +1118,12 @@ void CGTDoc::LoadPointsSelected(MSXML2::IXMLDOMNodePtr pRootNode)
 						x =((pNodeA->GetnodeValue()));
 						pNodeA = pAttrMap->nextNode();
 						y =((pNodeA->GetnodeValue()));
-						m_imgSelection.SetPixelMask(x,y,3);
+						pNodeA = pAttrMap->nextNode();
+						if(pNodeA != NULL)
+							r =((pNodeA->GetnodeValue()));
+						else
+							r = 1;
+						m_imgSelection.SetPixelMask(x,y,r,3);
 					}
 				}
 				pNode = GetNodeFromCurrSection(glyph_coordGroup4);
@@ -1106,7 +1137,12 @@ void CGTDoc::LoadPointsSelected(MSXML2::IXMLDOMNodePtr pRootNode)
 						x =((pNodeA->GetnodeValue()));
 						pNodeA = pAttrMap->nextNode();
 						y =((pNodeA->GetnodeValue()));
-						m_imgSelection.SetPixelMask(x,y,4);
+						pNodeA = pAttrMap->nextNode();
+						if(pNodeA != NULL)
+							r =((pNodeA->GetnodeValue()));
+						else
+							r = 1;
+						m_imgSelection.SetPixelMask(x,y,r,4);
 
 					}
 				}
@@ -1121,7 +1157,12 @@ void CGTDoc::LoadPointsSelected(MSXML2::IXMLDOMNodePtr pRootNode)
 						x =((pNodeA->GetnodeValue()));
 						pNodeA = pAttrMap->nextNode();
 						y =((pNodeA->GetnodeValue()));
-						m_imgSelection.SetPixelMask(x,y,5);
+						pNodeA = pAttrMap->nextNode();
+						if(pNodeA != NULL)
+							r =((pNodeA->GetnodeValue()));
+						else
+							r = 1;
+						m_imgSelection.SetPixelMask(x,y,r,5);
 					}
 				}
 				pNode = GetNodeFromCurrSection(glyph_coordGroup6);
@@ -1135,7 +1176,12 @@ void CGTDoc::LoadPointsSelected(MSXML2::IXMLDOMNodePtr pRootNode)
 						x =((pNodeA->GetnodeValue()));
 						pNodeA = pAttrMap->nextNode();
 						y =((pNodeA->GetnodeValue()));
-						m_imgSelection.SetPixelMask(x,y,6);
+						pNodeA = pAttrMap->nextNode();
+						if(pNodeA != NULL)
+							r =((pNodeA->GetnodeValue()));
+						else
+							r = 1;
+						m_imgSelection.SetPixelMask(x,y,r,6);
 					}
 				}
 				pNode = GetNodeFromCurrSection(glyph_coordGroup7);
@@ -1149,7 +1195,12 @@ void CGTDoc::LoadPointsSelected(MSXML2::IXMLDOMNodePtr pRootNode)
 						x =((pNodeA->GetnodeValue()));
 						pNodeA = pAttrMap->nextNode();
 						y =((pNodeA->GetnodeValue()));
-						m_imgSelection.SetPixelMask(x,y,7);
+						pNodeA = pAttrMap->nextNode();
+						if(pNodeA != NULL)
+							r =((pNodeA->GetnodeValue()));
+						else
+							r = 1;
+						m_imgSelection.SetPixelMask(x,y,r,7);
 					}
 				}
 			}
@@ -1294,6 +1345,8 @@ void CGTDoc::OnViewShade()
 		pMainWnd->AddPen(false);
 	}
 	GetImageSelection()->SetShade(!(GetImageSelection()->GetShade()));
+	SetPenPoint(CPoint(-1,-1));
+	gtView->SetShowPen();
 	gtView->Invalidate(false);
 }
 
@@ -1325,6 +1378,8 @@ void CGTDoc::OnViewOutline()
 		pMainWnd->AddPen(false);
 	}
 	GetImageSelection()->SetOutline(!(GetImageSelection()->GetOutline()));
+	SetPenPoint(CPoint(-1,-1));
+	gtView->SetShowPen();
 	gtView->Invalidate(false);
 }
 
@@ -1358,6 +1413,8 @@ void CGTDoc::OnViewCore()
 		pMainWnd->AddPen(false);
 	}	
 	GetImageSelection()->SetCore(!(GetImageSelection()->GetCore()));
+	SetPenPoint(CPoint(-1,-1));
+	gtView->SetShowPen();
 	gtView->Invalidate(false);
 }
 
@@ -1398,6 +1455,8 @@ void CGTDoc::OnEditShade()
 	m_isBackuped = 0;
 		
 	pMainWnd->AddBrightBar(true);
+	SetPenPoint(CPoint(-1,-1));
+	gtView->SetShowPen();
 	gtView->Invalidate(false);
 	gtView->EndWaitCursor();
 }
@@ -1438,6 +1497,8 @@ void CGTDoc::OnEditOutline()
 	m_isBackuped = 0;
 	
 	pMainWnd->AddBrightBar(true);
+	SetPenPoint(CPoint(-1,-1));
+	gtView->SetShowPen();
 	gtView->Invalidate(false);
 	gtView->EndWaitCursor();
 }
@@ -1477,6 +1538,8 @@ void CGTDoc::OnEditCore()
 	m_isBackuped = 0;
 		
 	pMainWnd->AddBrightBar(true);
+	SetPenPoint(CPoint(-1,-1));
+	gtView->SetShowPen();
 	gtView->Invalidate(false);
 	gtView->EndWaitCursor();
 }
@@ -1659,6 +1722,8 @@ void CGTDoc::OnEditUndo()
 	{
 		m_imgSelection.MergePoints(&m_imgOriginal);
 	}
+	SetPenPoint(CPoint(-1,-1));
+	gtView->SetShowPen();
 	gtView->Invalidate(false);
 	EndWaitCursor();	
 }
@@ -1725,6 +1790,8 @@ void CGTDoc::OnEditRedo()
 	{
 		m_imgSelection.MergePoints(&m_imgOriginal);
 	}
+	SetPenPoint(CPoint(-1,-1));
+	gtView->SetShowPen();
 	gtView->Invalidate(false);
 	EndWaitCursor();
 }
@@ -1806,7 +1873,7 @@ void CGTDoc::OnEditPaste()
 			Backup();
 			for(unsigned i = 0;i<m_copyVector.size();i++)
 			{
-				m_imgSelection.ChangePoint(m_copyVector[i],m_edition_state,true,1);
+				m_imgSelection.ChangePoint(m_copyVector[i].first,m_edition_state,true,1);
 			}
 			m_imgSelection.LoadMaskPoints(m_edition_state);
 			SetDirty(true);
@@ -1817,6 +1884,8 @@ void CGTDoc::OnEditPaste()
 			{
 				m_imgSelection.MergePoints(&m_imgOriginal);
 			}
+			SetPenPoint(CPoint(-1,-1));
+			gtView->SetShowPen();
 			gtView->Invalidate(false);
 			EndWaitCursor();
 		}
@@ -2089,30 +2158,30 @@ CImage* CImageSelection::GetImageMask()
 	return &m_imgMask;
 }
  
- void CImageSelection::SetPixelMask(int x,int y,int group)
+ void CImageSelection::SetPixelMask(int x,int y,int r,int group)
  {
 	 if ( (x>=0) && (x < m_imgMask.GetWidth()) && (y>=0) &&  (y < m_imgMask.GetHeight()) && (unsigned) group<8)
 	 {
 		 switch(group)
 		 {
-			 case 1: m_coreVector.push_back(CPoint(x,y));
+			 case 1: m_coreVector.push_back(VectorRun(CPoint(x,y),r));
 				 break;
-			 case 2: m_outlineVector.push_back(CPoint(x,y));
+			 case 2: m_outlineVector.push_back(VectorRun(CPoint(x,y),r));
 				 break;
-			 case 3: m_coreVector.push_back(CPoint(x,y));
-				 m_outlineVector.push_back(CPoint(x,y));
+			 case 3: m_coreVector.push_back(VectorRun(CPoint(x,y),r));
+				 m_outlineVector.push_back(VectorRun(CPoint(x,y),r));
 				 break;
-			 case 4: m_shadeVector.push_back(CPoint(x,y));
+			 case 4: m_shadeVector.push_back(VectorRun(CPoint(x,y),r));
 				 break;
-			 case 5: m_shadeVector.push_back(CPoint(x,y));
-				 m_coreVector.push_back(CPoint(x,y));
+			 case 5: m_shadeVector.push_back(VectorRun(CPoint(x,y),r));
+				 m_coreVector.push_back(VectorRun(CPoint(x,y),r));
 				 break;
-			 case 6: m_shadeVector.push_back(CPoint(x,y));
-				 m_outlineVector.push_back(CPoint(x,y));
+			 case 6: m_shadeVector.push_back(VectorRun(CPoint(x,y),r));
+				 m_outlineVector.push_back(VectorRun(CPoint(x,y),r));
 				 break;
-			 case 7: m_shadeVector.push_back(CPoint(x,y));
-				  m_coreVector.push_back(CPoint(x,y));
-				 m_outlineVector.push_back(CPoint(x,y));
+			 case 7: m_shadeVector.push_back(VectorRun(CPoint(x,y),r));
+				  m_coreVector.push_back(VectorRun(CPoint(x,y),r));
+				 m_outlineVector.push_back(VectorRun(CPoint(x,y),r));
 				 break;
 			 default:break;
 		 }
@@ -2162,6 +2231,7 @@ CImage* CImageSelection::MergePoints(CImage* source,bool changeSelection)
 	else
 		return NULL;
 	unsigned i;
+	int r;
 
 	UpdateEditBox(CPoint(-1,-1)); //Reset
 
@@ -2169,22 +2239,34 @@ CImage* CImageSelection::MergePoints(CImage* source,bool changeSelection)
 	{
 		for ( i = 0; i < m_coreVector.size(); i++)
 		{
-			p = m_coreVector[i];
+			p = m_coreVector[i].first;
+			r = m_coreVector[i].second;
 			UpdateEditBox(p);
-			color = GetPixelFast(newMask,p.x, p.y);
-			color = color | RGB(255,0, 0);
-			SetPixelFast(newMask,p.x, p.y, color);
+			for(int k = 0;k<r;k++)
+			{
+				color = GetPixelFast(newMask,p.x+k, p.y);
+				color = color | RGB(255,0, 0);
+				SetPixelFast(newMask,p.x+k, p.y, color);
+			}
+			p.x += r-1;
+			UpdateEditBox(p);
 		}
 	}
 	if(m_outline)
 	{
 		for ( i = 0; i < m_outlineVector.size(); i++)
 		{
-			p = m_outlineVector[i];
+			p = m_outlineVector[i].first;
+			r = m_outlineVector[i].second;
 			UpdateEditBox(p);
-			color = GetPixelFast(newMask,p.x, p.y);
-			color = color | RGB(0,255, 0);
-			SetPixelFast(newMask,p.x, p.y, color);
+			for(int k = 0;k<r;k++)
+			{
+				color = GetPixelFast(newMask,p.x+k,p.y);
+				color = color | RGB(0,255, 0);
+				SetPixelFast(newMask,p.x+k, p.y, color);
+			}
+			p.x += r-1;
+			UpdateEditBox(p);
 			
 		}
 	}
@@ -2192,12 +2274,17 @@ CImage* CImageSelection::MergePoints(CImage* source,bool changeSelection)
 	{
 		for ( i = 0; i < m_shadeVector.size(); i++)
 		{
-			p = m_shadeVector[i];
+			p = m_shadeVector[i].first;
+			r = m_shadeVector[i].second;
 			UpdateEditBox(p);
-			color = GetPixelFast(newMask,p.x, p.y);
-			color = color | RGB(0,0, 255);
-			SetPixelFast(newMask,p.x, p.y, color);
-			
+			for(int k = 0;k<r;k++)
+			{
+				color = GetPixelFast(newMask,p.x+k, p.y);
+				color = color | RGB(0,0, 255);
+				SetPixelFast(newMask,p.x+k, p.y, color);
+			}
+			p.x += r-1;
+			UpdateEditBox(p);
 		}
 	}
 	if(changeSelection)
@@ -2321,6 +2408,7 @@ void CImageSelection::LoadMaskPoints(EditEnum region,CRect loadRect)
 	MaskVector *mask;
 	COLORREF editColor,pixColor,emptyPix;
 	CRect maskRect;
+	int x,y,r=0;
 	if(loadRect.left == 0 && loadRect.right == 0 && loadRect.top == 0 && loadRect.bottom == 0)
 		maskRect = m_editRect;
 	else
@@ -2373,16 +2461,37 @@ void CImageSelection::LoadMaskPoints(EditEnum region,CRect loadRect)
 		return;
 	mask->clear();
 	
-	for(int i = maskRect.left ; i<maskRect.right;i++)
+	
+	for(int i = maskRect.top ; i<maskRect.bottom;i++)
 	{
-		for(int j = maskRect.top ; j<maskRect.bottom;j++)
+		for(int j = maskRect.left ; j<maskRect.right;j++)
 		{
-			pixColor = GetPixelFast(&m_imgMask,i,j);
+			pixColor = GetPixelFast(&m_imgMask,j,i);
 			if ((pixColor & editColor) != emptyPix)
 			{	
-				mask->push_back(CPoint(i,j));
+				if(r == 0)
+				{
+					x = j;
+					y = i;
+					r = 1;
+				}
+				else
+					r++;
+			}
+			else
+			{
+				if(r > 0)
+				{
+					mask->push_back(VectorRun(CPoint(x,y),r));
+				}
+				r=0;
 			}
 		}
+		if(r > 0)
+		{
+			mask->push_back(VectorRun(CPoint(x,y),r));
+		}
+		r=0;
 	}
 }
 void CImageSelection::DeltePoints()
@@ -2445,7 +2554,7 @@ BOOL CImageSelection::ChangePoint(CPoint point,EditEnum region,bool isAdded,int 
 			
 				if (((pixColor & editColor) == 0) && isAdded)
 				{	
-					pointsVector->push_back(point);
+					pointsVector->push_back(VectorRun(point,1));
 					SetPixelFast(&m_imgMask,point.x,point.y,(pixColor | editColor));
 				}
 				else if (((pixColor & editColor) == editColor) && !isAdded)
@@ -2486,45 +2595,136 @@ BOOL CImageSelection::ChangePoint(CPoint point,EditEnum region,bool isAdded,int 
 }
 
 
-std::vector<std::vector<CPoint>> CImageSelection::GetAllPoints()
+std::vector<MaskVector> CImageSelection::GetAllPoints()
 {
-	std::vector<std::vector<CPoint>> mapPoints;
+	std::vector<MaskVector> mapPoints;
 	bool c = m_core,o = m_outline,s = m_shade;
 
 	COLORREF pixColor;
 	CImage *pointsMask;
+	int x,y,r = 0, g = 9;
 
 	m_core = m_outline = m_shade = true;
 	for(int i = 0;i<7;i++)
 	{
-		mapPoints.push_back(std::vector<CPoint>());
+		mapPoints.push_back(MaskVector());
 	}
 
 	pointsMask = MergePoints(&m_imgMask,false);
-	for(int i = m_editRect.left ; i<m_editRect.right;i++)
+	for(int i = m_editRect.top ; i<m_editRect.bottom;i++)
 	{
-		for(int j = m_editRect.top ; j<m_editRect.bottom;j++)
+		for(int j = m_editRect.left ; j<m_editRect.right;j++)
 		{
-			pixColor = GetPixelFast(pointsMask,i,j);
+			pixColor = GetPixelFast(pointsMask,j,i);
 			switch(pixColor)
 			{
-			case RGB(255,0,0):	mapPoints[0].push_back(CPoint(i,j));
+			case RGB(255,0,0):	if(g != 0)
+								{
+									if(r != 0)
+									{
+										mapPoints[g].push_back(VectorRun(CPoint(x,y),r));
+										r = 0;
+									}
+									x = j;
+									y = i;
+									g = 0;
+								}
+								r++;
 								break;
-			case RGB(0,255,0):	mapPoints[1].push_back(CPoint(i,j));
+			case RGB(0,255,0):	if(g != 1)
+								{
+									if(r != 0)
+									{
+										mapPoints[g].push_back(VectorRun(CPoint(x,y),r));
+										r = 0;
+									}
+									x = j;
+									y = i;
+									g = 1;
+								}
+								r++;
 								break;
-			case RGB(255,255,0):mapPoints[2].push_back(CPoint(i,j));
+			case RGB(255,255,0):if(g != 2)
+								{
+									if(r != 0)
+									{
+										mapPoints[g].push_back(VectorRun(CPoint(x,y),r));
+										r = 0;
+									}
+									x = j;
+									y = i;
+									g = 2;
+								}
+								r++;
 								break;
-			case RGB(0,0,255):	mapPoints[3].push_back(CPoint(i,j));
+			case RGB(0,0,255):	if(g != 3)
+								{
+									if(r != 0)
+									{
+										mapPoints[g].push_back(VectorRun(CPoint(x,y),r));
+										r = 0;
+									}
+									x = j;
+									y = i;
+									g = 3;
+								}
+								r++;
 								break;
-			case RGB(255,0,255):mapPoints[4].push_back(CPoint(i,j));
+			case RGB(255,0,255):if(g != 4)
+								{
+									if(r != 0)
+									{
+										mapPoints[g].push_back(VectorRun(CPoint(x,y),r));
+										r = 0;
+									}
+									x = j;
+									y = i;
+									g = 4;
+								}
+								r++;
 								break;
-			case RGB(0,255,255):mapPoints[5].push_back(CPoint(i,j));
+			case RGB(0,255,255):if(g != 5)
+								{
+									if(r != 0)
+									{
+										mapPoints[g].push_back(VectorRun(CPoint(x,y),r));
+										r = 0;
+									}
+									x = j;
+									y = i;
+									g = 5;
+								}
+								r++;
 								break;
-			case RGB(255,255,255):mapPoints[6].push_back(CPoint(i,j));
+			case RGB(255,255,255):if(g != 6)
+								{
+									if(r != 0)
+									{
+										mapPoints[g].push_back(VectorRun(CPoint(x,y),r));
+										r = 0;
+									}
+									x = j;
+									y = i;
+									g = 6;
+								}
+								r++;
 								break;
-			default: break;
+			default: 
+								if(r > 0)
+								{
+									mapPoints[g].push_back(VectorRun(CPoint(x,y),r));
+									r = 0;
+								}
+								g = 9;
+								break;
 				
 			}
+		}
+		if(r > 0)
+		{
+			mapPoints[g].push_back(VectorRun(CPoint(x,y),r));
+			r = 0;
+			g = 9;
 		}
 	}
 	m_core = c;

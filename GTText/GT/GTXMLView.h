@@ -29,6 +29,7 @@ public:
 	void DeleteTreeItems(HTREEITEM hItem);
 	void ReleaseCurrentDocument();
 
+
 // Operations
 public:
 
@@ -101,6 +102,9 @@ public:
 	HRESULT ParseGlyphXMLTree(MSXML2::IXMLDOMNodePtr pNode, bool bRecurse = true);
 	HRESULT ParseLinkXML(MSXML2::IXMLDOMNodePtr pNode, bool bRecurse = true);
 	BOOL PrintNodeName(MSXML2::IXMLDOMNodePtr pNode,CString name);
+	HTREEITEM GetSelectionItem();
+	void SetSelectedPoint();
+	CString GetDate();
 	afx_msg HRESULT OnOpenLinkUrl(bool browse = true);
 	afx_msg void OnPageRefresh();
 	afx_msg HRESULT OnOpenPageUrl();
@@ -109,15 +113,14 @@ public:
 	afx_msg void OnFileOpen();
 	afx_msg void OnFileSave(bool browse = true);
 	afx_msg void OnSaveXMLToFile();
-	void SetSelectedPoint();
 	afx_msg void OnContextgtNewtextregion();
 	afx_msg void OnContextgtNewtextline();
 	afx_msg void OnContextgtNewword();
 	afx_msg void OnContextgtNewglyph();
 	afx_msg void OnContextgtDelete();
-	CString GetDate();
 	afx_msg void OnContextgtNewglyphsfromword();
 	afx_msg void OnContextgtCreatewordglyph();
+
 };
 
 #ifndef _DEBUG 

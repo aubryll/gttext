@@ -100,7 +100,9 @@ void CGTView::OnLButtonDown(UINT nFlag,CPoint point)
 		pDoc->SetDirty(true);
 		pDoc->SetPenPoint(CPoint(-1,-1));
 		m_showPen = true;
+		m_isHold = false;
 		OnLPaint(nFlag,point);
+		m_isHold = false;
 	}
 }
 
@@ -189,7 +191,9 @@ void CGTView::OnRButtonDown(UINT nFlag,CPoint point)
 		pDoc->Backup();
 		pDoc->SetModifiedFlag(TRUE);
 		pDoc->SetDirty(true);
+		m_isHold = false;
 		OnRPaint(nFlag,point);
+		m_isHold = false;
 	}
 }
 
@@ -219,6 +223,8 @@ void CGTView::OnLButtonUp(UINT nFlag,CPoint point)
 		case REGION_TOOL:
 			if(pDoc->GetEditState() != EDIT_NONE)
 			{
+				m_isHold = false;
+
 				if((PxlReal.x >= 0) && (PxlReal.x < pDoc->GetImage()->GetWidth()) && (PxlReal.y >= 0) && (PxlReal.y < pDoc->GetImage()->GetHeight()))
 				{
 					imagePixel = pDoc->GetImage()->GetPixel(PxlReal.x,PxlReal.y);
@@ -229,7 +235,7 @@ void CGTView::OnLButtonUp(UINT nFlag,CPoint point)
 					pDoc->SetPenPoint(CPoint(-1,-1));
 					m_showPen = true;
 				}
-				m_isHold = false;
+				
 			}
 			break;
 		case PIXEL_TOOL:
@@ -275,6 +281,11 @@ void CGTView::OnLButtonUp(UINT nFlag,CPoint point)
 	}
 	PrintPoint(PxlReal);
 	Invalidate(false);
+}
+
+void  CGTView::SetShowPen()
+{
+	m_showPen = true;
 }
 
 COLORREF CGTView::GetPixelFast(CImage *pImage,int x, int y)
@@ -424,8 +435,8 @@ BOOL CGTView::OnExtendedFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlu
 		return FALSE;
 	if(mask->IsNull())
 		return FALSE;
-
-	CGTView::BeginWaitCursor();
+	//if(m_isHold == false)
+		CGTView::BeginWaitCursor();
 
 	if(imageRect.left < 0)
 		imageRect.left = 0;
@@ -498,7 +509,7 @@ BOOL CGTView::OnExtendedFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlu
 			{
 				if((((maskPixel & editColor) == zeroPix) == isAdded) && (!m_isOutline))
 				{
-					pointsVector->push_back(point);
+					pointsVector->push_back(VectorRun(point,1));
 					
 					if(isAdded)
 					{
@@ -586,7 +597,7 @@ BOOL CGTView::OnExtendedFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlu
 				{
 					if(((maskPixel & editColor) == zeroPix) == isAdded)
 					{
-						pointsVector->push_back(point);
+						pointsVector->push_back(VectorRun(point,1));
 						if(isAdded)
 						{
 							sel->UpdateEditBox(point);
@@ -599,7 +610,8 @@ BOOL CGTView::OnExtendedFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlu
 			}
 		}
 	}
-	CGTView::EndWaitCursor();
+	//if(m_isHold == false)
+		CGTView::EndWaitCursor();
 	return TRUE;
 }
 
@@ -636,7 +648,8 @@ BOOL CGTView::OnFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlue,CImage
 		return FALSE;
 	if(mask->IsNull())
 		return FALSE;
-	CGTView::BeginWaitCursor();
+	//if(m_isHold == false)
+		CGTView::BeginWaitCursor();
 
 	if(imageRect.left < 0)
 		imageRect.left = 0;
@@ -707,7 +720,7 @@ BOOL CGTView::OnFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlue,CImage
 			{
 				if((((maskPixel & editColor) == zeroPix) == isAdded) && (!m_isOutline))
 				{
-					pointsVector->push_back(point);	
+					pointsVector->push_back(VectorRun(point,1));	
 					if(isAdded)
 					{
 						sel->UpdateEditBox(point);
@@ -793,7 +806,7 @@ BOOL CGTView::OnFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlue,CImage
 				{
 					if(((maskPixel & editColor) == zeroPix) == isAdded)
 					{
-						pointsVector->push_back(point);
+						pointsVector->push_back(VectorRun(point,1));
 						if(isAdded)
 						{
 							sel->UpdateEditBox(point);
@@ -806,7 +819,8 @@ BOOL CGTView::OnFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlue,CImage
 			}
 		}
 	}
-	CGTView::EndWaitCursor();
+	//if(m_isHold == false)
+		CGTView::EndWaitCursor();
 	return TRUE;
 }
 
@@ -848,6 +862,8 @@ void CGTView::OnRButtonUp(UINT nFlag,CPoint point)
 			}
 			break;
 		case REGION_TOOL:
+			m_isHold = false;
+
 			if((pDoc->GetEditState() != EDIT_NONE)&&(PxlReal.x >= 0) && (PxlReal.x < pDoc->GetImage()->GetWidth()) && (PxlReal.y >= 0) && (PxlReal.y < pDoc->GetImage()->GetHeight()))
 			{
 				imagePixel = GetPixelFast(pDoc->GetImage(),PxlReal.x,PxlReal.y);
@@ -860,7 +876,6 @@ void CGTView::OnRButtonUp(UINT nFlag,CPoint point)
 				EndWaitCursor();
 				pDoc->SetPenPoint(CPoint(-1,-1));
 				m_showPen = true;
-				m_isHold = false;
 			}
 			break;
 		case ZOOM_TOOL:
@@ -916,10 +931,10 @@ void CGTView::OnLPaint(UINT nFlag,CPoint point)
 				g = GetGValue(imagePixel);
 				if(((nFlag & MK_CONTROL) != 0) || m_isHold)
 				{
-					m_isHold = true;
 					OnFloodFill(r,g,b,pDoc->GetImage(),pDoc->GetImageSelection()->GetImageMask(),PxlReal,pDoc->GetImageSelection()->GetCurrentMaskVector(pDoc->GetEditState()));
 					Invalidate(false);
 				}
+				m_isHold = true;
 			}		
 			break;
 		default:break;
@@ -987,12 +1002,10 @@ void CGTView::OnRPaint(UINT nFlag,CPoint point)
 				g = GetGValue(imagePixel);
 				if(((nFlag & MK_CONTROL) != 0) || m_isHold)
 				{
-					m_isHold = true;
 					OnFloodFill(r,g,b,pDoc->GetImage(),pDoc->GetImageSelection()->GetImageMask(),PxlReal,pDoc->GetImageSelection()->GetCurrentMaskVector(pDoc->GetEditState()),false);
-				//	pDoc->SetPenPoint(CPoint(-1,-1));
-				//	m_showPen = true;
 					Invalidate(false);			
-				}		
+				}	
+				m_isHold = true;
 			}
 			break;
 		default:break;
@@ -1596,7 +1609,9 @@ void CGTView::OnMouseMove(UINT nFlags, CPoint point)
 			if((PxlReal.x < (pDoc->GetImage()->GetWidth())) && (PxlReal.y < (pDoc->GetImage()->GetHeight())))
 			{
 				if(state == REGION_TOOL)
+				{
 					pDoc->SetPenPoint(CPoint(-1,-1));
+				}
 				else
 					pDoc->SetPenPoint(PxlReal);
 				m_showPen =  true;
@@ -1631,6 +1646,7 @@ void CGTView::OnMouseMove(UINT nFlags, CPoint point)
 	{
 		OnRPaint(nFlags,point);
 	}
+
 }
 
 void CGTView::SetBorder(bool state)
