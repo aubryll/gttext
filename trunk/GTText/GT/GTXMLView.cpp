@@ -140,6 +140,9 @@ void CXMLView::OnInitialUpdate()
 			if(gtView->OnFileImageOpen() != TRUE)
 			{
 				DeleteTreeItems(NULL);
+				m_wndXMLTree.DeleteAllItems();
+				if(m_pDOMDoc != NULL)
+					m_pDOMDoc.Release();
 				pDoc->SetLock(true);
 				pDoc->Release();
 			}
@@ -147,6 +150,9 @@ void CXMLView::OnInitialUpdate()
 		else
 		{
 			DeleteTreeItems(NULL);
+			m_wndXMLTree.DeleteAllItems();
+			if(m_pDOMDoc != NULL)
+				m_pDOMDoc.Release();
 			pDoc->SetLock(true);
 			pDoc->Release();
 		}

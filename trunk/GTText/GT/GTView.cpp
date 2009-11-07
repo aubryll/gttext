@@ -98,7 +98,23 @@ void CGTView::OnLButtonDown(UINT nFlag,CPoint point)
 		pDoc->Backup();
 		pDoc->SetModifiedFlag(TRUE);
 		pDoc->SetDirty(true);
-		pDoc->SetPenPoint(CPoint(-1,-1));
+		
+		CPoint ul;
+		CPoint PxlReal;
+		ul = this->GetScrollPosition();
+		PxlReal = ul + point;
+		PxlReal.x = int(PxlReal.x / m_zoom);
+		PxlReal.y = int(PxlReal.y / m_zoom);
+		pDoc->SetPenPoint(PxlReal);
+		point = PxlReal;
+		
+		if(pDoc->GetToolState() == PIXEL_TOOL)
+		{
+			pDoc->SetPenPoint(PxlReal);
+		}
+		else
+			pDoc->SetPenPoint(CPoint(-1,-1));
+
 		m_showPen = true;
 		m_isHold = false;
 		OnLPaint(nFlag,point);
@@ -192,6 +208,23 @@ void CGTView::OnRButtonDown(UINT nFlag,CPoint point)
 		pDoc->SetModifiedFlag(TRUE);
 		pDoc->SetDirty(true);
 		m_isHold = false;
+		
+		CPoint ul;
+		CPoint PxlReal;
+		ul = this->GetScrollPosition();
+		PxlReal = ul + point;
+		PxlReal.x = int(PxlReal.x / m_zoom);
+		PxlReal.y = int(PxlReal.y / m_zoom);
+		pDoc->SetPenPoint(PxlReal);
+		point = PxlReal;
+		
+		if(pDoc->GetToolState() == PIXEL_TOOL)
+		{
+			pDoc->SetPenPoint(PxlReal);
+		}
+		else
+			pDoc->SetPenPoint(CPoint(-1,-1));
+
 		OnRPaint(nFlag,point);
 		m_isHold = false;
 	}
@@ -895,7 +928,7 @@ void CGTView::OnRButtonUp(UINT nFlag,CPoint point)
 	Invalidate(false);
 }
 
-void CGTView::OnLPaint(UINT nFlag,CPoint point)
+void CGTView::OnLPaint(UINT nFlag,CPoint PxlReal)
 {
 	CGTDoc* pDoc = GetDocument();
 	BYTE r,g,b;
@@ -906,18 +939,12 @@ void CGTView::OnLPaint(UINT nFlag,CPoint point)
 		
 	if(pDoc->GetEditState()!= EDIT_NONE)
 	{
-		CPoint ul;
-		CPoint PxlReal;
-		ul = this->GetScrollPosition();
-		PxlReal = ul + point;
-		PxlReal.x = int(PxlReal.x / m_zoom);
-		PxlReal.y = int(PxlReal.y / m_zoom);
 		ToolEnum toolState = pDoc->GetToolState();
 
 		switch(toolState)
 		{
 		case PIXEL_TOOL:
-			if(pDoc->GetImageSelection()->ChangePoint(CPoint(PxlReal.x,PxlReal.y),pDoc->GetEditState(),true,GetPenSize()))
+			if(pDoc->GetImageSelection()->ChangeLine(pDoc->GetLastPenPoint(),PxlReal,pDoc->GetEditState(),true,GetPenSize()))
 			{
 				Invalidate(false);
 			}
@@ -965,7 +992,7 @@ int CGTView::GetPenSize()
 	return 1;
 }
 
-void CGTView::OnRPaint(UINT nFlag,CPoint point)
+void CGTView::OnRPaint(UINT nFlag,CPoint PxlReal)
 {
 	CGTDoc* pDoc = GetDocument();
 	BYTE r,g,b;
@@ -978,21 +1005,17 @@ void CGTView::OnRPaint(UINT nFlag,CPoint point)
 	if(pDoc->GetEditState()!= EDIT_NONE)
 	{
 		ToolEnum toolState = pDoc->GetToolState();
-		CPoint ul;
-		CPoint PxlReal;
-		ul = this->GetScrollPosition();
-		PxlReal = ul + point;
-		PxlReal.x = int(PxlReal.x / m_zoom);
-		PxlReal.y = int(PxlReal.y / m_zoom);
+	
 
 		switch(toolState)
 		{
 		case PIXEL_TOOL:
-			if(pDoc->GetImageSelection()->ChangePoint(CPoint(PxlReal.x,PxlReal.y),pDoc->GetEditState(),false,GetPenSize()))
-			{
-				Invalidate(false);
-			}
-			break;
+			//if(pDoc->GetImageSelection()->ChangePoint(CPoint(PxlReal.x,PxlReal.y),pDoc->GetEditState(),false,GetPenSize()))
+				if(pDoc->GetImageSelection()->ChangeLine(pDoc->GetLastPenPoint(),PxlReal,pDoc->GetEditState(),false,GetPenSize()))
+				{
+					Invalidate(false);
+				}
+				break;
 		case REGION_TOOL:
 			if((PxlReal.x >= 0) && (PxlReal.x < pDoc->GetImage()->GetWidth()) && (PxlReal.y >= 0) && (PxlReal.y < pDoc->GetImage()->GetHeight()))
 			{
@@ -1603,6 +1626,7 @@ void CGTView::OnMouseMove(UINT nFlags, CPoint point)
 		PxlReal.x = int(PxlReal.x / m_zoom);
 		PxlReal.y = int(PxlReal.y / m_zoom);
 		state = pDoc->GetToolState();
+		point = PxlReal;
 
 		if((state == PIXEL_TOOL) || (state == REGION_TOOL)/* || (pDoc->GetToolState() == INVERT_TOOL)*/)
 		{
