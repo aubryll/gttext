@@ -148,6 +148,8 @@ public:
 	MaskVector* GetCurrentMaskVector(EditEnum region);
 	CImageSelection & operator= (const CImageSelection &copy);
 	void EraseArea(CRect size,EditEnum region);
+	BOOL ChangeLine(CPoint point1,CPoint point2,EditEnum region,bool isAdded,int size);
+
 
 
 
@@ -178,6 +180,7 @@ private:
 	CString m_glDefaultFolder;
 	CPoint m_pointSelected;  //x y for the position of xmlview scrollbars 
 	CPoint m_penPoint;  //Used by pen tool
+	CPoint m_lastPenPoint;
 	CPoint m_zoomImagePoint;
 	CPoint m_zoomSreenPoint;
 	std::map <MSXML2::IXMLDOMNodePtr,SectionPtrs*> m_sectionsMap;
@@ -219,6 +222,7 @@ public:
 	void OnFileSave();
 	void SetLoad(bool isLoad);
 	void SetDirty(bool isDirty);
+	CPoint GetLastPenPoint();
 	bool IsDirty();
 	bool IsLoad();
 	bool IsPointBar();
@@ -345,6 +349,7 @@ public:
 	afx_msg void OnFilePreferences();
 	afx_msg void OnViewShowpoint();
 	afx_msg void OnUpdateViewPoint(CCmdUI *pCmdUI);
+
 
 };
 

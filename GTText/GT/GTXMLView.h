@@ -75,7 +75,7 @@ protected:
 
 	MSXML2::IXMLDOMNodePtr GetParentNodeFromTree(HTREEITEM hItem = NULL);
 	MSXML2::IXMLDOMNodePtr GetNodeFromTree(HTREEITEM hItem = NULL);
-		CString NodeToTextImage(MSXML2::IXMLDOMNodePtr pNode, int& nImageToAdd, int& nSelectedImageToAdd);
+	CString NodeToTextImage(MSXML2::IXMLDOMNodePtr pNode, int& nImageToAdd, int& nSelectedImageToAdd);
 	bool SetSelectedNode();
 	HTREEITEM FindItemOnTree(const HTREEITEM hItem,MSXML2::IXMLDOMNodePtr pNode);
 

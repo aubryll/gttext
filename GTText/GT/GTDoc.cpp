@@ -107,44 +107,7 @@ CGTDoc::CGTDoc()
 
 CGTDoc::~CGTDoc()
 {
-	SectionPtrs* data;
-
-	if(m_pDOMLinkDoc != NULL)
-		m_pDOMLinkDoc.Release();
-	if(m_pDOMPageDoc != NULL)
-		m_pDOMPageDoc.Release();
-	if(m_pDOMGlyphDoc != NULL)
-		m_pDOMGlyphDoc.Release();
-	if(m_pDOMLinkDocOld != NULL)
-		m_pDOMLinkDocOld.Release();
-	if(m_pDOMPageDocOld != NULL)
-		m_pDOMPageDocOld.Release();
-	if(m_pDOMGlyphDocOld != NULL)
-		m_pDOMGlyphDocOld.Release();
-
-	m_imgOriginal.Destroy();
-	
-	if (!m_sectionsMap.empty())
-	{
-		std::map <MSXML2::IXMLDOMNodePtr,SectionPtrs*>::iterator it;
-		for(it = m_sectionsMap.begin();it != m_sectionsMap.end();it++)
-		{
-			if(it == m_sectionsMap.end())
-				break;
-			
-			data = (*it).second;
-			if(data != NULL)
-			{
-				delete data;
-			}
-		}
-		m_sectionsMap.clear();
-	}
-
-	m_copyVector.clear();
-
-	m_pCurrentSection = NULL;
-
+	Release();
 }
 
 bool CGTDoc::IsPointBar()
@@ -189,29 +152,41 @@ void CGTDoc::Release(bool deep)
 	if(deep)
 	{
 		if(m_pDOMLinkDoc != NULL)
+		{
 			m_pDOMLinkDoc.Release();
+		}
 		if(m_pDOMPageDoc != NULL)
+		{
 			m_pDOMPageDoc.Release();
+		}
 		if(m_pDOMGlyphDoc != NULL)
+		{
 			m_pDOMGlyphDoc.Release();
-		if(m_pDOMLinkDocOld != NULL)
+		}
+		if(m_pDOMLinkDoc != NULL)
+		{
 			m_pDOMLinkDocOld.Release();
+		}
 		if(m_pDOMPageDocOld != NULL)
+		{
 			m_pDOMPageDocOld.Release();
+		}
 		if(m_pDOMGlyphDocOld != NULL)
+		{
 			m_pDOMGlyphDocOld.Release();
-		
+		}
 		m_imgOriginal.Destroy();
 
 		m_pDOMLinkDocOld = NULL;
 		m_pDOMPageDocOld = NULL;
 		m_pDOMGlyphDocOld = NULL;
-
+		
 		m_edition_state = EDIT_NONE;
 		m_tool = NO_TOOL;
 		m_imgSelection = CImageSelection();
 		m_pDOMLinkDoc = NULL;
 		m_pDOMPageDoc = NULL;
+		m_pDOMGlyphDoc = NULL;
 		m_pointSelected = CPoint(0,0);
 		m_isLocked = false;
 		m_isLoad = true;
@@ -225,11 +200,18 @@ void CGTDoc::Release(bool deep)
 	if (!m_sectionsMap.empty())
 	{
 		std::map <MSXML2::IXMLDOMNodePtr,SectionPtrs*>::iterator it;
+		std::map <NodeName,MSXML2::IXMLDOMNodePtr>::iterator itPtrs;
 		for(it = m_sectionsMap.begin();it != m_sectionsMap.end();it++)
 		{
 			data = (*it).second;
 			if(data != NULL)
+			{
+				for(itPtrs = data->ptrsMap.begin();itPtrs != data->ptrsMap.end();itPtrs++)
+					if((*itPtrs).second != NULL)
+						(*itPtrs).second.Release();
+				data->ptrsMap.clear();
 				delete data;
+			}
 		}
 		m_sectionsMap.clear();
 	}
@@ -663,8 +645,15 @@ void CGTDoc::GetZoomPoint(CPoint &imagePoint,CPoint &sreenPoint)
 
 void CGTDoc::SetPenPoint(CPoint penPoint)
 {
+	m_lastPenPoint = m_penPoint;
 	m_penPoint = penPoint;
 }
+
+CPoint CGTDoc::GetLastPenPoint()
+{
+	return m_lastPenPoint;
+}
+
 
 CPoint CGTDoc::GetPenPoint()
 {
@@ -2129,6 +2118,9 @@ void CGTDoc::Dump(CDumpContext& dc) const
 	 m_outline = false;
 	 m_isChanged = true;
 	 m_editRect = CRect(0,0,0,0);
+	 m_coreVector.clear();
+	 m_outlineVector.clear();
+	 m_shadeVector.clear();
  }
 
   CImageSelection::~CImageSelection()
@@ -2141,11 +2133,14 @@ void CGTDoc::Dump(CDumpContext& dc) const
 
 CImageSelection::CImageSelection(const CImageSelection &copy)
 {
+	this->m_shadeVector.clear();
 	this->m_shadeVector = copy.m_shadeVector;
 	this->m_core = copy.m_core;
 	this->m_outline = copy.m_outline;
 	this->m_shade = copy.m_shade;
+	this->m_coreVector.clear();
 	this->m_coreVector = copy.m_coreVector;
+	this->m_outlineVector.clear();
 	this->m_outlineVector = copy.m_outlineVector;
 	this->m_editRect = copy.m_editRect;
 }
@@ -2517,6 +2512,193 @@ void CImageSelection::ResetMask()
 	}
 	m_isChanged = false;
 }
+
+BOOL CImageSelection::ChangeLine(CPoint point1,CPoint point2,EditEnum region,bool isAdded,int size)
+{
+	bool found = false,changedAxis = false;
+	CPoint pointUp,pointDown,point;
+	MaskVector::iterator it,it_backup;
+	MaskVector *pointsVector;
+	COLORREF pixColor,editColor;
+	int i,j,halfSize,highSize,widthSize,swap;
+	double xLine;
+	halfSize = size>>1;
+	if(point1.x >= m_imgMask.GetWidth() || point1.y >= m_imgMask.GetHeight() || point1.x<0 || point1.y<0)
+		return FALSE;
+	if(point2.x >= m_imgMask.GetWidth() || point2.y >= m_imgMask.GetHeight() || point2.x<0 || point2.y<0)
+		return FALSE;
+	switch(region)
+	{
+		case EDIT_CORE:
+			editColor = RGB(255,0,0);
+			pointsVector = &m_coreVector;
+			break;
+
+		case EDIT_OUTLINE:
+			editColor = RGB(0,255,0);
+			pointsVector = &m_outlineVector;
+			break;
+		
+		case EDIT_SHADE:
+			editColor = RGB(0,0,255);
+			pointsVector = &m_shadeVector;
+			break;
+
+		default:break;
+	}
+	
+
+	if(point1.y < point2.y)
+	{
+		pointUp = point1;
+		pointDown = point2;
+	}
+	else
+	{
+		pointUp = point2;
+		pointDown = point1;
+	}
+
+	if(((pointDown.y-pointUp.y)*(pointDown.y-pointUp.y)) < ((pointDown.x-pointUp.x)*(pointDown.x-pointUp.x)))
+	{
+		swap = pointDown.x;
+		pointDown.x = pointDown.y;
+		pointDown.y = swap;
+
+		swap = pointUp.x;
+		pointUp.x = pointUp.y;
+		pointUp.y = swap;
+
+		if(pointDown.y < pointUp.y)
+		{
+			point = pointDown;
+			pointDown = pointUp;
+			pointUp= point;
+		}
+
+		changedAxis = true;
+	}
+
+	highSize = (pointDown.y-pointUp.y);
+	
+	if((pointDown.y-pointUp.y) == 0)
+	{
+			widthSize = pointDown.x - pointUp.x;
+			highSize = 1;
+			if(widthSize < 0)
+			{
+				widthSize = - widthSize;
+				xLine =  pointDown.x;
+			}
+			else
+				xLine =  pointUp.x;
+	}
+	else
+		widthSize = size;
+
+	for(i=0;i<highSize;i++)
+	{
+		point.y = pointUp.y-halfSize+i;
+				
+		if((pointDown.y-pointUp.y) != 0)
+		{
+			xLine = double((i)*double((pointDown.x-pointUp.x)))/double(pointDown.y-pointUp.y)+pointUp.x;
+		}
+						
+		if(!( (point.y <0) || (((point.y+size-1) >= m_imgMask.GetHeight()) && (!changedAxis)) || ((point.y+size-1) >= m_imgMask.GetWidth() && (changedAxis))))
+		{
+			for(j=0;j<widthSize;j++)
+			{
+				for(int k=0;k<size;k++)
+				{
+					point.y = pointUp.y - halfSize + i + k;
+				
+					point.x = int(xLine) + j - halfSize;
+
+									
+					if(!( (point.x<0) || ((point.x >= m_imgMask.GetWidth()) && (!changedAxis)) || ((point.x >= m_imgMask.GetHeight()) && (changedAxis))) )
+					{
+						if(changedAxis)
+						{
+							swap = point.x;
+							point.x = point.y;
+							point.y = swap;
+
+						}
+						pixColor = GetPixelFast(&m_imgMask,point.x,point.y);
+					
+						if (((pixColor & editColor) == 0) && isAdded)
+						{	
+							pointsVector->push_back(VectorRun(point,1));
+							SetPixelFast(&m_imgMask,point.x,point.y,(pixColor | editColor));
+						}
+						else if (((pixColor & editColor) == editColor) && !isAdded)
+						{	
+							SetPixelFast(&m_imgMask,point.x,point.y,(pixColor & (~editColor)));
+						}
+					}
+				}
+			}
+		}
+	}
+
+	point.x = point1.x-halfSize;
+	point.y = point1.y-halfSize;
+	
+	if(point.x < 0)
+		point.x = 0;
+	
+	if(point.y < 0)
+		point.y = 0;
+	
+	UpdateEditBox(point);
+
+	if(size != 1)
+	{
+
+		point.x = point1.x-halfSize+size-1;
+		point.y = point1.y-halfSize+size-1;
+		
+		if(point.x >= m_imgMask.GetWidth())
+			point.x = m_imgMask.GetWidth()-1;
+		
+		if(point.y >= m_imgMask.GetHeight())
+			point.y = m_imgMask.GetHeight()-1;
+		
+		UpdateEditBox(point);
+	}
+
+	point.x = point2.x-halfSize;
+	point.y = point2.y-halfSize;
+	
+	if(point.x < 0)
+		point.x = 0;
+	
+	if(point.y < 0)
+		point.y = 0;
+	
+	UpdateEditBox(point);
+
+	if(size != 1)
+	{
+
+		point.x = point2.x-halfSize+size-1;
+		point.y = point2.y-halfSize+size-1;
+		
+		if(point.x >= m_imgMask.GetWidth())
+			point.x = m_imgMask.GetWidth()-1;
+		
+		if(point.y >= m_imgMask.GetHeight())
+			point.y = m_imgMask.GetHeight()-1;
+		
+		UpdateEditBox(point);
+	}
+
+
+	return TRUE;
+}
+
+
 BOOL CImageSelection::ChangePoint(CPoint point,EditEnum region,bool isAdded,int size)
 {
 	bool found = false;
@@ -2551,24 +2733,25 @@ BOOL CImageSelection::ChangePoint(CPoint point,EditEnum region,bool isAdded,int 
 	for(i=0;i<size;i++)
 	{
 		point.x = mainPoint.x-halfSize+i;
-		for(j=0;j<size;j++)
-		{
-			point.y = mainPoint.y-halfSize+j;
-			if(!(point.x <0 || point.x >= m_imgMask.GetWidth() || point.y<0 || point.y >= m_imgMask.GetHeight()))
+		if(!(point.x <0 || point.x >= m_imgMask.GetWidth()))
+			for(j=0;j<size;j++)
 			{
-				pixColor = GetPixelFast(&m_imgMask,point.x,point.y);
-			
-				if (((pixColor & editColor) == 0) && isAdded)
-				{	
-					pointsVector->push_back(VectorRun(point,1));
-					SetPixelFast(&m_imgMask,point.x,point.y,(pixColor | editColor));
-				}
-				else if (((pixColor & editColor) == editColor) && !isAdded)
-				{	
-					SetPixelFast(&m_imgMask,point.x,point.y,(pixColor & (~editColor)));
+				point.y = mainPoint.y-halfSize+j;
+				if(!(point.y<0 || point.y >= m_imgMask.GetHeight()))
+				{
+					pixColor = GetPixelFast(&m_imgMask,point.x,point.y);
+				
+					if (((pixColor & editColor) == 0) && isAdded)
+					{	
+						pointsVector->push_back(VectorRun(point,1));
+						SetPixelFast(&m_imgMask,point.x,point.y,(pixColor | editColor));
+					}
+					else if (((pixColor & editColor) == editColor) && !isAdded)
+					{	
+						SetPixelFast(&m_imgMask,point.x,point.y,(pixColor & (~editColor)));
+					}
 				}
 			}
-		}
 	}
 	point.x = mainPoint.x-halfSize;
 	point.y = mainPoint.y-halfSize;
@@ -2763,13 +2946,17 @@ CImageSelection & CImageSelection::operator= (const CImageSelection &copy)
 		return *this;
 	else 
 	{
+		this->m_shadeVector.clear();
 		this->m_shadeVector = copy.m_shadeVector;
 		this->m_core = copy.m_core;
 		this->m_outline = copy.m_outline;
 		this->m_shade = copy.m_shade;
+		this->m_coreVector.clear();
 		this->m_coreVector = copy.m_coreVector;
+		this->m_outlineVector.clear();
 		this->m_outlineVector = copy.m_outlineVector;
 		this->m_isChanged = copy.m_isChanged;
+		this->m_imgMask.Destroy();
 		this->m_imgMask = copy.m_imgMask;
 	}
 	return *this;
