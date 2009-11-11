@@ -38,7 +38,7 @@ Information stored as runs (x,y,r) instead than single pixels (x,y)
 
   *  Improved pixel edition tool
 
-The execution of pointer movements captures are discrete makes difficult a continuity of the pixel drawing. To solve this a drawing from last point captured and the new one has been made to smooth the pen drawing tool, overall in high loaded cpu moments.
+The execution of pointer movements captures as being discrete make difficult a continuity of the pixel drawing. To solve this a drawing from last point captured and the new one has been made to smooth the pen drawing tool, overall in high loaded cpu moments.
 
 ==References==
 [http://msdn.microsoft.com/en-us/library/keze95wt(VS.80).aspx [1]] http://msdn.microsoft.com/en-us/library/keze95wt(VS.80).aspx
