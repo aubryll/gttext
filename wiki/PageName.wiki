@@ -43,6 +43,6 @@ Knowing that the execution of pointer movements captures is discrete makes diffi
 ==References==
 [http://msdn.microsoft.com/en-us/library/keze95wt(VS.80).aspx [1]] http://msdn.microsoft.com/en-us/library/keze95wt(VS.80).aspx
 
-[ttp://www.experts-exchange.com/Programming/System/Windows__Programming/MFC/Q_23756952.html [2]] http://www.experts-exchange.com/Programming/System/Windows__Programming/MFC/Q_23756952.html
+[http://www.experts-exchange.com/Programming/System/Windows__Programming/MFC/Q_23756952.html [2]] http://www.experts-exchange.com/Programming/System/Windows__Programming/MFC/Q_23756952.html
 
-[ http://en.wikipedia.org/wiki/Flood_fill [3]] http://en.wikipedia.org/wiki/Flood_fill
+[http://en.wikipedia.org/wiki/Flood_fill [3]] http://en.wikipedia.org/wiki/Flood_fill
