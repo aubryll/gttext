@@ -1,3 +1,4 @@
+#labels Phase-Implementation
 #Wikipage detailing the content of each version and future work.
 
 = GTText Versions  =
@@ -34,11 +35,26 @@ the software possible to handle huge images, only limited by the memory and the 
 Information stored as runs (x,y,r) instead than single pixels (x,y)
 
 
-===New Update 1.2.1===
+===Update 1.2.1===
 
   *  Improved pixel edition tool
 
 The execution of pointer movements captures as being discrete make difficult a continuity of the pixel drawing. To solve this a drawing from last point captured and the new one has been made to smooth the pen drawing tool, noticing the difference in high loaded cpu moments.
+
+===Update 1.2.2===
+
+  *  Improved the installation file
+
+The installation now includes the pre-warper exe file that Windows versions use to check the system and old versions too prevent the msi package from possible failures.
+GTText_1.2.2.exe file will then self extract and install all the software with better system check.
+
+  *  Faster Cut option
+
+The cut tool has been speed up notably (One of the tools left to be speed from previous versions).
+
+  * Minor visual smooth changes
+
+Even less blinks
 
 ==References==
 [http://msdn.microsoft.com/en-us/library/keze95wt(VS.80).aspx [1]] http://msdn.microsoft.com/en-us/library/keze95wt(VS.80).aspx
