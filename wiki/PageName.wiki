@@ -26,8 +26,8 @@ you click, similar to !MagicWand TM Photoshop)
 
   *  Higher scalability for up to 70MP
 
-An overall of avoid refresh the whole file but in loading it the first time had made
-the software possible to handle huge images, with only limit on your memory and a simply 8 bytes x (#)pixels comparisons.
+An overall avoidance of the refreshing of the whole file but just when loading it the first time has made
+the software possible to handle huge images, only limited by the memory and the intrinsic size of the image loaded (12 bytes x (#)pixels is now ~= (O) the memory cost).
 
   *  Compressed Ground Truth data definition
 
