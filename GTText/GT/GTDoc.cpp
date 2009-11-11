@@ -2596,7 +2596,7 @@ BOOL CImageSelection::ChangeLine(CPoint point1,CPoint point2,EditEnum region,boo
 	else
 		widthSize = size;
 
-	for(i=0;i<highSize;i++)
+	for(i=0;i<=highSize;i++)
 	{
 		point.y = pointUp.y-halfSize+i;
 				

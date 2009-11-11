@@ -49,6 +49,8 @@
 #define IDI_ICON1                       178
 #define IDI_ICON6                       179
 #define IDI_ICON7                       180
+#define IDB_GTTICON                     182
+#define IDB_BITMAP2                     182
 #define IDC_COMBO1                      1000
 #define IDC_COMBO4                      1000
 #define IDC_COMBO2                      1001
@@ -285,7 +287,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        182
+#define _APS_NEXT_RESOURCE_VALUE        183
 #define _APS_NEXT_COMMAND_VALUE         32956
 #define _APS_NEXT_CONTROL_VALUE         1068
 #define _APS_NEXT_SYMED_VALUE           110
