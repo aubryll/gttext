@@ -13,7 +13,7 @@ help its performance as well as future work devised.
   *  Faster performance
 
 Default GetPixel()[http://msdn.microsoft.com/en-us/library/keze95wt(VS.80).aspx [1]] of MFC is very slow [http://www.experts-exchange.com/Programming/System/Windows__Programming/MFC/Q_23756952.html [2]]
-], so it has substituted
+, so it has substituted
 by a GetPixelFast() that access directly to memory to get the color and having checked  forehand the limit cases. (+ extra check while debugging)
 
 
