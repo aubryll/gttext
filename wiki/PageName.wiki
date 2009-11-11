@@ -20,9 +20,9 @@ by a !GetPixelFast() that access directly to memory to get the color and having 
   *  New mode of region selection
 
 The !FillFlood() [http://en.wikipedia.org/wiki/Flood_fill [3]] new mode works checking the color distance with the origin instead of the neighbor pixel.
-This mode of get distance from the clicking pixel proves useful when regions have
+This mode of getting the distance from the clicking pixel proves useful when regions have
 a predominant color different from the background (draw backs is it depends exactly where
-you click, similar to !MagicWand TM Photoshop. Feel free to use the other two modes that use gradient region properties when necessary. 
+you click, similar to !MagicWand TM Photoshop). Feel free to use the other two modes that use gradient region properties when necessary. 
 
   *  Higher scalability for up to 70MP
 
