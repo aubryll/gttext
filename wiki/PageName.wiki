@@ -34,7 +34,7 @@ the software possible to handle huge images, with only limit on your memory and 
 Information stored as runs (x,y,r) instead than single pixels (x,y)
 
 
-===New Update 1.2.0===
+===New Update 1.2.1===
 
   *  Improved pixel edition tool
 
