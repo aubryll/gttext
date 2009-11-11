@@ -173,8 +173,8 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,2,0,0
- PRODUCTVERSION 1,2,1,0
+ FILEVERSION 1,2,2,0
+ PRODUCTVERSION 1,2,2,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -190,12 +190,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "FileDescription", "GT Text Application"
-            VALUE "FileVersion", "1.2.0"
+            VALUE "FileVersion", "1.2.2"
             VALUE "InternalName", "gttext"
             VALUE "LegalCopyright", "Copyright 2009"
             VALUE "OriginalFilename", "GTText.exe"
             VALUE "ProductName", "gttext aplication"
-            VALUE "ProductVersion", "1.2.0"
+            VALUE "ProductVersion", "1.2.2"
         END
     END
     BLOCK "VarFileInfo"
@@ -393,7 +393,7 @@ CAPTION "About GT"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
-    LTEXT           "GT Version 1.2.0",IDC_STATIC,40,10,119,8,SS_NOPREFIX
+    LTEXT           "GT Version 1.2.2",IDC_STATIC,40,10,119,8,SS_NOPREFIX
     LTEXT           "Copyright (C) 2009",IDC_STATIC,40,25,119,8
     DEFPUSHBUTTON   "OK",IDOK,177,31,50,16,WS_GROUP
 END

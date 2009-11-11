@@ -164,8 +164,6 @@ void CMetaDataView::OnBnClickedChangeMeta()
 				pNodeC->put_text(BSTR(c_creator.GetString()));
 	}
 	pDoc->SetModifiedFlag(TRUE);
-	/*pDoc->SetLoad(false);
-	xmlView->OnUpdate(this,0,0);*/
 }
 
 

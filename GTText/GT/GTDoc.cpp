@@ -1917,7 +1917,6 @@ void CGTDoc::OnEditCut()
 	if(imageRect.Height() > m_imgSelection.GetImageMask()->GetHeight())
 		imageRect.bottom = imageRect.top + m_imgSelection.GetImageMask()->GetHeight();
 
-	m_imgSelection.LoadMaskPoints(m_edition_state);
 	maskVector = m_imgSelection.GetCurrentMaskVector(m_edition_state);
 	if(maskVector != NULL)
 	{
@@ -1927,12 +1926,14 @@ void CGTDoc::OnEditCut()
 		m_imgSelection.LoadMaskPoints(m_edition_state,imageRect);
 		m_copyVector = * maskVector;
 		*maskVector = fullWitdthVector;
+		OnEditCopy();
 		Backup(0);
 
 		//ERASE
 		m_imgSelection.EraseArea(imageRect,m_edition_state);
-		m_imgSelection.LoadMaskPoints(m_edition_state,imageRect);
 		SetDirty(true);
+		SetPenPoint(CPoint(-1,-1));
+		gtView->SetShowPen();
 		gtView->Invalidate(false);
 	}
 	else
@@ -2368,11 +2369,11 @@ void CImageSelection::EraseArea(CRect size,EditEnum region)
 	}
 	imagePix = RGB(0,0,0);
 
-	for(int x = size.left;x<size.right;x++)
+	for(int y = size.top;y<size.bottom;y++)
 	{
-		for(int y = size.top;y<size.bottom;y++)
+		for(int x = size.left;x<size.right;x++)
 		{
-			imagePix = m_imgMask.GetPixel(x,y);
+			imagePix = GetPixelFast(&m_imgMask,x,y);
 
 			if((imagePix & editColor) == editColor)
 				SetPixelFast(&m_imgMask,x,y,(imagePix & (~editColor)));
