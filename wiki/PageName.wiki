@@ -31,7 +31,7 @@ the software possible to handle huge images, with only limit on your memory and 
 
   *  Compressed Ground Truth data definition
 
-Information stored as runs (x,y,r) instead than single pixels (x,y) definition_sample
+Information stored as runs (x,y,r) instead than single pixels (x,y)
 
 
 ===New Update 1.2.0===
@@ -41,8 +41,8 @@ Information stored as runs (x,y,r) instead than single pixels (x,y) definition_s
 Knowing that the execution of pointer movements captures is discrete makes difficult a continuity of the pixel drawing. To solve this a drawing from last point captured and the new one smooths the pen drawing tool, overall in high loaded cpu moments.
 
 ==References==
-[1] http://msdn.microsoft.com/en-us/library/keze95wt(VS.80).aspx
+![[1]] http://msdn.microsoft.com/en-us/library/keze95wt(VS.80).aspx
 
-[2] http://www.experts-exchange.com/Programming/System/Windows__Programming/MFC/Q_23756952.html
+![[2]] http://www.experts-exchange.com/Programming/System/Windows__Programming/MFC/Q_23756952.html
 
-[3] http://en.wikipedia.org/wiki/Flood_fill
+![[3]] http://en.wikipedia.org/wiki/Flood_fill
