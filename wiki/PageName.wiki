@@ -1,0 +1,35 @@
+#Wikipage detailing the content of each version and future work.
+
+= GTText Versions  =
+
+Follow the improvements of each version with the improvements
+help its performance as well as future work devised.
+ 
+
+= Version List =
+
+Update 1.1.2
+
+Faster performance:
+
+Default GetPixel() of MFC is very inefficient, so it has substituted
+by a GetPixelFast() that access directly to memory to get the color.
+
+
+New mode of region selection:
+
+The FillFlood worked checking the color distance with neighbor pixel.
+The mode of get distance from the clicking pixel proves useful when regions have
+a predominant color different from the background (draw backs is it depends exactly where
+you click, similar to MagicWand TM Photoshop) 
+
+Higher scalability for up to 70MP
+
+An overall of avoid refresh the whole file but in loading it the first time had made
+the software possible to handle hugh images, with only limit on your memory and a simply 8bytes*#pixels comparisons.
+Compressed Ground Truth data definition
+Information stored as runs (x,y,r) instead than single pixels (x,y) definition_sample
+
+New Update 1.2.0
+
+Improved pixel edition tool
