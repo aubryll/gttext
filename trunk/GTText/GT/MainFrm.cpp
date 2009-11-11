@@ -430,6 +430,7 @@ void CMainFrame::OnNMReleasedcaptureBrightSlider(NMHDR *pNMHDR, LRESULT *pResult
 	if(gtView != NULL)
 	{
 		gtView->SetBright(255-pCSlider->GetPos());
+		gtView->SetShowPen();
 		gtView->Invalidate(false);
 	}
 }

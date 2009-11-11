@@ -224,9 +224,12 @@ void CGTView::OnRButtonDown(UINT nFlag,CPoint point)
 		}
 		else
 			pDoc->SetPenPoint(CPoint(-1,-1));
+		m_showPen = true;
+		m_isHold = false;
 
 		OnRPaint(nFlag,point);
 		m_isHold = false;
+		
 	}
 }
 
@@ -1648,7 +1651,8 @@ void CGTView::OnMouseMove(UINT nFlags, CPoint point)
 			}
 			else if(m_showPen ==  true)
 			{
-				m_showPen = false;
+				pDoc->SetPenPoint(CPoint(-1,-1));
+				m_showPen = true;
 				Invalidate(false);
 			}
 		}
