@@ -4,7 +4,7 @@
 = GTText Versions  =
 
 Follow the improvements of each version with the improvements
-help its performance as well as future work devised.
+that helped its performance as well as future work devised.
  
 
 == Version List ==
