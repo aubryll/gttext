@@ -3,7 +3,7 @@
 
 = GTText Versions  =
 
-Follow the improvements of each version with the improvements
+Follow the improvements of each version with the details
 that helped its performance as well as future work devised.
  
 
