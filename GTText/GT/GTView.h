@@ -81,6 +81,7 @@ private:
 	CImage m_Map;
 	CImage m_cursorMap;
 	bool  m_isHold;
+	bool m_isHighSrcllBar;
 	HDC m_memDC;
 	HBITMAP m_hMemBmp;
 	HBITMAP m_hOldBmp;

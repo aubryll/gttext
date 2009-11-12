@@ -130,6 +130,8 @@ BOOL CGTView::OnMouseWheel(UINT nFlags,short zDelta,CPoint point)
 	CPoint PxlReal,ul;
 	if(pDoc->GetImage()->IsNull())
 		return FALSE;
+	SCROLLINFO scrollInfo;
+	GetScrollInfo(SB_VERT,&scrollInfo,SIF_ALL);
 	GetScrollBarSizes(barSize);
 	step = int(pDoc->GetImage()->GetHeight()*m_zoom)/120;
 	ul = this->GetScrollPosition();
@@ -148,18 +150,23 @@ BOOL CGTView::OnMouseWheel(UINT nFlags,short zDelta,CPoint point)
 				m_isZoomed = true;
 				m_showPen = false;
 				OnChangeSize(ID_ZOOM);
-	
-				
 			}
+			else
+				return TRUE;
 		}
 		else if(!m_showPen)
 		{
-			pos = GetScrollPos(1);
-			pos = pos + step*barSize.cy;
-			if(pos < GetScrollLimit(1))
-				SetScrollPos(1,(pos+1));
+			if((m_isHighSrcllBar))
+			{
+				pos = scrollInfo.nPos;
+				pos = pos + step*barSize.cy;
+				if(pos < GetScrollLimit(1))
+					SetScrollPos(1,(pos));
+				else
+					SetScrollPos(1,GetScrollLimit(1));
+			}
 			else
-				SetScrollPos(1,GetScrollLimit(1));
+				return TRUE;
 		}
 	}
 	else
@@ -174,16 +181,24 @@ BOOL CGTView::OnMouseWheel(UINT nFlags,short zDelta,CPoint point)
 				m_isZoomed = true;
 				OnChangeSize(ID_ZOOM);
 			}
+			else
+				return TRUE;
 			
 		}
 		else if(!m_showPen)
 		{
-			pos = GetScrollPos(1);
-			pos = pos - step*barSize.cy;
-			if(pos > 0)
-				SetScrollPos(1,(pos-1));
+			int page = scrollInfo.nPage;
+			if(m_isHighSrcllBar)
+			{
+				pos = scrollInfo.nPos;
+				pos = pos - step*barSize.cy;
+				if(pos > 0)
+					SetScrollPos(1,(pos));
+				else
+					SetScrollPos(1,0);
+			}
 			else
-				SetScrollPos(1,0);
+				return TRUE;
 		}
 	}
 	
@@ -1199,6 +1214,10 @@ void CGTView::OnDraw(CDC* pDC)
 			width = int(m_imgOriginal->GetWidth()*m_zoom);
 			height = int(m_imgOriginal->GetHeight()*m_zoom);
 
+			if(height < Clrect.Height())
+				m_isHighSrcllBar = false;
+			else
+				m_isHighSrcllBar = true;
 			
 			SetScrollSizes(MM_TEXT, CSize(width,height), CSize(Clrect.Width(), Clrect.Height()), CSize((int) m_zoom, (int) m_zoom));
 		}
@@ -1246,6 +1265,7 @@ void CGTView::OnDraw(CDC* pDC)
 				else
 					SetScrollPos(SB_VERT ,ul.y,TRUE);
 			}
+
 			
 			
 		}
@@ -1536,7 +1556,7 @@ void CGTView::OnChangeSize(UINT nID)
 		return;
 
 	if((m_imgOriginal->GetWidth()*m_zoom)<=Clrect.Width() || (m_imgOriginal->GetHeight()*m_zoom)<=Clrect.Height() || m_isZoomed)
-		Invalidate(false);
+		Invalidate(true);
 	else
 		Invalidate(false);
 
