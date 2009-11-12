@@ -15,8 +15,8 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_241A52152960484885FC0A2D728FBA45"
-        "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
+        "MsmKey" = "8:_1854B16F373745B492E7971C1625C89A"
+        "OwnerKey" = "8:_6FFC354597F349FE89BD631BABD3A4BC"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -27,19 +27,19 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_5CA5B0E883574623A4081009F46E27C6"
-        "OwnerKey" = "8:_6C79AE2091CB4D9CAC5188CFCF3EDC3C"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_5D433773C7430477108CA03C5BBC500B"
         "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_6C79AE2091CB4D9CAC5188CFCF3EDC3C"
+        "MsmKey" = "8:_68DE237E36674BEB8A63AF4D6B9DB5FC"
+        "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_6FFC354597F349FE89BD631BABD3A4BC"
         "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -47,12 +47,6 @@
         {
         "MsmKey" = "8:_7B8246637F604F8193FE43446C4836BD"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_98C9C65A2BBC475E90F7CA09C0D7B34E"
-        "OwnerKey" = "8:_241A52152960484885FC0A2D728FBA45"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -71,6 +65,12 @@
         {
         "MsmKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D84DDD6F1F124E60B0102C7A8BE2A673"
+        "OwnerKey" = "8:_68DE237E36674BEB8A63AF4D6B9DB5FC"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -368,14 +368,14 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Ground Truth Text"
-        "ProductCode" = "8:{15F4E2D1-E27D-4149-B0D9-7B545D5094A7}"
-        "PackageCode" = "8:{4031DAA4-3037-44C4-868D-3CD353B0BC99}"
+        "ProductCode" = "8:{1353DB18-2FF3-400D-BD65-453683DAD1CB}"
+        "PackageCode" = "8:{A71F7047-FFEB-4BF0-A56F-FB644826A942}"
         "UpgradeCode" = "8:{C81FD9C0-7B3A-4D76-94E7-740A1324E374}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.2.0"
+        "ProductVersion" = "8:1.2.2"
         "Manufacturer" = "8:Universitat Autònoma de Barcelona"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -598,8 +598,8 @@
                             "Type" = "3:3"
                             "ContextData" = "8:"
                             "Attributes" = "3:0"
-                            "Setting" = "3:1"
-                            "Value" = "8:#1202"
+                            "Setting" = "3:2"
+                            "Value" = "8:Warning: This program is protected by copyright law and international treaties."
                             "DefaultValue" = "8:#1202"
                             "UsePlugInResources" = "11:TRUE"
                             }
@@ -611,8 +611,8 @@
                             "Type" = "3:3"
                             "ContextData" = "8:"
                             "Attributes" = "3:0"
-                            "Setting" = "3:1"
-                            "Value" = "8:#1203"
+                            "Setting" = "3:2"
+                            "Value" = "8:The installer is ready to install [ProductName] on your computer."
                             "DefaultValue" = "8:#1203"
                             "UsePlugInResources" = "11:TRUE"
                             }
@@ -758,8 +758,8 @@
                             "Type" = "3:3"
                             "ContextData" = "8:"
                             "Attributes" = "3:0"
-                            "Setting" = "3:1"
-                            "Value" = "8:#1202"
+                            "Setting" = "3:2"
+                            "Value" = "8:Warning: This program is protected by copyright law and international treaties."
                             "DefaultValue" = "8:#1202"
                             "UsePlugInResources" = "11:TRUE"
                             }
@@ -771,8 +771,8 @@
                             "Type" = "3:3"
                             "ContextData" = "8:"
                             "Attributes" = "3:0"
-                            "Setting" = "3:1"
-                            "Value" = "8:#1203"
+                            "Setting" = "3:2"
+                            "Value" = "8:The installer is ready to install [ProductName] on your computer."
                             "DefaultValue" = "8:#1203"
                             "UsePlugInResources" = "11:TRUE"
                             }
@@ -912,11 +912,11 @@
         }
         "MergeModule"
         {
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_241A52152960484885FC0A2D728FBA45"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_1854B16F373745B492E7971C1625C89A"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
-            "SourcePath" = "8:Microsoft_VC80_CRT_x86.msm"
+            "SourcePath" = "8:policy_8_0_microsoft_vc80_crt_x86.msm"
                 "Properties"
                 {
                 }
@@ -926,21 +926,7 @@
             "Feature" = "8:"
             "IsolateTo" = "8:"
             }
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_5CA5B0E883574623A4081009F46E27C6"
-            {
-            "UseDynamicProperties" = "11:TRUE"
-            "IsDependency" = "11:TRUE"
-            "SourcePath" = "8:policy_8_0_microsoft_vc80_mfc_x86.msm"
-                "Properties"
-                {
-                }
-            "LanguageId" = "3:0"
-            "Exclude" = "11:FALSE"
-            "Folder" = "8:"
-            "Feature" = "8:"
-            "IsolateTo" = "8:"
-            }
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_6C79AE2091CB4D9CAC5188CFCF3EDC3C"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_68DE237E36674BEB8A63AF4D6B9DB5FC"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
@@ -954,11 +940,25 @@
             "Feature" = "8:"
             "IsolateTo" = "8:"
             }
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_98C9C65A2BBC475E90F7CA09C0D7B34E"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_6FFC354597F349FE89BD631BABD3A4BC"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
-            "SourcePath" = "8:policy_8_0_microsoft_vc80_crt_x86.msm"
+            "SourcePath" = "8:Microsoft_VC80_CRT_x86.msm"
+                "Properties"
+                {
+                }
+            "LanguageId" = "3:0"
+            "Exclude" = "11:FALSE"
+            "Folder" = "8:"
+            "Feature" = "8:"
+            "IsolateTo" = "8:"
+            }
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_D84DDD6F1F124E60B0102C7A8BE2A673"
+            {
+            "UseDynamicProperties" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "SourcePath" = "8:policy_8_0_microsoft_vc80_mfc_x86.msm"
                 "Properties"
                 {
                 }
