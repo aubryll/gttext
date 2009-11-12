@@ -43,7 +43,7 @@ The execution of pointer movements captures as being discrete make difficult a c
 
 ===New Update 1.2.2===
 
-  *  Improved the installation file
+  *  Improved the installation package
 
 The installation now includes the pre-warper exe file that Windows versions use to check the system and old versions too prevent the msi package from possible failures.
 GTText_1.2.2.exe file will then self extract and install all the software with better system check.
