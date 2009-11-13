@@ -60,7 +60,7 @@ Even less blinks
 
   * Fixed zoom and mouse scroll limit cases bugs
 
-Better handling of wheel mouse scroll 
+Better handling of the wheel mouse scroll actions resulting in a smoother transition
 
 
 ==References==
