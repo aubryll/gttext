@@ -591,6 +591,7 @@ void CMainFrame::OnCbnSelchangeCombozoom()
 	int nIndex = pCBox->GetCurSel();
 	if(gtView == NULL)
 		return;
+	gtView->Invalidate(true);
 	gtView->OnChangeSize(UINT(nIndex+ID_SIZE_BASE));
 }
 
