@@ -41,7 +41,7 @@ Information stored as runs (x,y,r) instead than single pixels (x,y)
 
 The execution of pointer movements captures as being discrete make difficult a continuity of the pixel drawing. To solve this a drawing from last point captured and the new one has been made to smooth the pen drawing tool, noticing the difference in high loaded cpu moments.
 
-===New Update 1.2.2===
+===Update 1.2.2===
 
   *  Improved the installation package
 
@@ -55,6 +55,13 @@ The cut tool has been speed up notably (One of the tools left to be speed from p
   * Minor visual smooth changes
 
 Even less blinks
+
+===New Update 1.2.3===
+
+  * Fixed zoom and mouse scroll limit cases bugs
+
+Better handling of wheel mouse scroll 
+
 
 ==References==
 [http://msdn.microsoft.com/en-us/library/keze95wt(VS.80).aspx [1]] http://msdn.microsoft.com/en-us/library/keze95wt(VS.80).aspx
