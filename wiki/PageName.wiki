@@ -60,7 +60,8 @@ Even less blinks
 
   * Fixed zoom and mouse scroll limit cases bugs
 
-Better handling of the wheel mouse scroll actions resulting in a smoother zoomings
+Better handling of the wheel mouse scroll actions resulting in less refreshing.
+Corrected screen flush misbehaviors.
 
 
 ==References==
