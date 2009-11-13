@@ -56,6 +56,10 @@ The cut tool has been speed up notably (One of the tools left to be speed from p
 
 Even less blinks
 
+===Update 1.2.3===
+
+Deprecated (Developer branch)
+
 === New Update 1.2.4 ===
 
   * Better zoom transitions and mouse wheel handling
