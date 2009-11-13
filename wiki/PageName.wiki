@@ -56,13 +56,6 @@ The cut tool has been speed up notably (One of the tools left to be speed from p
 
 Even less blinks
 
-===New Update 1.2.3===
-
-  * Fixed zoom and mouse scroll limit cases bugs
-
-Better handling of the wheel mouse scroll actions resulting in less refreshing.
-Corrected screen flush misbehaviors.
-
 
 ==References==
 [http://msdn.microsoft.com/en-us/library/keze95wt(VS.80).aspx [1]] http://msdn.microsoft.com/en-us/library/keze95wt(VS.80).aspx
