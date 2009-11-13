@@ -56,11 +56,11 @@ The cut tool has been speed up notably (One of the tools left to be speed from p
 
 Even less blinks
 
-== Future Work ==
+=== New Update 1.2.3 ===
 
-  * No blinks and neat zoom
+  * Better zoom transitions and mouse wheel handling
 
-Recheck the zoom logic operations to zoom in & out neatly and steady.
+More eye graceful thanks to the decrease of screens blinks during zooms and have been corrected mouse wheel misbehaviors resulting in a zoom in & out neater and steadier.
 
 
 ==References==
