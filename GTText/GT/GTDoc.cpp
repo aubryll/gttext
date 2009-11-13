@@ -1636,8 +1636,16 @@ void CGTDoc::OnToolsPixelselect()
 	CMainFrame* pMainWnd = (CMainFrame*)AfxGetMainWnd();
 	pMainWnd->AddSensitivityBar(false);
 	pMainWnd->AddZoom(false);
-	pMainWnd->AddPen(true);
-	m_tool = PIXEL_TOOL;
+	if(m_tool != PIXEL_TOOL)
+	{
+		pMainWnd->AddPen(true);
+		m_tool = PIXEL_TOOL;
+	}
+	else
+	{
+		pMainWnd->AddPen(false);
+		m_tool = NO_TOOL;
+	}
 }
 
 void CGTDoc::OnUpdateToolsPixelselect(CCmdUI *pCmdUI)
@@ -1660,10 +1668,18 @@ void CGTDoc::OnUpdateToolsPixelselect(CCmdUI *pCmdUI)
 void CGTDoc::OnToolsRegionselect()
 {
 	CMainFrame* pMainWnd = (CMainFrame*)AfxGetMainWnd();	
-	pMainWnd->AddSensitivityBar(true);
 	pMainWnd->AddZoom(false);
 	pMainWnd->AddPen(false);
-	m_tool = REGION_TOOL;
+	if(m_tool != REGION_TOOL)
+	{
+		pMainWnd->AddSensitivityBar(true);
+		m_tool = REGION_TOOL;
+	}
+	else
+	{
+		pMainWnd->AddSensitivityBar(false);
+		m_tool = NO_TOOL;
+	}
 }
 
 void CGTDoc::OnUpdateToolsRegionselect(CCmdUI *pCmdUI)

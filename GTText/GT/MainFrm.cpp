@@ -593,6 +593,7 @@ void CMainFrame::OnCbnSelchangeCombozoom()
 		return;
 	gtView->Invalidate(true);
 	gtView->OnChangeSize(UINT(nIndex+ID_SIZE_BASE));
+	gtView->Invalidate(false);
 }
 
 

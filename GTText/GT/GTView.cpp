@@ -44,7 +44,7 @@ CGTView::CGTView()
 	m_bright = 128;
 	m_nPenSize = PEN_1;
 	m_isOutline = false;
-	m_showPen = false;
+	m_showPen = true;
 	m_isZoomed = false;
 	m_isExt = 1;
 	m_cursorMap.Create(1,1,24);
@@ -153,7 +153,7 @@ BOOL CGTView::OnMouseWheel(UINT nFlags,short zDelta,CPoint point)
 			else
 				return TRUE;
 		}
-		else if(!m_showPen && m_isHighSrcllBar)
+		else if(!m_showPen && m_isHighSrcllBar && pDoc->GetToolState() != PIXEL_TOOL && pDoc->GetToolState() != REGION_TOOL || pDoc->GetEditState() == EDIT_NONE)
 		{
 			pos = GetScrollPos(SB_VERT);
 			if(pos !=  GetScrollLimit(1))
@@ -188,7 +188,7 @@ BOOL CGTView::OnMouseWheel(UINT nFlags,short zDelta,CPoint point)
 				return TRUE;
 			
 		}
-		else if(!m_showPen && m_isHighSrcllBar)
+		else if(!m_showPen && m_isHighSrcllBar && pDoc->GetToolState() != PIXEL_TOOL && pDoc->GetToolState() != REGION_TOOL || pDoc->GetEditState() == EDIT_NONE)
 		{
 			pos = GetScrollPos(SB_VERT);
 			if(pos != 0)
@@ -1369,6 +1369,7 @@ void CGTView::OnDraw(CDC* pDC)
 					else if(ul.x > GetScrollLimit(SB_HORZ))
 						ul.x = GetScrollLimit(SB_HORZ);
 					scrollInfoW.nPos = ul.x;
+					SetScrollInfo(SB_HORZ,&scrollInfoW);
 
 				}
 				
@@ -1379,10 +1380,11 @@ void CGTView::OnDraw(CDC* pDC)
 					else if(ul.y > GetScrollLimit(SB_VERT))
 						ul.y = GetScrollLimit(SB_VERT);
 					scrollInfoH.nPos = ul.y;
+					SetScrollInfo(SB_VERT,&scrollInfoH);
 				}
 				
-				SetScrollInfo(SB_HORZ,&scrollInfoW);
-				SetScrollInfo(SB_VERT,&scrollInfoH);
+				//SetScrollInfo(SB_HORZ,&scrollInfoW);
+				//SetScrollInfo(SB_VERT,&scrollInfoH);
 
 			
 
