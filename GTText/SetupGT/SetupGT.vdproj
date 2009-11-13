@@ -15,8 +15,8 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_1854B16F373745B492E7971C1625C89A"
-        "OwnerKey" = "8:_6FFC354597F349FE89BD631BABD3A4BC"
+        "MsmKey" = "8:_0DB439F395D7496C956ED9B3567684E8"
+        "OwnerKey" = "8:_5C7546BAC1B645B28016E0EA7DA68348"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -27,19 +27,13 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_5D433773C7430477108CA03C5BBC500B"
-        "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
+        "MsmKey" = "8:_4F8DA50E8031486EB4A7A050FFE0FD9D"
+        "OwnerKey" = "8:_C32B78664F324D399EF1E88A84B59C4E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_68DE237E36674BEB8A63AF4D6B9DB5FC"
-        "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_6FFC354597F349FE89BD631BABD3A4BC"
+        "MsmKey" = "8:_5C7546BAC1B645B28016E0EA7DA68348"
         "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -63,14 +57,14 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_C32B78664F324D399EF1E88A84B59C4E"
+        "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_D84DDD6F1F124E60B0102C7A8BE2A673"
-        "OwnerKey" = "8:_68DE237E36674BEB8A63AF4D6B9DB5FC"
+        "MsmKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -180,26 +174,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5D433773C7430477108CA03C5BBC500B"
-            {
-            "SourcePath" = "8:msxml6.dll"
-            "TargetName" = "8:msxml6.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_B878568AE37B4A0E8EBF1B5F66A7FC32"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:4"
-            "Exclude" = "11:TRUE"
-            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_7B8246637F604F8193FE43446C4836BD"
@@ -368,14 +342,14 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Ground Truth Text"
-        "ProductCode" = "8:{1353DB18-2FF3-400D-BD65-453683DAD1CB}"
-        "PackageCode" = "8:{A71F7047-FFEB-4BF0-A56F-FB644826A942}"
+        "ProductCode" = "8:{CCDDD9D9-9AC7-46AC-933C-21B7E84E8B29}"
+        "PackageCode" = "8:{0F0FE348-224C-42B7-968D-8B97EE3EF6DE}"
         "UpgradeCode" = "8:{C81FD9C0-7B3A-4D76-94E7-740A1324E374}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.2.2"
+        "ProductVersion" = "8:1.2.4"
         "Manufacturer" = "8:Universitat Autònoma de Barcelona"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -759,7 +733,7 @@
                             "ContextData" = "8:"
                             "Attributes" = "3:0"
                             "Setting" = "3:2"
-                            "Value" = "8:Warning: This program is protected by copyright law and international treaties."
+                            "Value" = "8:Warning: This computer program is protected by copyright law and international treaties. Unauthorized reproduction or distribution of this program, or any portion of it, may result in severe civil and criminal penalties, and will be prosecuted under the maximum extent possible under law."
                             "DefaultValue" = "8:#1202"
                             "UsePlugInResources" = "11:TRUE"
                             }
@@ -912,11 +886,11 @@
         }
         "MergeModule"
         {
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_1854B16F373745B492E7971C1625C89A"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_0DB439F395D7496C956ED9B3567684E8"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
-            "SourcePath" = "8:policy_8_0_microsoft_vc80_crt_x86.msm"
+            "SourcePath" = "8:policy_8_0_microsoft_vc80_debugcrt_x86.msm"
                 "Properties"
                 {
                 }
@@ -926,11 +900,11 @@
             "Feature" = "8:"
             "IsolateTo" = "8:"
             }
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_68DE237E36674BEB8A63AF4D6B9DB5FC"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_4F8DA50E8031486EB4A7A050FFE0FD9D"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
-            "SourcePath" = "8:Microsoft_VC80_MFC_x86.msm"
+            "SourcePath" = "8:policy_8_0_microsoft_vc80_debugmfc_x86.msm"
                 "Properties"
                 {
                 }
@@ -940,11 +914,11 @@
             "Feature" = "8:"
             "IsolateTo" = "8:"
             }
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_6FFC354597F349FE89BD631BABD3A4BC"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_5C7546BAC1B645B28016E0EA7DA68348"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
-            "SourcePath" = "8:Microsoft_VC80_CRT_x86.msm"
+            "SourcePath" = "8:Microsoft_VC80_DebugCRT_x86.msm"
                 "Properties"
                 {
                 }
@@ -954,11 +928,11 @@
             "Feature" = "8:"
             "IsolateTo" = "8:"
             }
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_D84DDD6F1F124E60B0102C7A8BE2A673"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_C32B78664F324D399EF1E88A84B59C4E"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
-            "SourcePath" = "8:policy_8_0_microsoft_vc80_mfc_x86.msm"
+            "SourcePath" = "8:Microsoft_VC80_DebugMFC_x86.msm"
                 "Properties"
                 {
                 }
@@ -1001,7 +975,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_C40CDAE4E73A42F8B8D591390D639DFB"
             {
-            "SourcePath" = "8:..\\release\\GT.exe"
+            "SourcePath" = "8:..\\debug\\GT.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_B878568AE37B4A0E8EBF1B5F66A7FC32"
