@@ -130,8 +130,6 @@ BOOL CGTView::OnMouseWheel(UINT nFlags,short zDelta,CPoint point)
 	CPoint PxlReal,ul;
 	if(pDoc->GetImage()->IsNull())
 		return FALSE;
-	SCROLLINFO scrollInfo;
-	GetScrollInfo(SB_VERT,&scrollInfo,SIF_ALL);
 	GetScrollBarSizes(barSize);
 	step = int(pDoc->GetImage()->GetHeight()*m_zoom)/120;
 	ul = this->GetScrollPosition();
@@ -150,15 +148,16 @@ BOOL CGTView::OnMouseWheel(UINT nFlags,short zDelta,CPoint point)
 				m_isZoomed = true;
 				m_showPen = false;
 				OnChangeSize(ID_ZOOM);
+				//return TRUE;
 			}
 			else
 				return TRUE;
 		}
-		else if(!m_showPen)
+		else if(!m_showPen && m_isHighSrcllBar)
 		{
-			if((m_isHighSrcllBar))
+			pos = GetScrollPos(SB_VERT);
+			if(pos !=  GetScrollLimit(1))
 			{
-				pos = scrollInfo.nPos;
 				pos = pos + step*barSize.cy;
 				if(pos < GetScrollLimit(1))
 					SetScrollPos(1,(pos));
@@ -167,7 +166,9 @@ BOOL CGTView::OnMouseWheel(UINT nFlags,short zDelta,CPoint point)
 			}
 			else
 				return TRUE;
-		}
+		}	
+		else
+			return TRUE;
 	}
 	else
 	{
@@ -179,27 +180,30 @@ BOOL CGTView::OnMouseWheel(UINT nFlags,short zDelta,CPoint point)
 				m_zoom = m_zoom / 4 * 5;
 				//Uncomment/Comment to zoom using mouse point
 				m_isZoomed = true;
+				m_showPen = false;
 				OnChangeSize(ID_ZOOM);
+				//return TRUE;
 			}
 			else
 				return TRUE;
 			
 		}
-		else if(!m_showPen)
+		else if(!m_showPen && m_isHighSrcllBar)
 		{
-			int page = scrollInfo.nPage;
-			if(m_isHighSrcllBar)
+			pos = GetScrollPos(SB_VERT);
+			if(pos != 0)
 			{
-				pos = scrollInfo.nPos;
 				pos = pos - step*barSize.cy;
 				if(pos > 0)
 					SetScrollPos(1,(pos));
-				else
+				else 
 					SetScrollPos(1,0);
 			}
 			else
 				return TRUE;
 		}
+		else
+			return TRUE;
 	}
 	
 	Invalidate(false);
@@ -266,8 +270,8 @@ void CGTView::OnLButtonUp(UINT nFlag,CPoint point)
 	
 	ul = this->GetScrollPosition();
 	PxlReal = ul + point;
-	PxlReal.x = int(PxlReal.x / m_zoom);
-	PxlReal.y = int(PxlReal.y / m_zoom);
+	PxlReal.x = int(double(PxlReal.x) / m_zoom);
+	PxlReal.y = int(double(PxlReal.y) / m_zoom);
 	ToolEnum state = pDoc->GetToolState();
 	switch(state)
 	{
@@ -896,8 +900,8 @@ void CGTView::OnRButtonUp(UINT nFlag,CPoint point)
 	
 	ul = this->GetScrollPosition();
 	PxlReal = ul + point;
-	PxlReal.x = int(PxlReal.x / m_zoom);
-	PxlReal.y = int(PxlReal.y / m_zoom);
+	PxlReal.x = int(double(PxlReal.x) / m_zoom);
+	PxlReal.y = int(double(PxlReal.y) / m_zoom);
 	ToolEnum state = pDoc->GetToolState();
 	switch(state)
 	{
@@ -1164,7 +1168,7 @@ void CGTView::OnDraw(CDC* pDC)
 	BYTE  grade = 0;
 	int height,width;
 	
-	GetClientRect(&Clrect);
+	
 
 	if (!m_imgOriginal->IsNull()) 
 	{
@@ -1180,6 +1184,9 @@ void CGTView::OnDraw(CDC* pDC)
 		
 		m_Map = *mask;
 
+		GetClientRect(&Clrect);
+
+						
 		if(!m_showPen)
 		{
 			switch (m_nImageSize)
@@ -1214,10 +1221,6 @@ void CGTView::OnDraw(CDC* pDC)
 			width = int(m_imgOriginal->GetWidth()*m_zoom);
 			height = int(m_imgOriginal->GetHeight()*m_zoom);
 
-			if(height < Clrect.Height())
-				m_isHighSrcllBar = false;
-			else
-				m_isHighSrcllBar = true;
 			
 			SetScrollSizes(MM_TEXT, CSize(width,height), CSize(Clrect.Width(), Clrect.Height()), CSize((int) m_zoom, (int) m_zoom));
 		}
@@ -1238,38 +1241,16 @@ void CGTView::OnDraw(CDC* pDC)
 			height = int(m_imgOriginal->GetHeight()*m_zoom);
 		}
 
-		if(m_isZoomed)
+		if(!m_isZoomed)
 		{
-			CPoint PxlReal,ul,point;
-			pDoc->GetZoomPoint(PxlReal,point);
-			PxlReal.x = int(PxlReal.x * m_zoom);
-			PxlReal.y = int(PxlReal.y * m_zoom);
-			ul = PxlReal - point;
-
-			if(width>Clrect.Width())
-			{
-				if(ul.x<0)
-					SetScrollPos(SB_HORZ ,0,TRUE);
-				else if(ul.x > GetScrollLimit(SB_HORZ))
-					SetScrollPos(SB_HORZ ,GetScrollLimit(SB_HORZ),TRUE);
-				else
-					SetScrollPos(SB_HORZ ,ul.x,TRUE);
-			}
-			
-			if(height>Clrect.Height())
-			{
-				if(ul.y<0)
-					SetScrollPos(SB_VERT ,0,TRUE);
-				else if(ul.y > GetScrollLimit(SB_VERT))
-					SetScrollPos(SB_VERT ,GetScrollLimit(SB_VERT),TRUE);
-				else
-					SetScrollPos(SB_VERT ,ul.y,TRUE);
-			}
-
-			
-			
+			if(height < Clrect.Height())
+				m_isHighSrcllBar = false;
+			else
+				m_isHighSrcllBar = true;
 		}
 
+
+		
 		if(!m_isZoomed && m_showPen)
 		{
 			int zoomWidth = int(Clrect.Width()/m_zoom)+2;
@@ -1346,15 +1327,71 @@ void CGTView::OnDraw(CDC* pDC)
 		{
 			if(!m_isZoomed)
 			{
-				m_cursorMap.StretchBlt(pDC->GetSafeHdc(),0,0,Clrect.Width(),Clrect.Height(),SRCCOPY);
 				m_imgOriginal->StretchBlt(pDC->GetSafeHdc(),0,0,width,height,SRCCOPY);
 				m_Map.AlphaBlend(pDC->GetSafeHdc(), 0, 0, width,height, 0, 0, m_imgOriginal->GetWidth(), m_imgOriginal->GetHeight(), grade);
+		
 			}
-			m_isZoomed = false;
+			else
+			{
+
+//					m_imgOriginal->StretchBlt(pDC->GetSafeHdc(),0,0,width,height,SRCCOPY);
+//				m_Map.AlphaBlend(pDC->GetSafeHdc(), 0, 0, width,height, 0, 0, m_imgOriginal->GetWidth(), m_imgOriginal->GetHeight(), grade);
+
+				SCROLLINFO scrollInfoH,scrollInfoW;
+
+				GetScrollInfo(SB_HORZ,&scrollInfoW);
+				GetScrollInfo(SB_VERT,&scrollInfoH);
+
+
+				if(height < Clrect.Height())
+				{
+					int heightDiff = height*25/16+1 - height;
+					m_cursorMap.StretchBlt(pDC->GetSafeHdc(),0,height,width*25/16+1,heightDiff,SRCCOPY);
+				}
+
+				if(width < Clrect.Width())
+				{
+					int witdthDiff = width*25/16+1 - width;
+					m_cursorMap.StretchBlt(pDC->GetSafeHdc(),width,0,witdthDiff,height*25/16+1,SRCCOPY);
+				}
+
+				CPoint PxlReal,ul,point;
+				pDoc->GetZoomPoint(PxlReal,point);
+				PxlReal.x = int(double(PxlReal.x) * m_zoom);
+				PxlReal.y = int(double(PxlReal.y) * m_zoom);
+				ul = PxlReal - point;
+			
+
+				if(width>Clrect.Width())
+				{
+					if(ul.x<0)
+						ul.x = 0;
+					else if(ul.x > GetScrollLimit(SB_HORZ))
+						ul.x = GetScrollLimit(SB_HORZ);
+					scrollInfoW.nPos = ul.x;
+
+				}
+				
+				if(height>Clrect.Height())
+				{
+					if(ul.y<0)
+						ul.y = 0;
+					else if(ul.y > GetScrollLimit(SB_VERT))
+						ul.y = GetScrollLimit(SB_VERT);
+					scrollInfoH.nPos = ul.y;
+				}
+				
+				SetScrollInfo(SB_HORZ,&scrollInfoW);
+				SetScrollInfo(SB_VERT,&scrollInfoH);
+
+			
+
+				m_isZoomed = false;
+			
+			}
 		}
 	}
 }
-
 void CGTView::OnInitialUpdate()
 {
 	CScrollView::OnInitialUpdate();
@@ -1555,10 +1592,7 @@ void CGTView::OnChangeSize(UINT nID)
 	if (m_imgOriginal->IsNull())
 		return;
 
-	if((m_imgOriginal->GetWidth()*m_zoom)<=Clrect.Width() || (m_imgOriginal->GetHeight()*m_zoom)<=Clrect.Height() || m_isZoomed)
-		Invalidate(true);
-	else
-		Invalidate(false);
+	Invalidate(false);
 
 	UpdateWindow();
 }

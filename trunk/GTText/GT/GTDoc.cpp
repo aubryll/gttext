@@ -639,8 +639,9 @@ void CGTDoc::SetZoomPoint(CPoint imagePoint,CPoint sreenPoint)
 
 void CGTDoc::GetZoomPoint(CPoint &imagePoint,CPoint &sreenPoint)
 {
-	imagePoint = m_zoomImagePoint;
-	sreenPoint = m_zoomSreenPoint;
+	CPoint imagePointcopy = m_zoomImagePoint,sreenPointCopy = m_zoomSreenPoint;
+	imagePoint = imagePointcopy;
+	sreenPoint = sreenPointCopy;
 }
 
 void CGTDoc::SetPenPoint(CPoint penPoint)
