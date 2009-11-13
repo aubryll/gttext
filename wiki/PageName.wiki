@@ -56,11 +56,11 @@ The cut tool has been speed up notably (One of the tools left to be speed from p
 
 Even less blinks
 
-===Updates 1.2.3-4===
+===Updates 1.2.3-5===
 
 Not released developer branches
 
-=== New Update 1.2.5 ===
+=== New Update 1.2.6 ===
 
   * Better Zoom tool and better mouse wheel handling
 
