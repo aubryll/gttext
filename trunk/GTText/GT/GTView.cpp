@@ -140,7 +140,8 @@ BOOL CGTView::OnMouseWheel(UINT nFlags,short zDelta,CPoint point)
 	{
 		if(pDoc->GetToolState() == ZOOM_TOOL)
 		{	
-			if(m_zoom  > 1/300)
+			
+			if(m_zoom  > 0.0033333)
 			{
 				pDoc->SetZoomPoint(PxlReal,point);
 				m_zoom = m_zoom / 5 * 4;
@@ -148,12 +149,11 @@ BOOL CGTView::OnMouseWheel(UINT nFlags,short zDelta,CPoint point)
 				m_isZoomed = true;
 				m_showPen = false;
 				OnChangeSize(ID_ZOOM);
-				//return TRUE;
 			}
 			else
 				return TRUE;
 		}
-		else if(!m_showPen && m_isHighSrcllBar && pDoc->GetToolState() != PIXEL_TOOL && pDoc->GetToolState() != REGION_TOOL || pDoc->GetEditState() == EDIT_NONE)
+		else if((!m_showPen && pDoc->GetToolState() != PIXEL_TOOL && pDoc->GetToolState() != REGION_TOOL || pDoc->GetEditState() == EDIT_NONE) && m_isHighSrcllBar)
 		{
 			pos = GetScrollPos(SB_VERT);
 			if(pos !=  GetScrollLimit(1))
@@ -182,13 +182,12 @@ BOOL CGTView::OnMouseWheel(UINT nFlags,short zDelta,CPoint point)
 				m_isZoomed = true;
 				m_showPen = false;
 				OnChangeSize(ID_ZOOM);
-				//return TRUE;
 			}
 			else
 				return TRUE;
 			
 		}
-		else if(!m_showPen && m_isHighSrcllBar && pDoc->GetToolState() != PIXEL_TOOL && pDoc->GetToolState() != REGION_TOOL || pDoc->GetEditState() == EDIT_NONE)
+		else if((!m_showPen && pDoc->GetToolState() != PIXEL_TOOL && pDoc->GetToolState() != REGION_TOOL || pDoc->GetEditState() == EDIT_NONE) && m_isHighSrcllBar)
 		{
 			pos = GetScrollPos(SB_VERT);
 			if(pos != 0)
@@ -934,7 +933,7 @@ void CGTView::OnRButtonUp(UINT nFlag,CPoint point)
 			}
 			break;
 		case ZOOM_TOOL:
-			if(m_zoom > 1/300)
+			if(m_zoom > 0.0033333)
 			{
 				pDoc->SetZoomPoint(PxlReal,point);
 				m_zoom = m_zoom /5 * 4;
