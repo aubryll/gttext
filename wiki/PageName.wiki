@@ -64,7 +64,8 @@ Not released developer branches
 
   * Better Zoom tool and better mouse wheel handling
 
-More eye graceful and speed up point zoom tool thanks to the decrease of screens blinks managed with a better handling of the mouse wheel calls and draw procedures.
+More eye graceful and speed up point zoom tool thanks to the decrease of screens blinks.
+This has been managed with a better handling of the mouse wheel calls and draw procedures.
 
 
 
