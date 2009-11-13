@@ -21,19 +21,13 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_380E8253E9394654B9893542B7D05354"
+        "OwnerKey" = "8:_F5E81B01A8AA45B188BB2207DCD329F0"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_5D433773C7430477108CA03C5BBC500B"
-        "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_630139BAC3924BA1B9482F04B95BCE13"
-        "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_6A0858B293A04422BA883AE0B6D8E708"
         "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -57,14 +51,8 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_B795830539744BEB93AD6E076816F899"
-        "OwnerKey" = "8:_6A0858B293A04422BA883AE0B6D8E708"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_B931C6582BA84C2EB9F3B92A80F6F945"
-        "OwnerKey" = "8:_630139BAC3924BA1B9482F04B95BCE13"
+        "MsmKey" = "8:_B1305C8E0D48480780563CCB8126DF2A"
+        "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -75,7 +63,19 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_D2D8F3ADE4204A129C979D7BCA1B6F7D"
+        "OwnerKey" = "8:_B1305C8E0D48480780563CCB8126DF2A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_DBF5A449668082F4A01DB9FAAC5C2DCF"
+        "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F5E81B01A8AA45B188BB2207DCD329F0"
         "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -368,22 +368,22 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Ground Truth Text"
-        "ProductCode" = "8:{D7BA95E0-DB53-4DA0-BEFC-DBC1B384B4E0}"
-        "PackageCode" = "8:{B8DC6325-C218-448F-9EBD-B3D5EE92474D}"
+        "ProductCode" = "8:{B9F685A2-5CFC-411E-81D4-A57FE8CED23F}"
+        "PackageCode" = "8:{683A1EFC-128B-4FCF-860D-A0E3A2B900AE}"
         "UpgradeCode" = "8:{C81FD9C0-7B3A-4D76-94E7-740A1324E374}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.2.5"
+        "ProductVersion" = "8:1.2.6"
         "Manufacturer" = "8:Universitat Autònoma de Barcelona"
         "ARPHELPTELEPHONE" = "8:"
-        "ARPHELPLINK" = "8:"
+        "ARPHELPLINK" = "8:http://gttext.googlecode.com"
         "Title" = "8:GTText"
         "Subject" = "8:"
         "ARPCONTACT" = "8:David Torne"
         "Keywords" = "8:"
-        "ARPCOMMENTS" = "8:"
+        "ARPCOMMENTS" = "8:Software to build a Ground Truth from complex color images with text"
         "ARPURLINFOABOUT" = "8:"
         "ARPPRODUCTICON" = "8:"
         "ARPIconIndex" = "3:0"
@@ -912,35 +912,7 @@
         }
         "MergeModule"
         {
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_630139BAC3924BA1B9482F04B95BCE13"
-            {
-            "UseDynamicProperties" = "11:TRUE"
-            "IsDependency" = "11:TRUE"
-            "SourcePath" = "8:Microsoft_VC80_MFC_x86.msm"
-                "Properties"
-                {
-                }
-            "LanguageId" = "3:0"
-            "Exclude" = "11:FALSE"
-            "Folder" = "8:"
-            "Feature" = "8:"
-            "IsolateTo" = "8:"
-            }
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_6A0858B293A04422BA883AE0B6D8E708"
-            {
-            "UseDynamicProperties" = "11:TRUE"
-            "IsDependency" = "11:TRUE"
-            "SourcePath" = "8:Microsoft_VC80_CRT_x86.msm"
-                "Properties"
-                {
-                }
-            "LanguageId" = "3:0"
-            "Exclude" = "11:FALSE"
-            "Folder" = "8:"
-            "Feature" = "8:"
-            "IsolateTo" = "8:"
-            }
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_B795830539744BEB93AD6E076816F899"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_380E8253E9394654B9893542B7D05354"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
@@ -954,11 +926,39 @@
             "Feature" = "8:"
             "IsolateTo" = "8:"
             }
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_B931C6582BA84C2EB9F3B92A80F6F945"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_B1305C8E0D48480780563CCB8126DF2A"
+            {
+            "UseDynamicProperties" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "SourcePath" = "8:Microsoft_VC80_MFC_x86.msm"
+                "Properties"
+                {
+                }
+            "LanguageId" = "3:0"
+            "Exclude" = "11:FALSE"
+            "Folder" = "8:"
+            "Feature" = "8:"
+            "IsolateTo" = "8:"
+            }
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_D2D8F3ADE4204A129C979D7BCA1B6F7D"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
             "SourcePath" = "8:policy_8_0_microsoft_vc80_mfc_x86.msm"
+                "Properties"
+                {
+                }
+            "LanguageId" = "3:0"
+            "Exclude" = "11:FALSE"
+            "Folder" = "8:"
+            "Feature" = "8:"
+            "IsolateTo" = "8:"
+            }
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_F5E81B01A8AA45B188BB2207DCD329F0"
+            {
+            "UseDynamicProperties" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "SourcePath" = "8:Microsoft_VC80_CRT_x86.msm"
                 "Properties"
                 {
                 }

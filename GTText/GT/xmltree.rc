@@ -27,8 +27,8 @@ LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,2,5,0
- PRODUCTVERSION 1,2,4,0
+ FILEVERSION 1,2,6,0
+ PRODUCTVERSION 1,2,6,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -44,12 +44,12 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "FileDescription", "GT Text Application"
-            VALUE "FileVersion", "1, 2, 5, 0"
+            VALUE "FileVersion", "1, 2, 6, 0"
             VALUE "InternalName", "gttext"
             VALUE "LegalCopyright", "Copyright (C) 2009"
             VALUE "OriginalFilename", "GTText.exe"
             VALUE "ProductName", "gttext Application"
-            VALUE "ProductVersion", "1, 2, 4, 0"
+            VALUE "ProductVersion", "1, 2, 6, 0"
         END
     END
     BLOCK "VarFileInfo"
@@ -128,10 +128,11 @@ STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "About GT"
 FONT 8, "Microsoft Sans Serif", 400, 0, 0x0
 BEGIN
-    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
-    LTEXT           "GT Text 1.2.5  by David Torne",IDC_STATIC,40,10,130,8,SS_NOPREFIX
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,21,20
+    LTEXT           "GT Text 1.2.6  by David Torne",IDC_STATIC,40,10,130,8,SS_NOPREFIX
     LTEXT           "Copyright (C) 2009",IDC_STATIC,40,25,119,8
     DEFPUSHBUTTON   "OK",IDOK,178,30,50,16,WS_GROUP
+    LTEXT           "dtorne@gmail.com",IDC_STATIC,105,26,66,8,SS_NOPREFIX
 END
 
 IDD_XMLTREE_DIALOG DIALOGEX 0, 0, 342, 350
