@@ -56,6 +56,12 @@ The cut tool has been speed up notably (One of the tools left to be speed from p
 
 Even less blinks
 
+== Future Work ==
+
+  * No blinks and neat zoom
+
+Recheck the zoom logic operations to zoom in & out neatly and steady.
+
 
 ==References==
 [http://msdn.microsoft.com/en-us/library/keze95wt(VS.80).aspx [1]] http://msdn.microsoft.com/en-us/library/keze95wt(VS.80).aspx
