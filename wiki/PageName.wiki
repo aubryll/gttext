@@ -1,7 +1,7 @@
 #labels Phase-Implementation
 #Wikipage detailing the content of each version and future work.
 
-= GTText Versions  =
+= GT Text Versions  =
 
 Follow the improvements of each version with the details
 that helped its performance as well as future work devised.
