@@ -58,7 +58,7 @@ Even less blinks
 
 ===Updates 1.2.3-5===
 
-Not released developer branches
+Developer branches
 
 === New Update 1.2.6 ===
 
