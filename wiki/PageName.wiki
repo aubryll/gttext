@@ -56,7 +56,7 @@ The cut tool has been speed up notably (One of the tools left to be speed from p
 
 Even less blinks
 
-===Updates 1.2.3-6===
+===Developer Updates 1.2.3-6===
 
 Developer releases.
 
