@@ -45,7 +45,7 @@ The execution of pointer movements captures as being discrete made difficult a c
 
   *  Improved the installation package
 
-The installation now includes the pre-warper exe file that Windows versions use to check the system and old versions too prevent the msi package from possible failures.
+The installation now includes the pre-warper exe file that Windows versions use to check the system and old versions preventing the msi package from possible failures.
 GTText_1.2.2.exe file will then self extract and install all the software with better system check.
 
   *  Faster Cut option
