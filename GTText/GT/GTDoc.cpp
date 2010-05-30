@@ -11,6 +11,11 @@
 #include "PropViews.h"
 
 
+#ifndef TESSDLL_IMPORTS
+#define TESSDLL_IMPORTS
+#include "baseapi.h"
+#endif
+
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -52,7 +57,6 @@ BEGIN_MESSAGE_MAP(CGTDoc, CDocument)
 	ON_COMMAND(ID_EDIT_UNDO, &CGTDoc::OnEditUndo)
 	ON_COMMAND(ID_ZOOM_TOOL, &CGTDoc::OnZoom)
 	ON_UPDATE_COMMAND_UI(ID_EDIT_UNDO, &CGTDoc::OnUpdateEditUndo)
-	ON_COMMAND(ID_VIEW_BRUSHSIZEBAR, &CGTDoc::OnViewBrushsizebar)
 	ON_COMMAND(ID_EDIT_REDO, &CGTDoc::OnEditRedo)
 	ON_UPDATE_COMMAND_UI(ID_EDIT_REDO, &CGTDoc::OnUpdateEditRedo)
 	ON_COMMAND(ID_EDIT_COPY, &CGTDoc::OnEditCopy)
@@ -75,6 +79,16 @@ BEGIN_MESSAGE_MAP(CGTDoc, CDocument)
 	ON_COMMAND(ID_FILE_PREFERENCES, &CGTDoc::OnFilePreferences)
 	ON_COMMAND(ID_VIEW_POINT, &CGTDoc::OnViewShowpoint)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_POINT, &CGTDoc::OnUpdateViewPoint)
+	ON_COMMAND(ID_FILE_EXPORTSELECTION, &CGTDoc::OnFileExportselection)
+	ON_UPDATE_COMMAND_UI(ID_FILE_EXPORTSELECTION, &CGTDoc::OnUpdateFileExportselection)
+	ON_UPDATE_COMMAND_UI(ID_EXPORTSELECTION_BLACK32959, &CGTDoc::OnUpdateFileExportselection)
+	ON_UPDATE_COMMAND_UI(ID_EXPORTSELECTION_COLOR32960, &CGTDoc::OnUpdateFileExportselection)
+	ON_COMMAND(ID_EXPORTSELECTION_COLOR32960, &CGTDoc::OnExportselectionColor)
+	ON_COMMAND(ID_EXPORTSELECTION_BLACK32959, &CGTDoc::OnExportselectionBlack)
+	ON_COMMAND(ID_COPYOCRTEXT_USESELECTION, &CGTDoc::OnExportBlackselectionText)
+	ON_COMMAND(ID_COPYOCRTEXT_ALLIMAGE, &CGTDoc::OnExportColorselectionText)
+	ON_UPDATE_COMMAND_UI(ID_COPYOCRTEXT_USESELECTION, &CGTDoc::OnUpdateFileExportselection)
+	ON_UPDATE_COMMAND_UI(ID_COPYOCRTEXT_ALLIMAGE, &CGTDoc::OnUpdateFileExportselection)
 END_MESSAGE_MAP()
 
 
@@ -513,6 +527,7 @@ void  CGTDoc::Backup(int nView)
 {
 	if(nView == 0)
 	{
+		m_imgSelection.LoadMaskPoints(m_edition_state,CRect(0,0,m_imgOriginal.GetWidth(),m_imgOriginal.GetHeight()));
 		m_imgSelectionOld = CImageSelection(m_imgSelection);
 		m_isBackuped = 1;
 	}
@@ -1759,22 +1774,6 @@ void CGTDoc::OnUpdateEditUndo(CCmdUI *pCmdUI)
 	pCmdUI->Enable(m_isBackuped==1);
 }
 
-void CGTDoc::OnViewBrushsizebar()
-{
-	CMainFrame* pMainWnd = (CMainFrame*)AfxGetMainWnd();
-	bool isOn = (m_tool == PIXEL_TOOL);
-	if(isOn)
-	{
-		m_tool = NO_TOOL;
-		pMainWnd->AddPen(!isOn);
-	}
-	else
-	{
-		m_tool = PIXEL_TOOL;
-		pMainWnd->AddPen(!isOn);
-	}
-}
-
 void CGTDoc::OnEditRedo()
 {
 	
@@ -1876,7 +1875,6 @@ void CGTDoc::OnEditPaste()
 		if(m_copyVector.size() != 0)
 		{	
 			BeginWaitCursor();
-			m_imgSelection.LoadMaskPoints(m_edition_state);
 			Backup();
 			for(unsigned i = 0;i<m_copyVector.size();i++)
 			{
@@ -1918,6 +1916,9 @@ void CGTDoc::OnEditCut()
 	if(gtView == NULL)
 		return;
 	BeginWaitCursor();
+		
+	Backup();
+	
 	gtView->GetClientRect(&Clrect);
 	Clrect.OffsetRect(gtView->GetScrollPosition());
 	imageRect.left = int(Clrect.left / gtView->GetZoom());
@@ -1944,7 +1945,7 @@ void CGTDoc::OnEditCut()
 		m_copyVector = * maskVector;
 		*maskVector = fullWitdthVector;
 		OnEditCopy();
-		Backup(0);
+		
 
 		//ERASE
 		m_imgSelection.EraseArea(imageRect,m_edition_state);
@@ -2325,7 +2326,17 @@ CImage* CImageSelection::MergePoints(CImage* source,bool changeSelection)
 void CImageSelection::InvertMask(CRect size,EditEnum region)
 {
 	if((size.left < 0) || (size.right > m_imgMask.GetWidth()) || (size.top < 0) || (size.bottom > m_imgMask.GetHeight()))
-		return;
+	{
+		if(size.left < 0)
+			size.left = 0;
+		if(size.right > m_imgMask.GetWidth())
+			size.right = m_imgMask.GetWidth();
+		if(size.top < 0)
+			size.top = 0;
+		if(size.bottom > m_imgMask.GetHeight())
+			size.bottom = m_imgMask.GetHeight();
+	}
+
 	COLORREF editColor,imagePix;
 	switch(region)
 	{
@@ -2366,7 +2377,17 @@ void CImageSelection::InvertMask(CRect size,EditEnum region)
 void CImageSelection::EraseArea(CRect size,EditEnum region)
 {
 	if((size.left < 0) || (size.right > m_imgMask.GetWidth()) || (size.top < 0) || (size.bottom > m_imgMask.GetHeight()))
-		return;
+	{
+		if(size.left < 0)
+			size.left = 0;
+		if(size.right > m_imgMask.GetWidth())
+			size.right = m_imgMask.GetWidth();
+		if(size.top < 0)
+			size.top = 0;
+		if(size.bottom > m_imgMask.GetHeight())
+			size.bottom = m_imgMask.GetHeight();
+	}
+
 	COLORREF editColor,imagePix;
 	switch(region)
 	{
@@ -3112,5 +3133,63 @@ bool operator< (const CPoint op1, const CPoint op2)
 				return true;
 		}
 	return false;
+}
+
+
+
+void CGTDoc::OnFileExportselection()
+{
+	POSITION pos = GetFirstViewPosition();
+	CGTView* gtView = (CGTView*) GetNextView(pos);
+	if(gtView == NULL)
+		return;
+	gtView->OnFileSaveImage();
+}
+
+
+void CGTDoc::OnUpdateFileExportselection(CCmdUI *pCmdUI)
+{
+	pCmdUI->Enable(!m_imgOriginal.IsNull() && !m_imgSelection.GetImageMask()->IsNull());
+}
+
+
+void CGTDoc::OnExportselectionColor()
+{
+	POSITION pos = GetFirstViewPosition();
+	CGTView* gtView = (CGTView*) GetNextView(pos);
+	if(gtView == NULL)
+		return;
+	gtView->OnFileSaveImage(true);
+}
+
+
+void CGTDoc::OnExportselectionBlack()
+{
+	POSITION pos = GetFirstViewPosition();
+	CGTView* gtView = (CGTView*) GetNextView(pos);
+	if(gtView == NULL)
+		return;
+	gtView->OnFileSaveImage(false);
+}
+
+
+void CGTDoc::OnExportBlackselectionText()
+{
+	POSITION pos = GetFirstViewPosition();
+	CGTView* gtView = (CGTView*) GetNextView(pos);
+	if(gtView == NULL)
+		return;
+	gtView->OnFileSaveImage(false,true);
+	
+}
+
+void CGTDoc::OnExportColorselectionText()
+{
+	POSITION pos = GetFirstViewPosition();
+	CGTView* gtView = (CGTView*) GetNextView(pos);
+	if(gtView == NULL)
+		return;
+	gtView->OnFileSaveImage(true,true);
+	
 }
 

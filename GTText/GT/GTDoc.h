@@ -295,6 +295,7 @@ protected:
 	virtual void Serialize(CArchive& ar);
 	virtual BOOL OnSaveDocument(LPCTSTR lpszPathName);
 	virtual void OnCloseDocument();
+	
 
 	
 public:
@@ -327,7 +328,6 @@ public:
 	afx_msg void OnEditUndo();
 	afx_msg void OnZoom();
 	afx_msg void OnUpdateEditUndo(CCmdUI *pCmdUI);
-	afx_msg void OnViewBrushsizebar();
 	afx_msg void OnEditRedo();
 	afx_msg void OnUpdateEditRedo(CCmdUI *pCmdUI);
 	afx_msg void OnEditCopy();
@@ -351,6 +351,12 @@ public:
 	afx_msg void OnUpdateViewPoint(CCmdUI *pCmdUI);
 
 
+	afx_msg void OnFileExportselection();
+	afx_msg void OnUpdateFileExportselection(CCmdUI *pCmdUI);
+	afx_msg void OnExportselectionColor();
+	afx_msg void OnExportselectionBlack();
+	afx_msg void OnExportBlackselectionText();
+	afx_msg void OnExportColorselectionText();
 };
 
 

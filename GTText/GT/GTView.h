@@ -8,6 +8,7 @@
 
 
 
+
 enum SizesEnum
 {
 	SIZE_HALF,
@@ -75,8 +76,9 @@ private:
 	bool m_isZoomed;
 	int m_floodDistance;
 	int m_bright;
-	bool m_isOutline;
+	int m_isOutline;
 	int m_isExt;
+	bool m_isToAll;
 	bool m_showPen;
 	CImage m_Map;
 	CImage m_cursorMap;
@@ -97,10 +99,11 @@ public:
 	void SetPixelFast(CImage *pImage,int x, int y, COLORREF color);
 	double GetZoom();
 	void SetExt();
+	void SetToAll();
 	void SetShowPen();
 	void SetBright(int bright);
 	void SetSesitivity(int sensitivity);
-	void OnFileSaveImage(void);
+	void OnFileSaveImage(bool isColor=true, bool isOCR=false);
 	BOOL OnFileImageOpen();
 	void OnToolsMakeBW(void);
 	void OnUpdateSizeHalf(CCmdUI* pCmdUI);
@@ -117,7 +120,7 @@ public:
 	void OnRPaint(UINT nFlag,CPoint point);
 	void OnChangePen(PenEnum pen);
 	int GetPenSize();
-	void SetBorder(bool state);
+	void SetBorder();
 	void PrintPoint(CPoint PxlReal);
 public:
 	afx_msg void OnFileOpen();

@@ -13,20 +13,18 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Español (neutro) resources
+// Spanish resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ESP)
-#ifdef _WIN32
 LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
 #pragma code_page(1252)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Menu
 //
 
-IDR_MAINFRAME MENU 
+IDR_MAINFRAME MENU
 BEGIN
     POPUP "&File"
     BEGIN
@@ -34,6 +32,12 @@ BEGIN
         MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
         MENUITEM "&Save\tCtrl+S",               ID_FILE_SAVE
         MENUITEM "Save &As...",                 ID_FILE_SAVE_AS
+        MENUITEM SEPARATOR
+        POPUP "Export Selection..."
+        BEGIN
+            MENUITEM "Color",                       ID_EXPORTSELECTION_COLOR32960
+            MENUITEM "Black",                       ID_EXPORTSELECTION_BLACK32959
+        END
         MENUITEM SEPARATOR
         MENUITEM "&Print...\tCtrl+P",           ID_FILE_PRINT
         MENUITEM "Print Pre&view",              ID_FILE_PRINT_PREVIEW
@@ -104,6 +108,12 @@ BEGIN
         MENUITEM "Zoom Select",                 ID_ZOOM_TOOL
         MENUITEM SEPARATOR
         MENUITEM "&Invert\tCtrl+I",             ID_TOOLS_INVERTALL
+        MENUITEM SEPARATOR
+        POPUP "Copy text from..."
+        BEGIN
+            MENUITEM "Selection",                   ID_COPYOCRTEXT_USESELECTION
+            MENUITEM "Full color image",            ID_COPYOCRTEXT_ALLIMAGE
+        END
     END
     POPUP "&Help"
     BEGIN
@@ -122,7 +132,7 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSM
 CAPTION "Image Information"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,132,52,50,14
+    DEFPUSHBUTTON   "OK",IDOK,153,49,50,14
     LTEXT           "Image Size:",IDC_STATIC,7,13,38,8
     LTEXT           "### x ###",IDC_IMAGESIZE,59,13,56,8
     LTEXT           "Depth:",IDC_STATIC,22,25,23,8
@@ -142,7 +152,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_INFODLG, DIALOG
     BEGIN
@@ -154,18 +164,16 @@ BEGIN
 END
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Español (neutro) resources
+#endif    // Spanish resources
 /////////////////////////////////////////////////////////////////////////////
 
 
 /////////////////////////////////////////////////////////////////////////////
-// Inglés (Estados Unidos) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -173,8 +181,8 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,2,6,0
- PRODUCTVERSION 1,2,6,0
+ FILEVERSION 1,3,0,0
+ PRODUCTVERSION 1,3,0,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -190,12 +198,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "FileDescription", "GT Text Application"
-            VALUE "FileVersion", "1.2.6"
+            VALUE "FileVersion", "1.3.0.0"
             VALUE "InternalName", "gttext"
-            VALUE "LegalCopyright", "Copyright 2009"
+            VALUE "LegalCopyright", "Copyright 2010"
             VALUE "OriginalFilename", "GTText.exe"
             VALUE "ProductName", "gttext aplication"
-            VALUE "ProductVersion", "1.2.6"
+            VALUE "ProductVersion", "1.3.0.0"
         END
     END
     BLOCK "VarFileInfo"
@@ -204,25 +212,23 @@ BEGIN
     END
 END
 
-#endif    // Inglés (Estados Unidos) resources
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
 /////////////////////////////////////////////////////////////////////////////
-// Neutral (predeterminado del sistema) resources
+// Neutral (Sys. Default) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEUSD)
-#ifdef _WIN32
 LANGUAGE LANG_NEUTRAL, SUBLANG_SYS_DEFAULT
 #pragma code_page(1252)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Menu
 //
 
-IDR_MENUTR MENU 
+IDR_MENUTR MENU
 BEGIN
     POPUP "Context GT"
     BEGIN
@@ -230,7 +236,7 @@ BEGIN
     END
 END
 
-IDR_MENUTL MENU 
+IDR_MENUTL MENU
 BEGIN
     POPUP "Context GT"
     BEGIN
@@ -239,7 +245,7 @@ BEGIN
     END
 END
 
-IDR_MENUW MENU 
+IDR_MENUW MENU
 BEGIN
     POPUP "Context GT"
     BEGIN
@@ -248,7 +254,7 @@ BEGIN
     END
 END
 
-IDR_MENUG MENU 
+IDR_MENUG MENU
 BEGIN
     POPUP "Context GT"
     BEGIN
@@ -258,7 +264,7 @@ BEGIN
     END
 END
 
-IDR_MENUGD MENU 
+IDR_MENUGD MENU
 BEGIN
     POPUP "Context GT"
     BEGIN
@@ -304,7 +310,7 @@ BEGIN
     LTEXT           "Reading Orientation",IDC_RDIREC,8,142,65,8
     LTEXT           "Secondary Script",IDC_SECCRIP,18,182,55,8
     LTEXT           "Secondary Language",IDC_SECNDLNG,5,200,68,8
-    CONTROL         "Reverse Video",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,254,59,10
+    CONTROL         "Reverse Video",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,254,59,10,WS_EX_TRANSPARENT
     LTEXT           "Text Type",IDC_STATIC,39,218,34,8
     CTEXT           "Text Region",IDC_STATIC,80,15,40,8
     LTEXT           "Text Equivalent",IDC_STATIC,20,236,51,8
@@ -319,7 +325,7 @@ BEGIN
     EDITTEXT        IDC_EDIT17,81,101,48,12,ES_AUTOHSCROLL
     EDITTEXT        IDC_EDIT20,81,139,48,12,ES_AUTOHSCROLL
     EDITTEXT        IDC_EDIT25,81,65,48,12,ES_AUTOHSCROLL | ES_NUMBER
-    EDITTEXT        IDC_EDIT12,81,234,48,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT12,81,234,48,12,ES_MULTILINE | ES_AUTOHSCROLL
 END
 
 IDD_FORMTEXT DIALOGEX 0, 0, 165, 90
@@ -349,14 +355,14 @@ BEGIN
     EDITTEXT        IDC_EDIT1,62,15,40,14,ES_CENTER | ES_AUTOHSCROLL | ES_READONLY | NOT WS_VISIBLE | NOT WS_BORDER
 END
 
-IDD_DIALOGBRIGHT DIALOGEX 0, 0, 35, 204
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+IDD_DIALOGBRIGHT DIALOGEX 0, 0, 40, 213
+STYLE DS_ABSALIGN | DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "",IDC_BRIGHT_SLIDER,"msctls_trackbar32",TBS_VERT | TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,7,41,19,107
-    LTEXT           "100%",IDC_STATIC,7,31,20,8
-    LTEXT           "0%",IDC_STATIC,11,147,12,8
-    LTEXT           " Selection \n    Bright",IDC_STATIC,0,6,35,22
+    CONTROL         "",IDC_BRIGHT_SLIDER,"msctls_trackbar32",TBS_VERT | TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,9,48,19,107
+    LTEXT           "100%",IDC_STATIC,9,40,20,8
+    LTEXT           "0%",IDC_STATIC,13,154,12,8
+    LTEXT           " Selection \n    Bright",IDC_STATIC,2,7,35,22
 END
 
 IDD_DIALOGZOOM DIALOGEX 0, 0, 73, 15
@@ -366,25 +372,27 @@ BEGIN
     COMBOBOX        IDC_COMBOZOOM,4,1,65,30,CBS_DROPDOWNLIST | CBS_UPPERCASE | WS_VSCROLL | WS_TABSTOP
 END
 
-IDD_DIALOGONFILL DIALOGEX 0, 0, 37, 204
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+IDD_DIALOGONFILL DIALOGEX 0, 0, 40, 213
+STYLE DS_ABSALIGN | DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "",IDC_ONFILL_SLIDER,"msctls_trackbar32",TBS_VERT | TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,7,41,19,107
-    LTEXT           "100%",IDC_STATIC,7,31,20,8
-    LTEXT           "0%",IDC_STATIC,11,147,12,8
-    CTEXT           " Selection \n Tolerance",IDC_STATIC,0,6,37,22
-    CONTROL         "",IDC_SPINSENS,"msctls_updown32",0x0,3,157,11,14
-    EDITTEXT        IDC_EDITSENS,15,156,18,16,ES_AUTOHSCROLL | ES_READONLY
-    CONTROL         "Border",IDC_CHECKBORDER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,2,178,31,8
-    CONTROL         "Ext",IDC_EXT,"Button",BS_AUTO3STATE | WS_TABSTOP,2,191,27,10
+    CONTROL         "",IDC_ONFILL_SLIDER,"msctls_trackbar32",TBS_VERT | TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,9,48,19,107
+    LTEXT           "100%",IDC_STATIC,9,40,20,8
+    LTEXT           "0%",IDC_STATIC,12,155,12,8
+    CTEXT           " Selection \n Tolerance",IDC_STATIC,0,7,39,22
+    CONTROL         "",IDC_SPINSENS,"msctls_updown32",0x0,3,165,11,14
+    EDITTEXT        IDC_EDITSENS,15,164,18,16,ES_AUTOHSCROLL | ES_READONLY
+    CONTROL         "Border",IDC_CHECKBORDER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,2,186,31,8
+    CONTROL         "Ext",IDC_EXT,"Button",BS_AUTO3STATE | WS_TABSTOP,2,199,21,10
+    CONTROL         "All",IDC_TOALL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,29,19,8
 END
 
 IDD_DIALOGBRUSH DIALOGEX 0, 0, 73, 15
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_TRANSPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    COMBOBOX        IDC_COMBOPEN,4,1,65,30,CBS_DROPDOWNLIST | CBS_UPPERCASE | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBOPEN,4,1,65,30,CBS_DROPDOWNLIST | CBS_UPPERCASE | WS_VSCROLL | WS_TABSTOP,WS_EX_TRANSPARENT
 END
 
 IDD_GTABOUTBOX DIALOGEX 0, 0, 235, 55
@@ -392,9 +400,9 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSM
 CAPTION "About GT"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
-    LTEXT           "GT Version 1.2.5",IDC_STATIC,40,10,119,8,SS_NOPREFIX
-    LTEXT           "Copyright (C) 2009",IDC_STATIC,40,25,119,8
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,21,20
+    LTEXT           "GT Version 1.3.0",IDC_STATIC,40,10,119,8,SS_NOPREFIX
+    LTEXT           "Copyright (C) 2010",IDC_STATIC,40,25,119,8
     DEFPUSHBUTTON   "OK",IDOK,177,31,50,16,WS_GROUP
 END
 
@@ -405,7 +413,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_FORMVIEW, DIALOG
     BEGIN
@@ -423,6 +431,10 @@ BEGIN
         RIGHTMARGIN, 150
     END
 
+    IDD_FORMTEXT, DIALOG
+    BEGIN
+    END
+
     IDD_FORMGLYPH, DIALOG
     BEGIN
         RIGHTMARGIN, 150
@@ -433,11 +445,32 @@ BEGIN
         RIGHTMARGIN, 150
     END
 
+    IDD_DIALOGBRIGHT, DIALOG
+    BEGIN
+        MOCKUP, 0, 69, 0, 290, ".\res\bitmap2.bmp"
+        RIGHTMARGIN, 39
+        BOTTOMMARGIN, 212
+    END
+
+    IDD_DIALOGZOOM, DIALOG
+    BEGIN
+    END
+
+    IDD_DIALOGONFILL, DIALOG
+    BEGIN
+        RIGHTMARGIN, 39
+        BOTTOMMARGIN, 210
+    END
+
+    IDD_DIALOGBRUSH, DIALOG
+    BEGIN
+    END
+
     IDD_GTABOUTBOX, DIALOG
     BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 228
-        TOPMARGIN, 7
+        TOPMARGIN, 10
         BOTTOMMARGIN, 48
     END
 END
@@ -774,18 +807,16 @@ BEGIN
     0
 END
 
-#endif    // Neutral (predeterminado del sistema) resources
+#endif    // Neutral (Sys. Default) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
 /////////////////////////////////////////////////////////////////////////////
-// Español resources
+// Spanish (Spain, International Sort) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ESN)
-#ifdef _WIN32
 LANGUAGE LANG_SPANISH, SUBLANG_SPANISH_MODERN
 #pragma code_page(1252)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -812,7 +843,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_PREFERENCES, DIALOG
     BEGIN
@@ -888,7 +919,7 @@ IDB_BITMAP2             BITMAP                  "res\\bitmap2.bmp"
 // Toolbar
 //
 
-IDR_MAINFRAME TOOLBAR  16, 15
+IDR_MAINFRAME TOOLBAR 16, 15
 BEGIN
     BUTTON      ID_FILE_NEW
     SEPARATOR
@@ -904,7 +935,7 @@ BEGIN
     BUTTON      ID_APP_ABOUT
 END
 
-IDR_TOOLBARIM TOOLBAR  16, 15
+IDR_TOOLBARIM TOOLBAR 16, 15
 BEGIN
     BUTTON      ID_ZOOM_TOOL
     SEPARATOR
@@ -926,7 +957,7 @@ END
 // Accelerator
 //
 
-IDR_MAINFRAME ACCELERATORS 
+IDR_MAINFRAME ACCELERATORS
 BEGIN
     "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
     VK_INSERT,      ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
@@ -954,24 +985,24 @@ END
 // String Table
 //
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDP_OLE_INIT_FAILED     "OLE initialization failed.  Make sure that the OLE libraries are the correct version."
     IDR_BRIGHT_TMPL         "Bright\nBright\nBright\nBright Files (*.bri)\n.bri\nBright.Document\nBright Document"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDR_MAINFRAME           "GT\nGT\nGT\nGT Files (gt-*.xml)\n.xml\nGT.Document\nGT Document"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     AFX_IDS_APP_TITLE       "GT"
     AFX_IDS_IDLEMESSAGE     "Ready"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_INDICATOR_EXT        "EXT"
     ID_INDICATOR_CAPS       "CAP"
@@ -981,7 +1012,7 @@ BEGIN
     ID_INDICATOR_REC        "REC"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_FILE_NEW             "Create a new document\nNew"
     ID_FILE_OPEN            "Open an existing document\nOpen"
@@ -994,13 +1025,13 @@ BEGIN
     ID_FILE_PRINT_PREVIEW   "Display full pages\nPrint Preview"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_APP_ABOUT            "Display program information, version number and copyright\nAbout"
     ID_APP_EXIT             "Quit the application; prompts to save documents\nExit"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_FILE_MRU_FILE1       "Open this document"
     ID_FILE_MRU_FILE2       "Open this document"
@@ -1020,18 +1051,18 @@ BEGIN
     ID_FILE_MRU_FILE16      "Open this document"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_NEXT_PANE            "Switch to the next window pane\nNext Pane"
     ID_PREV_PANE            "Switch back to the previous window pane\nPrevious Pane"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_WINDOW_SPLIT         "Split the active window into panes\nSplit"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_EDIT_CLEAR           "Erase the selection\nErase"
     ID_EDIT_CLEAR_ALL       "Erase everything\nErase All"
@@ -1046,13 +1077,13 @@ BEGIN
     ID_EDIT_REDO            "Redo the last action undone\nRedo"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_VIEW_TOOLBAR         "Show or hide the toolbar\nToggle ToolBar"
     ID_VIEW_STATUS_BAR      "Show or hide the status bar\nToggle StatusBar"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     AFX_IDS_SCSIZE          "Change the window size"
     AFX_IDS_SCMOVE          "Change the window position"
@@ -1063,18 +1094,18 @@ BEGIN
     AFX_IDS_SCCLOSE         "Close the active window and prompts to save the documents"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     AFX_IDS_SCRESTORE       "Restore the window to normal size"
     AFX_IDS_SCTASKLIST      "Activate Task List"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     AFX_IDS_PREVIEW_CLOSE   "Close print preview mode\nCancel Preview"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_VIEW_SHADE           "View Shade\nClick here to display the shade of the glyph"
     ID_VIEW_CORE            "View Core\nClick here to display the core of the glyph"
@@ -1082,7 +1113,7 @@ BEGIN
     ID_EDIT_SHADE           "Edit Shade\nClick here to edit the shade of the glyph"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_EDIT_EDITOUTLINE     "Edit Outline\nClick here to edit the outline of the glyph"
     ID_EDIT_EDITCORE        "Edit Core\nClick here to edit the core of the glyph"
@@ -1093,13 +1124,13 @@ BEGIN
     ID_VIEW_SENSITIVITY     "Show or hide the sensivitiy bar\nToggle SensitivityBa"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_EDIT_OUTLINE         "Edit Outline\nClick here to edit the outline of the glyph"
     ID_EDIT_CORE            "Edit Core\nClick here to edit the core of the glyph"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_ZOOM_TOOL            "Mouse Zoom Tool\nClick here to select the mouse zoom"
     ID_VIEW_ZOOMBAR         "Show or hide the zoom bar\nToggle ZoomBa"
@@ -1107,35 +1138,36 @@ BEGIN
     ID_IMAGE_INFO           "Image Information"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_EDIT_REDOXML         "Redo the last XML action undone\nRedo XML"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_EDIT_UNDOXML         "Undo the last XML action\nUndo XML"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_EDIT_INVERT          "Invert Selection\nClick here the inverter pen as a tool"
     ID_TOOLS_INVERTALL      "Invert All"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDC_CHECKBORDER         "Outline Region\nSelects the outline of the region"
     IDC_EXT                 "Extension FloodFill\nPerforms the selection based on stronger gradient/color similarity "
+    IDC_TOALL               "Selects from All Image\nPerforms the selection color/gradient from all the Image"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_VIEW_SHOWPOINT       "\nView Point Coordinates"
     ID_VIEW_POINT           "View Point Coordinates"
 END
 
-#endif    // Español resources
+#endif    // Spanish (Spain, International Sort) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

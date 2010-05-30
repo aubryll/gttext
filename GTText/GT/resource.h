@@ -117,6 +117,8 @@
 #define IDC_RADIO1                      1063
 #define IDC_EXT                         1064
 #define IDC_GFOLDER                     1065
+#define IDC_EXT2                        1065
+#define IDC_TOALL                       1065
 #define IDC_PFOLDER                     1066
 #define IDC_XMLTREE                     1100
 #define IDC_URL                         1101
@@ -282,14 +284,25 @@
 #define ID_VIEW_SHOWPOINT               32953
 #define ID_VIEW_POINT                   32954
 #define ID_CONTEXTGT_CREATEWORDGLYPH    32955
+#define ID_FILE_EXPORTSELECTION         32956
+#define ID_EXPORTSELECTION_COLOR        32957
+#define ID_EXPORTSELECTION_BLACK        32958
+#define ID_EXPORTSELECTION_BLACK32959   32959
+#define ID_EXPORTSELECTION_COLOR32960   32960
+#define ID_EXPORTSELECTION_TEXT         32961
+#define ID_FILE_EXTRACTTEXTFILE         32962
+#define ID_EXPORTSELECTION_TEXT32963    32963
+#define ID_EXPORTIMAGE_SCREENVIEW       32964
+#define ID_COPYOCRTEXT_ALLIMAGE         32965
+#define ID_COPYOCRTEXT_USESELECTION     32966
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        183
-#define _APS_NEXT_COMMAND_VALUE         32956
-#define _APS_NEXT_CONTROL_VALUE         1068
+#define _APS_NEXT_RESOURCE_VALUE        186
+#define _APS_NEXT_COMMAND_VALUE         32967
+#define _APS_NEXT_CONTROL_VALUE         1073
 #define _APS_NEXT_SYMED_VALUE           110
 #endif
 #endif

@@ -74,6 +74,8 @@ public:
 	afx_msg void OnCbnSelchangeCombopen();
 	afx_msg void OnBnClickedCheckborder();
 	afx_msg void OnBnClickedExt();
+	afx_msg void OnBnClickedToAllImage();
+	afx_msg void OnViewBrushsizebar();
 };
 
 

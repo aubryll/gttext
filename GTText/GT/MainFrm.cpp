@@ -36,6 +36,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_CBN_SELCHANGE(IDC_COMBOPEN, &CMainFrame::OnCbnSelchangeCombopen)
 	ON_BN_CLICKED(IDC_CHECKBORDER, &CMainFrame::OnBnClickedCheckborder)
 	ON_BN_CLICKED(IDC_EXT, &CMainFrame::OnBnClickedExt)
+	ON_BN_CLICKED(IDC_TOALL, &CMainFrame::OnBnClickedToAllImage)
+	ON_COMMAND(ID_VIEW_BRUSHSIZEBAR, &CMainFrame::OnViewBrushsizebar)
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -56,6 +58,7 @@ CMainFrame::CMainFrame()
 	isZoomActive = 2;
 	isPenActive = 2;
 	m_isLoaded = false;
+
 }
 
 CMainFrame::~CMainFrame()
@@ -77,8 +80,9 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (CFrameWnd::OnCreate(lpCreateStruct) == -1)
 		return -1;
+
 	
-	if (!m_wndToolBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP
+	if (!m_wndToolBar.CreateEx(this, TBSTYLE_TRANSPARENT, WS_CHILD | WS_VISIBLE | CBRS_TOP
 		| CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC) ||
 		!m_wndToolBar.LoadToolBar(IDR_MAINFRAME))
 	{
@@ -87,7 +91,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	}
 
 	if (! m_wndBrightBar.Create(this, IDD_DIALOGBRIGHT,
-		CBRS_ALIGN_LEFT|CBRS_TOOLTIPS|CBRS_FLYBY| CBRS_SIZE_DYNAMIC, IDD_DIALOGBRIGHT))
+		CBRS_ALIGN_LEFT|CBRS_TOOLTIPS|CBRS_FLOATING|CBRS_FLYBY| CBRS_SIZE_DYNAMIC, IDD_DIALOGBRIGHT))
 	{
 		TRACE0("Failed to create m_wndBrightBar\n");
 		return -1;      // fail to create
@@ -113,7 +117,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	pCEdit->SetWindowTextW(LPCTSTR(_T("10")));
 		
 	
-	if (!m_wndImageBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP
+	if (!m_wndImageBar.CreateEx(this, TBSTYLE_TRANSPARENT, WS_CHILD | WS_VISIBLE | CBRS_TOP
 		| CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC) ||
 		!m_wndImageBar.LoadToolBar(IDR_TOOLBARIM))
 	{
@@ -355,6 +359,7 @@ void CMainFrame::AddSensitivityBar(bool isAdded)
 	else
 		m_wndSplitter.SetColumnInfo(0,wwith+49,wmin);
 	m_wndSplitter.RecalcLayout();
+
 }
 
 BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
@@ -516,6 +521,8 @@ void CMainFrame::OnDeltaposSpinsens(NMHDR *pNMHDR, LRESULT *pResult)
 void CMainFrame::AddZoom(bool isEnable)
 {
 	BOOL bVisible = (( m_wndZoomBar.GetStyle() & WS_VISIBLE) != 0);
+
+	m_wndZoomBar.ActivateTopParent();
 	if(isEnable)
 	{
 		if((isZoomActive == 0)|| (isZoomActive == 2)) 
@@ -524,7 +531,6 @@ void CMainFrame::AddZoom(bool isEnable)
 	}
 	else
 	{
-		m_wndZoomBar.ActivateTopParent();
 		ShowControlBar(& m_wndZoomBar, isEnable, FALSE);
 		if((isZoomActive == 1)|| (isZoomActive == 3)) 
 		{
@@ -534,16 +540,30 @@ void CMainFrame::AddZoom(bool isEnable)
 				isZoomActive = 0;
 		}
 	}
+
+	if(isEnable && bVisible)
+		return;
+	else if(!isEnable && !bVisible)
+		return;
+
+	bVisible = (( m_wndBrightBar.GetStyle() & WS_VISIBLE) != 0);
+
+	//On-Off avoids bad background redrawing
+	ShowControlBar(& m_wndBrightBar, !bVisible, FALSE);
+	ShowControlBar(& m_wndBrightBar, bVisible, FALSE);
 	RecalcLayout();
 }
 
 void CMainFrame::AddPen(bool isEnable)
 {
 	BOOL bVisible = (( m_wndPenBar.GetStyle() & WS_VISIBLE) != 0);
+
+
 	if(isEnable)
 	{
 		if((isPenActive == 0)|| (isPenActive == 2)) 
 			isPenActive++;
+
 		ShowControlBar(& m_wndPenBar, (isPenActive == 3), FALSE);
 	}
 	else
@@ -558,15 +578,28 @@ void CMainFrame::AddPen(bool isEnable)
 		}
 	}
 
+	if(isEnable && bVisible)
+		return;
+	else if(!isEnable && !bVisible)
+		return;
+	
+	bVisible = (( m_wndBrightBar.GetStyle() & WS_VISIBLE) != 0);
+
+	ShowControlBar(& m_wndBrightBar, !bVisible, FALSE);
+	ShowControlBar(& m_wndBrightBar, bVisible, FALSE);
 	RecalcLayout();
-	m_wndSplitter.RecalcLayout();
 }
 
 void CMainFrame::OnViewZoombar()
 {
 	BOOL bVisible = (( m_wndZoomBar.GetStyle() & WS_VISIBLE) != 0);
-
 	ShowControlBar(& m_wndZoomBar, !bVisible, FALSE);
+	
+	bVisible = (( m_wndBrightBar.GetStyle() & WS_VISIBLE) != 0);
+
+	//On-Off avoids bad background redrawing
+	ShowControlBar(& m_wndBrightBar, !bVisible, FALSE);
+	ShowControlBar(& m_wndBrightBar, bVisible, FALSE);
 	RecalcLayout();
 }
 
@@ -649,13 +682,35 @@ void CMainFrame::OnCbnSelchangeCombopen()
 void CMainFrame::OnBnClickedCheckborder()
 {
 	CGTView* gtView = (CGTView*) m_wndSplitter.GetPane(0,0);
-	CEdit* pCCheck = (CEdit*)m_wndSensitivityBar.GetDlgItem(IDC_CHECKBORDER);
-	gtView->SetBorder(true);
+	//CEdit* pCCheck = (CEdit*)m_wndSensitivityBar.GetDlgItem(IDC_CHECKBORDER);
+	gtView->SetBorder();
 }
 
 void CMainFrame::OnBnClickedExt()
 {
 	CGTView* gtView = (CGTView*) m_wndSplitter.GetPane(0,0);
-	CEdit* pCCheck = (CEdit*)m_wndSensitivityBar.GetDlgItem(IDC_EXT);
+	//CEdit* pCCheck = (CEdit*)m_wndSensitivityBar.GetDlgItem(IDC_EXT);
 	gtView->SetExt();
+}
+
+
+void CMainFrame::OnBnClickedToAllImage()
+{
+	CGTView* gtView = (CGTView*) m_wndSplitter.GetPane(0,0);
+	//CEdit* pCRadio = (CEdit*)m_wndSensitivityBar.GetDlgItem(IDC_RADIO1);
+	gtView->SetToAll();
+}
+
+
+void CMainFrame::OnViewBrushsizebar()
+{
+	BOOL bVisible = (( m_wndPenBar.GetStyle() & WS_VISIBLE) != 0);
+	ShowControlBar(& m_wndPenBar, !bVisible, FALSE);
+	
+	bVisible = (( m_wndBrightBar.GetStyle() & WS_VISIBLE) != 0);
+
+	//On-Off avoids bad background redrawing
+	ShowControlBar(& m_wndBrightBar, !bVisible, FALSE);
+	ShowControlBar(& m_wndBrightBar, bVisible, FALSE);
+	RecalcLayout();
 }
