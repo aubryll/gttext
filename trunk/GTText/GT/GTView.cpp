@@ -1,6 +1,8 @@
 // GTView.cpp: implementación de la clase CGTView
 //
 
+
+
 #include "stdafx.h"
 #include "GT.h"
 
@@ -8,6 +10,10 @@
 #include "GTView.h"
 #include "GTXMLView.h"
 #include "MainFrm.h"
+#include "baseapi.h"
+#include "allheaders.h"
+#include <string>
+
 
 
 
@@ -43,7 +49,8 @@ CGTView::CGTView()
 	m_floodDistance = 10;
 	m_bright = 128;
 	m_nPenSize = PEN_1;
-	m_isOutline = false;
+	m_isOutline = 0;
+	m_isToAll = 0;
 	m_showPen = true;
 	m_isZoomed = false;
 	m_isExt = 1;
@@ -474,6 +481,7 @@ BOOL CGTView::OnExtendedFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlu
 	BYTE r,g,b;
 	int j = 0;
 	BOOL morePix = TRUE;
+	BOOL isSelected = FALSE;
 	CPoint nextPoint;
 	long double targetColor,floodDistance,pixelColor;
 	CRect Clrect,imageRect;
@@ -494,12 +502,12 @@ BOOL CGTView::OnExtendedFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlu
 
 	if(imageRect.left < 0)
 		imageRect.left = 0;
-	if(imageRect.Width() > mask->GetWidth())
-		imageRect.right = imageRect.left + mask->GetWidth();
-	if(imageRect.bottom < 0)
-		imageRect.bottom = 0;
-	if(imageRect.Height() > mask->GetHeight())
-		imageRect.bottom = imageRect.top + mask->GetHeight();
+	if(imageRect.right > picture->GetWidth())
+		imageRect.right = picture->GetWidth();
+	if(imageRect.top < 0)
+		imageRect.top = 0;
+	if(imageRect.bottom > picture->GetHeight())
+		imageRect.bottom = picture->GetHeight();
 
 	
 	floodDistance =(long double(m_floodDistance));
@@ -558,10 +566,34 @@ BOOL CGTView::OnExtendedFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlu
 			pixelColor = long double(r)*long double(r)+long double(b)*long double(b)+long double(g)*long double(g);
 
 			double dis = (pixelColor - targetColor)*(pixelColor - targetColor);
+			
 			if((dis <= it->second.second + floodDistance) &&
 				(dis >= it->second.second - floodDistance))
+				isSelected = TRUE;
+			else
+				isSelected = FALSE;
+
+			if(!isSelected)
 			{
-				if((((maskPixel & editColor) == zeroPix) == isAdded) && (!m_isOutline))
+				if(m_isOutline == 1)
+				{
+					if(((maskPixel & editColor) == zeroPix) == isAdded)
+					{
+						pointsVector->push_back(VectorRun(point,1));
+						if(isAdded)
+						{
+							sel->UpdateEditBox(point);
+							SetPixelFast(mask,point.x,point.y,(editColor | maskPixel));
+						}
+						else
+							SetPixelFast(mask,point.x,point.y,((~editColor) & maskPixel));
+					}
+				}
+			}
+
+			if (isSelected || (m_isToAll))
+			{
+				if(isSelected && (((maskPixel & editColor) == zeroPix) == isAdded) && (m_isOutline != 1))
 				{
 					pointsVector->push_back(VectorRun(point,1));
 					
@@ -638,28 +670,23 @@ BOOL CGTView::OnExtendedFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlu
 							double dist = it->second.second-dis;
 							if (dist<0)
 								dist = -dist;
-							newSeedPoints.push_back(FloodFillPair(nextPoint,FloodFillPair3(RGB(r,g,b),dist)));
+							if(!isSelected)
+								dist = 0;
+
+							if(m_isExt == 0)
+							{
+								if(dist == 0)
+									newSeedPoints.push_back(FloodFillPair(nextPoint,FloodFillPair3(RGB(targetRed,targetGreen,targetBlue),dist)));
+								else
+									newSeedPoints.push_back(FloodFillPair(nextPoint,FloodFillPair3(RGB(targetRed,targetGreen,targetBlue), it->second.second)));
+							}
+							else
+								newSeedPoints.push_back(FloodFillPair(nextPoint,FloodFillPair3(RGB(r,g,b),dist)));
+							
 							SetPixelFast(&floodMask,nextPoint.x,nextPoint.y,floodColor);
 
 						}
 					}							
-				}
-			}
-			else
-			{
-				if(m_isOutline)
-				{
-					if(((maskPixel & editColor) == zeroPix) == isAdded)
-					{
-						pointsVector->push_back(VectorRun(point,1));
-						if(isAdded)
-						{
-							sel->UpdateEditBox(point);
-							SetPixelFast(mask,point.x,point.y,(editColor | maskPixel));
-						}
-						else
-							SetPixelFast(mask,point.x,point.y,((~editColor) & maskPixel));
-					}
 				}
 			}
 		}
@@ -683,6 +710,7 @@ BOOL CGTView::OnFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlue,CImage
 	BYTE r,g,b;
 	int j = 0;
 	BOOL morePix = TRUE;
+	BOOL isSelected = FALSE;
 	CPoint nextPoint;
 	long double targetColor,floodDistance,pixelColor;
 	CRect Clrect,imageRect;
@@ -693,7 +721,7 @@ BOOL CGTView::OnFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlue,CImage
 	imageRect.bottom = int(Clrect.bottom / m_zoom)+1;
 	imageRect.right = int(Clrect.right / m_zoom)+1;
 		
-	if(m_isExt == 2)
+	if(m_isExt == 2 || (m_isExt == 0 && m_isToAll && m_isOutline))
 	{
 		return OnExtendedFloodFill(targetRed,targetGreen,targetBlue,picture,mask,point,pointsVector,isAdded);
 	}
@@ -707,12 +735,12 @@ BOOL CGTView::OnFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlue,CImage
 
 	if(imageRect.left < 0)
 		imageRect.left = 0;
-	if(imageRect.Width() > mask->GetWidth())
-		imageRect.right = imageRect.left + mask->GetWidth();
+	if(imageRect.right > picture->GetWidth())
+		imageRect.right = picture->GetWidth();
 	if(imageRect.bottom < 0)
-		imageRect.bottom = 0;
-	if(imageRect.Height() > mask->GetHeight())
-		imageRect.bottom = imageRect.top + mask->GetHeight();
+		imageRect.top = 0;
+	if(imageRect.bottom > picture->GetHeight())
+		imageRect.bottom = picture->GetHeight();
 
 
 	floodDistance =(long double(m_floodDistance));
@@ -771,8 +799,31 @@ BOOL CGTView::OnFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlue,CImage
 
 			if((pixelColor <= targetColor + floodDistance) &&
 				(pixelColor >= targetColor - floodDistance))
+				isSelected = TRUE;
+			else
+				isSelected = FALSE;
+
+			if(!isSelected)
 			{
-				if((((maskPixel & editColor) == zeroPix) == isAdded) && (!m_isOutline))
+				if(m_isOutline == 1)
+				{
+					if(((maskPixel & editColor) == zeroPix) == isAdded)
+					{
+						pointsVector->push_back(VectorRun(point,1));
+						if(isAdded)
+						{
+							sel->UpdateEditBox(point);
+							SetPixelFast(mask,point.x,point.y,(editColor | maskPixel));
+						}
+						else
+							SetPixelFast(mask,point.x,point.y,((~editColor) & maskPixel));
+					}
+				}
+			}
+			
+			if(isSelected || (m_isToAll))
+			{
+				if(isSelected && ((((maskPixel & editColor) == zeroPix) == isAdded) && (m_isOutline != 1)))
 				{
 					pointsVector->push_back(VectorRun(point,1));	
 					if(isAdded)
@@ -852,23 +903,6 @@ BOOL CGTView::OnFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlue,CImage
 							SetPixelFast(&floodMask,nextPoint.x,nextPoint.y,floodColor);
 						}
 					}							
-				}
-			}
-			else
-			{
-				if(m_isOutline)
-				{
-					if(((maskPixel & editColor) == zeroPix) == isAdded)
-					{
-						pointsVector->push_back(VectorRun(point,1));
-						if(isAdded)
-						{
-							sel->UpdateEditBox(point);
-							SetPixelFast(mask,point.x,point.y,(editColor | maskPixel));
-						}
-						else
-							SetPixelFast(mask,point.x,point.y,((~editColor) & maskPixel));
-					}
 				}
 			}
 		}
@@ -1095,7 +1129,9 @@ BOOL CGTView::OnFileImageOpen()
 		}
 
 		m_nFilterLoad = dlg.m_ofn.nFilterIndex;
-		file =dlg.GetFileName();
+		file = dlg.GetFolderPath();
+		file.Append(CString('\\'));
+		file.Append(dlg.GetFileName());
 
 		
 	}
@@ -1452,69 +1488,163 @@ void CGTView::Dump(CDumpContext& dc) const
 
 
 
-void CGTView::OnFileSaveImage(void) 
+void CGTView::OnFileSaveImage(bool isColor,bool isOCR) 
 {
 	CString strFilter;
 	CSimpleArray<GUID> aguidFileTypes;
 	HRESULT hResult;
 	CGTDoc* pDoc = GetDocument();
-	CImage *m_imgOriginal;	
+	int height = 0,width = 0;
+	CImage *m_imgOriginal,
+		   *m_imgMask,
+		   m_imgCopy;	
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
 		return;
 	m_imgOriginal = pDoc->GetImage();
+	m_imgMask = pDoc->GetImageSelection()->GetImageMask();
+	height = m_imgOriginal->GetHeight();
+	width = m_imgOriginal->GetWidth();
+	m_imgCopy.Create(width,height,m_imgMask->GetBPP());
+	for(int i = 0;i < width; i++)
+		for(int j = 0;j < height ; j++)
+			if(GetPixelFast(m_imgMask,i,j) != COLORREF(0))
+			{
+				if(isColor)
+					SetPixelFast(&m_imgCopy,i,j,GetPixelFast(m_imgOriginal,i,j));
+				else
+					SetPixelFast(&m_imgCopy,i,j,RGB(0,0,0));
+			}
+			else
+				SetPixelFast(&m_imgCopy,i,j,RGB(255,255,255));
 
-
-
-	strFilter = "Bitmap image|*.bmp|JPEG image|*.jpg|GIF image|*.gif|PNG image|*.png||";
-
-	CFileDialog dlg(FALSE,NULL,NULL,OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_EXPLORER,strFilter);
-	dlg.m_ofn.nFilterIndex = m_nFilterLoad;
-	hResult = (int)dlg.DoModal();
-	if (FAILED(hResult)) {
-		return;
-	}
-
-    // Add the appropriate extension if the user didn't type one
-
-	CString strFileName;
-	CString strExtension;
-
-	strFileName = dlg.m_ofn.lpstrFile;
-
-
-	// add the file extension if the user didn't supply one
-	if (dlg.m_ofn.nFileExtension == 0) 
+	if(!isOCR)
 	{
-		switch (dlg.m_ofn.nFilterIndex)
-		{
-		case 1:
-			strExtension = "bmp";
-			break;
-		case 2:
-			strExtension = "jpg";
-			break;
-		case 3:
-			strExtension = "gif";
-			break;
-		case 4:
-			strExtension = "png";
-			break;
-		default:
-			break;
+		strFilter = "Bitmap image|*.bmp|JPEG image|*.jpg|GIF image|*.gif|PNG image|*.png|TIFF image|*.tif||";
+
+		CFileDialog dlg(FALSE,NULL,NULL,OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_EXPLORER,strFilter);
+		dlg.m_ofn.nFilterIndex = m_nFilterLoad;
+		dlg.m_ofn.nFileExtension = 0;
+
+		hResult = (int)dlg.DoModal();
+		if (FAILED(hResult) || HRESULT_CODE(hResult) == 2) {
+			return;
 		}
 
-		strFileName = strFileName + '.' + strExtension;
+		// Add the appropriate extension if the user didn't type one
 
+		CString strFileName;
+		CString strExtension;
+		strFileName = dlg.m_ofn.lpstrFile;
+
+		// add the file extension if the user didn't supply one
+		if (strFileName.ReverseFind(_T('.')) < strFileName.ReverseFind(_T('\\'))) 
+		{
+			switch (dlg.m_ofn.nFilterIndex)
+			{
+			case 1:
+				strExtension = "bmp";
+				break;
+			case 2:
+				strExtension = "jpg";
+				break;
+			case 3:
+				strExtension = "gif";
+				break;
+			case 4:
+				strExtension = "png";
+				break;
+			case 5:
+				strExtension = "tif";
+				break;
+
+			default:
+				break;
+			}
+
+			strFileName = strFileName + '.' + strExtension;
+
+		}
+
+		// the extension on the file name will determine the file type that is saved
+		hResult = m_imgCopy.Save(strFileName);
+		if (FAILED(hResult)) {
+			CString fmt;
+			fmt.Format(_T("Save image failed:\n%x - %s"), hResult, _com_error(hResult).ErrorMessage());
+			::AfxMessageBox(fmt);
+			return;
+		}
 	}
+	else
+	{
+			
+		TCHAR strPath[ MAX_PATH ];
 
-	// the extension on the file name will determine the file type that is saved
-	hResult = m_imgOriginal->Save(strFileName);
-	if (FAILED(hResult)) {
-		CString fmt;
-		fmt.Format(_T("Save image failed:\n%x - %s"), hResult, _com_error(hResult).ErrorMessage());
-		::AfxMessageBox(fmt);
-		return;
+		// Get the special folder path.
+		SHGetSpecialFolderPathW(
+			0,       
+			strPath, // String buffer.
+			CSIDL_LOCAL_APPDATA, // CSLID of folder
+			TRUE );
+
+		char* text;
+		
+		CString translated_text = "";
+		CString strFileName = CString(strPath) + CString(_T("\\BlackToText908.tif"));
+		std::string ss = std::string(CT2CA(strFileName));
+		const char *file = ss.c_str(),
+				*lang = "eng";
+
+		if(!isColor)
+			m_imgCopy.Save(strFileName);
+		else
+			m_imgOriginal->Save(strFileName);
+
+	
+		tesseract::TessBaseAPI* api = new tesseract::TessBaseAPI();
+		api->Init("", lang);
+		api->SetPageSegMode(tesseract::PSM_AUTO);
+				
+		PIX* pix = pixRead(file);
+		
+		api->SetImage(pix);
+		int bytes_per_line =(((pix->w)*(pix->d)+7)/8);
+		text = api->TesseractRect((const unsigned char *)pix->data,pix->d/8,bytes_per_line,0,0,pix->w,pix->h);
+			
+		pixDestroy(&pix);
+
+		api->End();
+		delete api;
+
+		 
+		if (!OpenClipboard())
+		{
+			return;
+		}
+  
+		//clear clipboard
+		EmptyClipboard();
+ 
+		HGLOBAL clipbuffer;
+		char * buffer;
+   
+		//alloc enough mem for the string;
+		//must be GMEM_DDESHARE to work with the clipboard
+		clipbuffer = GlobalAlloc(GMEM_DDESHARE, strlen(text)+1);
+		buffer = (char*)GlobalLock(clipbuffer);
+		strcpy(buffer, LPCSTR(text));
+		GlobalUnlock(clipbuffer);
+   
+		//fill the clipboard with data
+		//CF_TEXT indicates that the buffer is a text-string
+		::SetClipboardData(CF_TEXT,clipbuffer);
+		//close clipboard as we don't need it anymore
+		CloseClipboard();
+
+		if(CString(text).IsEmpty())
+			::AfxMessageBox(CString("No text found"),MB_ICONERROR);
+		else
+			::AfxMessageBox(CString(text),MB_ICONINFORMATION);
 	}
 
 }
@@ -1732,12 +1862,19 @@ void CGTView::OnMouseMove(UINT nFlags, CPoint point)
 
 }
 
-void CGTView::SetBorder(bool state)
+void CGTView::SetBorder()
 {
-	m_isOutline = !m_isOutline;
+	m_isOutline++;
+	m_isOutline = m_isOutline % 2;
 }
+
 void CGTView::SetExt()
 {
 	m_isExt++;
 	m_isExt = m_isExt % 3;
+}
+
+void CGTView::SetToAll()
+{
+	m_isToAll = m_isToAll? false:true;
 }

@@ -22,6 +22,8 @@
 
 #include <afxole.h>
 
+#include <afxcontrolbars.h>	// MFC support for ribbons and control bars
+
 
 #import "msxml6.dll"
 
@@ -125,3 +127,7 @@ extern CXmltreeModule _Module;
 #endif
 #endif
 
+#ifndef TESSDLL_IMPORTS
+#define TESSDLL_IMPORTS
+#include "baseapi.h"
+#endif
