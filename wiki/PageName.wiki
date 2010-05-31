@@ -74,7 +74,7 @@ from all the color image or from the image formed out of the selected pixels usi
  *  New region editing option
 to perform the selection from the image.
 
-The selection algorithm now, though still checking the threshold to deciding whether select the pixel or not, now it only stops checking once arrived to the limits of the image,having hence searched from all the image.
+The selection algorithm now it only stops checking once arrived to the limits of the image,having hence searched from all the image.
 
 
 
