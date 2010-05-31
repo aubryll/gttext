@@ -87,4 +87,5 @@ The selection algorithm now has an option to only stops checking once arrived to
 [http://www.experts-exchange.com/Programming/System/Windows__Programming/MFC/Q_23756952.html [2]] http://www.experts-exchange.com/Programming/System/Windows__Programming/MFC/Q_23756952.html
 
 [http://en.wikipedia.org/wiki/Flood_fill [3]] http://en.wikipedia.org/wiki/Flood_fill
-[http://code.google.com/p/tesseract-ocr/ http://code.google.com/p/tesseract-ocr/  tesseract-ocr  [4]]
+
+[http://code.google.com/p/tesseract-ocr/ [4] tesseract-ocr http://code.google.com/p/tesseract-ocr/  tesseract-ocr]
