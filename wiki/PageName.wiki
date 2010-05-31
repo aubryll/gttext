@@ -72,7 +72,7 @@ Extracts the selected region into an Image of choice in black or using the origi
 from all the color image or from the image formed out of the selected pixels using the tesseract-ocr engine.
 
  *  New region editing option
-to perform the selection from the image.
+to perform the selection from the whole image.
 
 The selection algorithm now has an option to only stops checking once arrived to the limits of the image, having hence searched from all the image.
 
