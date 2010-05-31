@@ -60,6 +60,22 @@ Even less blinks
 
 Developer releases.
 
+===Release 1.3.0===
+
+Fixed Bug:
+Not Undo functioning when using the cut Tool (Incomplete state backup).
+
+New functions:
+Extracts the selected region into an Image of choice in black or using the original image colors.
+
+Recognize the text from all the color image or from the image formed out of the selected pixels using the tesseract-ocr engine.
+
+New region editing option to perform the selection from the image.
+
+The selection algorithm now, though still checking the threshold to deciding whether select the pixel or not, now it only stops checking once arrived to the limits of the image,having hence searched from all the image.
+
+
+
 
 
 
