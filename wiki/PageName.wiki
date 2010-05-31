@@ -69,7 +69,7 @@ Bad Undo functioning when using the Cut tool (Incomplete state backup).
 Extracts the selected region into an Image of choice in black or using the original image colors.
 
  *  Recognize the text 
-from all the color image or from the image formed out of the selected pixels using the tesseract-ocr engine.
+from all the color image or from the image formed out of the selected pixels using the tesseract-ocr [http://code.google.com/p/tesseract-ocr/ 4] engine.
 
  *  New region editing option
 to perform the selection from the whole image.
@@ -87,3 +87,4 @@ The selection algorithm now has an option to only stops checking once arrived to
 [http://www.experts-exchange.com/Programming/System/Windows__Programming/MFC/Q_23756952.html [2]] http://www.experts-exchange.com/Programming/System/Windows__Programming/MFC/Q_23756952.html
 
 [http://en.wikipedia.org/wiki/Flood_fill [3]] http://en.wikipedia.org/wiki/Flood_fill
+[http://code.google.com/p/tesseract-ocr/ http://code.google.com/p/tesseract-ocr/  tesseract-ocr  [4]]
