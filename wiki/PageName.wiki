@@ -63,7 +63,7 @@ Developer releases.
 ===Release 1.3.0===
 
  *  Fixed Bug:
-Bad Undo functioning when using the Cut tool (Incomplete state backup).
+Fixed bad Undo functioning when using the Cut tool (Incomplete state backup).
 
  *  New functions:
 Extracts the selected region into an Image of choice in black or using the original image colors.
