@@ -1,0 +1,359 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Spanish resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ESP)
+LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,3,0,0
+ PRODUCTVERSION 1,3,0,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "FileDescription", "GT Text Application"
+            VALUE "FileVersion", "1.3.0.0"
+            VALUE "InternalName", "gttext"
+            VALUE "LegalCopyright", "Copyright (C) 2010"
+            VALUE "OriginalFilename", "GTText.exe"
+            VALUE "ProductName", "gttext Application"
+            VALUE "ProductVersion", "1.3.0.0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#endif    // Spanish resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#endif //_WIN32\r\n"
+    "#include ""xmltree.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "xmltree.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOGEX 0, 0, 235, 55
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About GT"
+FONT 8, "Microsoft Sans Serif", 400, 0, 0x0
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
+    LTEXT           "GT Text 1.3.0  by David Torne",IDC_STATIC,40,10,130,8,SS_NOPREFIX
+    LTEXT           "Copyright (C) 2010",IDC_STATIC,40,25,119,8
+    DEFPUSHBUTTON   "OK",IDOK,178,30,50,16,WS_GROUP
+    LTEXT           "dtorne@gmail.com",IDC_STATIC,105,26,66,8,SS_NOPREFIX
+END
+
+IDD_XMLTREE_DIALOG DIALOGEX 0, 0, 342, 350
+STYLE DS_SETFONT | DS_MODALFRAME | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_CONTROLPARENT | WS_EX_APPWINDOW
+CAPTION "XML Tree"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_URL,7,260,208,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "&Browse...",IDC_BROWSEFORFILE,224,260,51,14
+    PUSHBUTTON      "&Open URL",IDC_OPEN_URL,285,260,50,14
+    CONTROL         "Tree1",IDC_XMLTREE,"SysTreeView32",TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | WS_BORDER | WS_TABSTOP,7,7,268,242
+    EDITTEXT        IDC_NAME,7,281,268,14,ES_AUTOHSCROLL
+    LTEXT           "Name",IDC_STATIC,285,281,20,8
+    EDITTEXT        IDC_VALUE,7,304,268,15,ES_AUTOHSCROLL
+    LTEXT           "Value",IDC_STATIC,285,304,19,8
+    DEFPUSHBUTTON   "&Close",IDOK,285,7,50,14
+    PUSHBUTTON      "&Refresh",ID_REFRESH,285,193,50,14
+    PUSHBUTTON      "&Save to File",IDC_SAVE,285,214,50,14
+    CONTROL         "Async",IDC_ASYNC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,285,234,50,13
+    LTEXT           "",IDC_ERROR_TEXT,7,324,328,16
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 48
+    END
+
+    IDD_XMLTREE_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 335
+        VERTGUIDE, 215
+        VERTGUIDE, 224
+        VERTGUIDE, 275
+        VERTGUIDE, 285
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 343
+        HORZGUIDE, 234
+        HORZGUIDE, 248
+        HORZGUIDE, 260
+        HORZGUIDE, 274
+        HORZGUIDE, 281
+        HORZGUIDE, 295
+        HORZGUIDE, 304
+        HORZGUIDE, 319
+        HORZGUIDE, 324
+        HORZGUIDE, 340
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDR_XMLIMAGELIST        BITMAP                  "toolbar1.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Toolbar
+//
+
+IDR_XMLIMAGELIST TOOLBAR 16, 15
+BEGIN
+    BUTTON      ID_BUTTON32771
+    BUTTON      ID_BUTTON32772
+    BUTTON      ID_BUTTON32773
+    BUTTON      ID_BUTTON32774
+    BUTTON      ID_BUTTON32776
+    BUTTON      ID_BUTTON32777
+    BUTTON      ID_BUTTON32778
+    BUTTON      ID_BUTTON32779
+    SEPARATOR
+    BUTTON      ID_BUTTON32780
+    BUTTON      ID_BUTTON32781
+    BUTTON      ID_BUTTON32782
+    BUTTON      ID_BUTTON32783
+    BUTTON      ID_BUTTON32784
+    BUTTON      ID_BUTTON32785
+    BUTTON      ID_BUTTON32786
+    BUTTON      ID_BUTTON32787
+    BUTTON      ID_BUTTON32788
+    BUTTON      ID_BUTTON32789
+    BUTTON      ID_BUTTON32790
+    BUTTON      ID_BUTTON32791
+    BUTTON      ID_BUTTON32792
+    BUTTON      ID_BUTTON32793
+    BUTTON      ID_BUTTON32794
+    BUTTON      ID_BUTTON32795
+    BUTTON      ID_BUTTON32796
+    BUTTON      ID_BUTTON32797
+    BUTTON      ID_BUTTON32853
+    BUTTON      ID_BUTTON32854
+    BUTTON      ID_BUTTON32855
+    BUTTON      ID_BUTTON32856
+    BUTTON      ID_BUTTON32857
+    BUTTON      ID_BUTTON32858
+    BUTTON      ID_BUTTON32859
+    BUTTON      ID_BUTTON32860
+    BUTTON      ID_BUTTON32861
+    BUTTON      ID_BUTTON32862
+    BUTTON      ID_BUTTON32881
+    BUTTON      ID_BUTTON32883
+    BUTTON      ID_BUTTON32882
+    BUTTON      ID_BUTTON32884
+    BUTTON      ID_BUTTON32887
+    BUTTON      ID_BUTTON32886
+    BUTTON      ID_BUTTON32885
+    BUTTON      ID_BUTTON32888
+    BUTTON      ID_BUTTON32889
+    BUTTON      ID_BUTTON32891
+    BUTTON      ID_BUTTON32890
+    SEPARATOR
+    BUTTON      ID_BUTTON32896
+    BUTTON      ID_BUTTON32897
+    BUTTON      ID_BUTTON32898
+    BUTTON      ID_BUTTON32899
+    BUTTON      ID_BUTTON32900
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_LIST_POPUP MENU
+BEGIN
+    POPUP "Context Menu"
+    BEGIN
+        MENUITEM "New &Element",                ID_TREEPOPUP_NEWELEMENT
+        MENUITEM "New &Attribute",              ID_TREEPOPUP_NEWATTRIBUTE
+        MENUITEM "&Change name, value",         ID_TREEPOPUP_CHANGE
+        MENUITEM "New CD&ATA",                  ID_TREEPOPUP_NEWCDATA
+        MENUITEM "New Co&mment",                ID_TREEPOPUP_NEWCOMMENT
+        MENUITEM SEPARATOR
+        MENUITEM "&Delete",                     ID_TREEPOPUP_DELETE
+        MENUITEM SEPARATOR
+        MENUITEM "C&opy",                       ID_TREEPOPUP_COPY
+        MENUITEM "C&ut",                        ID_TREEPOPUP_CUT
+        MENUITEM "&Paste",                      ID_TREEPOPUP_PASTE
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_ACCELERATOR1 ACCELERATORS
+BEGIN
+    "C",            ID_TREEPOPUP_COPY,      VIRTKEY, CONTROL, NOINVERT
+    "V",            ID_TREEPOPUP_PASTE,     VIRTKEY, CONTROL, NOINVERT
+    VK_DELETE,      ID_TREEPOPUP_DELETE,    VIRTKEY, NOINVERT
+    VK_F5,          ID_REFRESH,             VIRTKEY, NOINVERT
+    "X",            ID_TREEPOPUP_CUT,       VIRTKEY, CONTROL, NOINVERT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// REGISTRY
+//
+
+IDR_XMLTREE             REGISTRY                "Xmltree.rgs"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDS_ABOUTBOX            "&About xmltree..."
+END
+
+STRINGTABLE
+BEGIN
+    IDS_DEFAULTXMLEXTENSION "xml"
+    IDS_SAVEDIALOGTITLE     "Save XML Tree to File"
+    IDS_OPENDIALOGTITLE     "Open XML File"
+    IDS_DEFAULTXMLFILTERS   "XML Files (*.xml)|*.XML|XSL Files (*.xsl)|*.XSL|All Documents (*.*)|*.*||"
+    IDS_XMLDOMDOCUMENTEVENTSSINK_DESC "XMLDOMDocumentEventsSink Class"
+END
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#endif //_WIN32
+#include "xmltree.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

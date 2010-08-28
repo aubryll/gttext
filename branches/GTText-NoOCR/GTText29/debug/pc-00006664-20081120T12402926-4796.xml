@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<pcGts xmlns="http://schema.primaresearch.org/gt/gts/pagecontent/2008-11-01" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://schema.primaresearch.org/gt/gts/pagecontent/2008-11-01 http://schema.primaresearch.org/gt/gts/pagecontent/2008-11-01/pagecontent.xsd" pcGtsId="pc-00006664-20081120T12402926-4796">
+  <pcMetadata>
+    <pcCreator>David Torne</pcCreator>
+    <pcCreated>time</pcCreated>
+    <pcLastChange>2008-11-21T19:30:00</pcLastChange>
+    <pcComments>By GT Text v1.3</pcComments>
+  </pcMetadata>
+  <page image_filename="" page_id="p1">
+    <page_summary no_chart_regions="0" no_frame_regions="0" no_graphic_regions="0" no_image_regions="0" no_line_drawing_regions="0" no_maths_regions="0" no_noise_regions="0" no_separator_regions="0" no_table_regions="0" no_text_regions="0" />
+    <page_pixel_size height="0" width="0" />
+    <print_space>
+      <coords no_coords="0">
+        <point x="0" y="0" />
+      </coords>
+    </print_space>
+
+  </page>
+</pcGts>
