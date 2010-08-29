@@ -75,7 +75,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <AdditionalIncludeDirectories>C:\Users\David\Documents\Visual Studio 2010\Projects\tesseract-trunk2\include;C:\Users\David\Documents\Visual Studio 2010\Projects\tesseract-trunk\ccmain;C:\Users\David\Documents\Visual Studio 2010\Projects\tesseract-trunk\api;C:\Users\David\Documents\Visual Studio 2010\Projects\tesseract-trunk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\David\Documents\Visual Studio 2010\Projects\tesseract-trunk2\include;C:\Users\David\Documents\Visual Studio 2010\Projects\tesseract-trunk\ccmain;C:\Users\David\Documents\Visual Studio 2010\Projects\tesseract-trunk\api;C:\Users\David\Documents\Visual Studio 2010\Projects\tesseract-trunk</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -165,8 +165,6 @@
   <ItemGroup>
     <None Include="res\bitmap2.bmp" />
     <None Include="res\Bright.ico" />
-    <None Include="..\..\..\..\..\..\Downloads\camera.bmp" />
-    <None Include="..\..\..\..\..\Downloads\camera_icon.bmp" />
     <None Include="res\GT.ico" />
     <None Include="res\GT.rc2" />
     <None Include="res\GTDoc.ico" />
