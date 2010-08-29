@@ -79,12 +79,6 @@
     <None Include="res\Bright.ico">
       <Filter>Archivos de recursos</Filter>
     </None>
-    <None Include="..\..\..\..\..\..\Downloads\camera.bmp">
-      <Filter>Archivos de recursos</Filter>
-    </None>
-    <None Include="..\..\..\..\..\Downloads\camera_icon.bmp">
-      <Filter>Archivos de recursos</Filter>
-    </None>
     <None Include="res\GT.ico">
       <Filter>Archivos de recursos</Filter>
     </None>
@@ -121,9 +115,6 @@
     <None Include="..\..\..\Samples\mfcie\res\mfcie.rc2">
       <Filter>Archivos de recursos</Filter>
     </None>
-    <None Include="res\Toolbar.bmp">
-      <Filter>Archivos de recursos</Filter>
-    </None>
     <None Include="toolbar1.bmp">
       <Filter>Archivos de recursos</Filter>
     </None>
@@ -137,6 +128,9 @@
       <Filter>Archivos de recursos</Filter>
     </None>
     <None Include="ReadMe.txt" />
+    <None Include="res\Toolbar.bmp">
+      <Filter>Archivos de recursos</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GT.rc">

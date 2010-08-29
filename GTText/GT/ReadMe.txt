@@ -119,3 +119,12 @@ For more information on both of these topics, please see the section on
 redistributing Visual C++ applications in MSDN documentation. 
 
 /////////////////////////////////////////////////////////////////////////////
+TODO:
+
+- Chose text selection for small images option
+- Button "Copy to clipboard"
+- Different languages
+- Forms Background color
+- Preview image export
+- All format images defect when opening
+

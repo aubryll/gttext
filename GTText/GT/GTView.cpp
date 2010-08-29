@@ -13,6 +13,7 @@
 #include "baseapi.h"
 #include "allheaders.h"
 #include <string>
+#define NUM_LINES_OCR_SHOW 35
 
 
 
@@ -1594,59 +1595,109 @@ void CGTView::OnFileSaveImage(bool isColor,bool isOCR)
 		std::string ss = std::string(CT2CA(strFileName));
 		const char *file = ss.c_str(),
 				*lang = "eng";
+		bool musttryagain = true;
+		//CImage imageOCR;
+		l_float32 scaleRatio = 1;
 
 		if(!isColor)
 			m_imgCopy.Save(strFileName);
 		else
 			m_imgOriginal->Save(strFileName);
 
-	
-		tesseract::TessBaseAPI* api = new tesseract::TessBaseAPI();
-		api->Init("", lang);
-		api->SetPageSegMode(tesseract::PSM_AUTO);
+		while(musttryagain)
+		{
+			tesseract::TessBaseAPI* api = new tesseract::TessBaseAPI();
+			api->Init("", lang);
+			api->SetPageSegMode(tesseract::PSM_AUTO);
 				
-		PIX* pix = pixRead(file);
-		
-		api->SetImage(pix);
-		int bytes_per_line =(((pix->w)*(pix->d)+7)/8);
-		text = api->TesseractRect((const unsigned char *)pix->data,pix->d/8,bytes_per_line,0,0,pix->w,pix->h);
+			PIX* pix = pixRead(file);
+			if(scaleRatio != 1)
+			{
+				PIX* doublepix = pixScale(pix,scaleRatio,scaleRatio);
+				pixDestroy(&pix);
+				pix = doublepix;
+			}
 			
-		pixDestroy(&pix);
+				
+			api->SetImage(pix);
+			int bytes_per_line =(((pix->w)*(pix->d)+7)/8);
+			text = api->TesseractRect((const unsigned char *)pix->data,pix->d/8,bytes_per_line,0,0,pix->w,pix->h);
+			
+			pixDestroy(&pix);
 
-		api->End();
-		delete api;
+			api->End();
+			delete api;
 
 		 
-		if (!OpenClipboard())
-		{
-			return;
-		}
+			int msgboxID;
+			int startLine = 0,
+				lineCount = 0;
+			while(startLine >= 0 && lineCount < NUM_LINES_OCR_SHOW)
+			{
+				startLine = CString(text).Find('\n',startLine+1);
+				lineCount++;
+			}
+			CString printString;
+			if(lineCount>=20)
+				printString = CString(text).Left(startLine) + _T("...");
+			else
+				printString = CString(text);
+
+
+			if(CString(text).IsEmpty())
+				msgboxID = ::AfxMessageBox(CString("No text found"),MB_ICONERROR);
+			else if(!isColor)
+				msgboxID = MessageBox(CString(printString),_T("Copy text from Selection"),MB_ICONASTERISK | MB_CANCELTRYCONTINUE | MB_DEFBUTTON3);
+			else
+				msgboxID = MessageBox(CString(printString),_T("Copy text from full color Image"),MB_ICONASTERISK | MB_CANCELTRYCONTINUE | MB_DEFBUTTON3);
+
+			switch (msgboxID)
+			{
+				case IDCANCEL:
+					musttryagain = false;
+					break;
+				case IDTRYAGAIN:
+					// Resize image and try again
+					if(scaleRatio < 8)
+						scaleRatio += 1;
+					else
+						scaleRatio = 0.5;
+					
+					musttryagain = true;
+					break;
+				case IDCONTINUE:
+					// Copy to Clipboard
+					if (!OpenClipboard())
+					{
+						return;
+					}
   
-		//clear clipboard
-		EmptyClipboard();
+					//clear clipboard
+					EmptyClipboard();
  
-		HGLOBAL clipbuffer;
-		char * buffer;
+					HGLOBAL clipbuffer;
+					char * buffer;
    
-		//alloc enough mem for the string;
-		//must be GMEM_DDESHARE to work with the clipboard
-		clipbuffer = GlobalAlloc(GMEM_DDESHARE, strlen(text)+1);
-		buffer = (char*)GlobalLock(clipbuffer);
-		strcpy(buffer, LPCSTR(text));
-		GlobalUnlock(clipbuffer);
+					//alloc enough mem for the string;
+					//must be GMEM_DDESHARE to work with the clipboard
+					clipbuffer = GlobalAlloc(GMEM_DDESHARE, strlen(text)+1);
+					buffer = (char*)GlobalLock(clipbuffer);
+					strcpy_s(buffer, strlen(text)+1,text);
+					GlobalUnlock(clipbuffer);
    
-		//fill the clipboard with data
-		//CF_TEXT indicates that the buffer is a text-string
-		::SetClipboardData(CF_TEXT,clipbuffer);
-		//close clipboard as we don't need it anymore
-		CloseClipboard();
-
-		if(CString(text).IsEmpty())
-			::AfxMessageBox(CString("No text found"),MB_ICONERROR);
-		else
-			::AfxMessageBox(CString(text),MB_ICONINFORMATION);
+					//fill the clipboard with data
+					//CF_TEXT indicates that the buffer is a text-string
+					::SetClipboardData(CF_TEXT,clipbuffer);
+					//close clipboard as we don't need it anymore
+					CloseClipboard();
+					musttryagain = false;
+					break;
+				default:
+					musttryagain = false;
+					break;
+			}
+		}
 	}
-
 }
 
 void CGTView::OnToolsMakeBW(void)
