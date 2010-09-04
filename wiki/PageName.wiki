@@ -82,7 +82,9 @@ The selection algorithm now has an option to only stops checking once arrived to
 
   * The extracted text it is showed in only some lines if text is too long, though it is copied to the clipboard in its full content when pressed continue.
 
+== Future work ==
 
+  * Be able to extract different languages adapting the program to the new characters set
 
 
 
