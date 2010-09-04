@@ -84,7 +84,7 @@ The selection algorithm now has an option to only stops checking once arrived to
 
 == Future work ==
 
-  * Be able to extract different languages adapting the program to the new characters set
+  * Be able to extract different languages adapting the program to the new characters set.
 
 
 
