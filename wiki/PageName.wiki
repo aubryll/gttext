@@ -76,6 +76,11 @@ to perform the selection from the whole image.
 
 The selection algorithm now has an option to only stops checking once arrived to the limits of the image, having hence searched from all the image.
 
+===Release 1.3.1===
+
+  * Retry option when extracting text in which the image is scaled in every retry in order to permit read better the text to the extraction algorithm.
+
+  * The extracted text it is showed in only some lines if text is too long, though it is copied to the clipboard in its full content when pressed continue.
 
 
 
