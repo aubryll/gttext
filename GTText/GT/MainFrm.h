@@ -3,6 +3,20 @@
 
 
 #pragma once
+class CSideBar:public CDialogBar
+{
+public:
+ CSideBar() {};
+ virtual ~CSideBar() {};
+ 
+ protected:
+	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+	DECLARE_MESSAGE_MAP()
+public:
+ afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+};
+
+
 
 
 class CMainFrame : public CFrameWnd
@@ -18,8 +32,8 @@ protected:
 	CSplitterWnd m_wndSplitterXML;
 	CDialogBar  m_wndBrightBar;
 	CDialogBar  m_wndSensitivityBar;
-	CDialogBar  m_wndZoomBar;
-	CDialogBar  m_wndPenBar;
+	CSideBar  m_wndZoomBar;
+	CSideBar  m_wndPenBar;
 	//bit x1 enabling
 	//bit 1x visible
 	int isSelBrightActive;

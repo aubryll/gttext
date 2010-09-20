@@ -12,6 +12,25 @@
 #define new DEBUG_NEW
 #endif
 
+//CSideBars
+
+
+BEGIN_MESSAGE_MAP(CSideBar,CDialogBar)
+	ON_WM_ERASEBKGND(OnEraseBkgnd)
+END_MESSAGE_MAP()
+
+BOOL  CSideBar::OnEraseBkgnd(CDC* pDC) 
+{
+   //CDC * pDC = GetDC();
+   CRect rect;
+   GetClientRect(&rect);
+  /* CBitmap bitmap;
+   bitmap.LoadBitmap(IDR_BITMAP);
+   pDC->DrawState(CPoint(0,0), CSize(rect.Width(), rect.Height(), &bitmap, DST_BITMAP | DSS_NORMAL));*/
+   //pDC->SetBkColor(RGB(211,218,237));
+   pDC->FillRect(rect,&CBrush(RGB(211,218,237)));
+   return TRUE;
+}
 
 // CMainFrame
 
@@ -91,18 +110,19 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	}
 
 	if (! m_wndBrightBar.Create(this, IDD_DIALOGBRIGHT,
-		CBRS_ALIGN_LEFT|CBRS_TOOLTIPS|CBRS_FLOATING|CBRS_FLYBY| CBRS_SIZE_DYNAMIC, IDD_DIALOGBRIGHT))
+		CBRS_ALIGN_LEFT|CBRS_TOOLTIPS|CBRS_FLOATING, IDD_DIALOGBRIGHT))
 	{
 		TRACE0("Failed to create m_wndBrightBar\n");
 		return -1;      // fail to create
 	}
+
 
 	CSliderCtrl* pCSlider = (CSliderCtrl*) m_wndBrightBar.GetDlgItem(IDC_BRIGHT_SLIDER);
 	pCSlider->SetRange(0,255,true);
 	pCSlider->SetPos(128);
 
 	if (! m_wndSensitivityBar.Create(this, IDD_DIALOGONFILL,
-		CBRS_ALIGN_LEFT|CBRS_TOOLTIPS|CBRS_FLYBY| CBRS_SIZE_DYNAMIC, IDD_DIALOGONFILL))
+		CBRS_ALIGN_LEFT|CBRS_TOOLTIPS, IDD_DIALOGONFILL|CBRS_ALIGN_BOTTOM))
 	{
 		TRACE0("Failed to create m_wndSensitivityBar\n");
 		return -1;      // fail to create

@@ -103,7 +103,7 @@ public:
 	void SetShowPen();
 	void SetBright(int bright);
 	void SetSesitivity(int sensitivity);
-	void OnFileSaveImage(bool isColor=true, bool isOCR=false);
+	void OnFileSaveImage(bool isColor = true, bool isOCR = false, bool isExport =  true);
 	BOOL OnFileImageOpen();
 	void OnToolsMakeBW(void);
 	void OnUpdateSizeHalf(CCmdUI* pCmdUI);

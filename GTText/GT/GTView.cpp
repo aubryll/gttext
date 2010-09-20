@@ -1489,10 +1489,12 @@ void CGTView::Dump(CDumpContext& dc) const
 
 
 
-void CGTView::OnFileSaveImage(bool isColor,bool isOCR) 
+void CGTView::OnFileSaveImage(bool isColor,bool isOCR, bool isExport) 
 {
 	CString strFilter;
 	CSimpleArray<GUID> aguidFileTypes;
+	CString strFileName;
+	CString strExtension;
 	HRESULT hResult;
 	CGTDoc* pDoc = GetDocument();
 	int height = 0,width = 0;
@@ -1507,68 +1509,76 @@ void CGTView::OnFileSaveImage(bool isColor,bool isOCR)
 	height = m_imgOriginal->GetHeight();
 	width = m_imgOriginal->GetWidth();
 	m_imgCopy.Create(width,height,m_imgMask->GetBPP());
-	for(int i = 0;i < width; i++)
-		for(int j = 0;j < height ; j++)
-			if(GetPixelFast(m_imgMask,i,j) != COLORREF(0))
-			{
-				if(isColor)
-					SetPixelFast(&m_imgCopy,i,j,GetPixelFast(m_imgOriginal,i,j));
+	if(isExport || (!isColor))
+	{
+		for(int i = 0;i < width; i++)
+			for(int j = 0;j < height ; j++)
+				if(GetPixelFast(m_imgMask,i,j) != COLORREF(0))
+				{
+					if(isColor)
+						SetPixelFast(&m_imgCopy,i,j,GetPixelFast(m_imgOriginal,i,j));
+					else
+						SetPixelFast(&m_imgCopy,i,j,RGB(0,0,0));
+				}
 				else
-					SetPixelFast(&m_imgCopy,i,j,RGB(0,0,0));
-			}
-			else
-				SetPixelFast(&m_imgCopy,i,j,RGB(255,255,255));
-
+					SetPixelFast(&m_imgCopy,i,j,RGB(255,255,255));
+	}
 	if(!isOCR)
 	{
-		strFilter = "Bitmap image|*.bmp|JPEG image|*.jpg|GIF image|*.gif|PNG image|*.png|TIFF image|*.tif||";
-
-		CFileDialog dlg(FALSE,NULL,NULL,OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_EXPLORER,strFilter);
-		dlg.m_ofn.nFilterIndex = m_nFilterLoad;
-		dlg.m_ofn.nFileExtension = 0;
-
-		hResult = (int)dlg.DoModal();
-		if (FAILED(hResult) || HRESULT_CODE(hResult) == 2) {
-			return;
-		}
-
-		// Add the appropriate extension if the user didn't type one
-
-		CString strFileName;
-		CString strExtension;
-		strFileName = dlg.m_ofn.lpstrFile;
-
-		// add the file extension if the user didn't supply one
-		if (strFileName.ReverseFind(_T('.')) < strFileName.ReverseFind(_T('\\'))) 
+		if(!isExport)
+			strFileName = pDoc->GetImagePath();
+		else
 		{
-			switch (dlg.m_ofn.nFilterIndex)
-			{
-			case 1:
-				strExtension = "bmp";
-				break;
-			case 2:
-				strExtension = "jpg";
-				break;
-			case 3:
-				strExtension = "gif";
-				break;
-			case 4:
-				strExtension = "png";
-				break;
-			case 5:
-				strExtension = "tif";
-				break;
+			strFilter = "Bitmap image|*.bmp|JPEG image|*.jpg|GIF image|*.gif|PNG image|*.png|TIFF image|*.tif||";
 
-			default:
-				break;
+			CFileDialog dlg(FALSE,NULL,NULL,OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_EXPLORER,strFilter);
+			dlg.m_ofn.nFilterIndex = m_nFilterLoad;
+			dlg.m_ofn.nFileExtension = 0;
+
+			hResult = (int)dlg.DoModal();
+			if (FAILED(hResult) || HRESULT_CODE(hResult) == 2) {
+				return;
 			}
 
-			strFileName = strFileName + '.' + strExtension;
+			// Add the appropriate extension if the user didn't type one
 
+			strFileName = dlg.m_ofn.lpstrFile;
+
+			// add the file extension if the user didn't supply one
+			if (strFileName.ReverseFind(_T('.')) < strFileName.ReverseFind(_T('\\'))) 
+			{
+				switch (dlg.m_ofn.nFilterIndex)
+				{
+				case 1:
+					strExtension = "bmp";
+					break;
+				case 2:
+					strExtension = "jpg";
+					break;
+				case 3:
+					strExtension = "gif";
+					break;
+				case 4:
+					strExtension = "png";
+					break;
+				case 5:
+					strExtension = "tif";
+					break;
+
+				default:
+					break;
+				}
+
+				strFileName = strFileName + '.' + strExtension;
+
+			}
 		}
 
 		// the extension on the file name will determine the file type that is saved
-		hResult = m_imgCopy.Save(strFileName);
+		if(isExport)
+			hResult = m_imgCopy.Save(strFileName);
+		else
+			hResult = m_imgOriginal->Save(strFileName);
 		if (FAILED(hResult)) {
 			CString fmt;
 			fmt.Format(_T("Save image failed:\n%x - %s"), hResult, _com_error(hResult).ErrorMessage());
@@ -1588,16 +1598,25 @@ void CGTView::OnFileSaveImage(bool isColor,bool isOCR)
 			CSIDL_LOCAL_APPDATA, // CSLID of folder
 			TRUE );
 
-		char* text;
+		char* text = "";
 		
 		CString translated_text = "";
-		CString strFileName = CString(strPath) + CString(_T("\\BlackToText908.tif"));
+		strFileName = CString(strPath) + CString(_T("\\BlackToText907.tif"));
 		std::string ss = std::string(CT2CA(strFileName));
 		const char *file = ss.c_str(),
 				*lang = "eng";
 		bool musttryagain = true;
-		//CImage imageOCR;
 		l_float32 scaleRatio = 1;
+		l_float32	maxRatio = ((m_imgOriginal->GetHeight()*m_imgOriginal->GetWidth())<250000)?l_float32(6):l_float32(4);
+		if(maxRatio == 6)
+			if((m_imgOriginal->GetHeight()*m_imgOriginal->GetWidth())<3000)
+			{
+				maxRatio = 10;
+				scaleRatio = 5;
+			}
+		if(maxRatio == 4)
+			if((m_imgOriginal->GetHeight()*m_imgOriginal->GetWidth())>5000000)
+				maxRatio = 1.5;
 
 		if(!isColor)
 			m_imgCopy.Save(strFileName);
@@ -1611,22 +1630,43 @@ void CGTView::OnFileSaveImage(bool isColor,bool isOCR)
 			api->SetPageSegMode(tesseract::PSM_AUTO);
 				
 			PIX* pix = pixRead(file);
-			if(scaleRatio != 1)
+			if(pix == NULL)
 			{
-				PIX* doublepix = pixScale(pix,scaleRatio,scaleRatio);
-				pixDestroy(&pix);
-				pix = doublepix;
+				for(int i = 0;i < width; i++)
+					for(int j = 0;j < height ; j++)
+						if(isColor || GetPixelFast(m_imgMask,i,j) != COLORREF(0))
+						{
+							if(isColor)
+								SetPixelFast(&m_imgCopy,i,j,GetPixelFast(m_imgOriginal,i,j));
+							else
+								SetPixelFast(&m_imgCopy,i,j,RGB(0,0,0));
+						}
+						else
+							SetPixelFast(&m_imgCopy,i,j,RGB(255,255,255));
+				hResult = m_imgCopy.Save(strFileName);
+				pix = pixRead(file);
 			}
+				
+			if(pix != NULL)
+			{
+				if(scaleRatio != 1)
+				{
+					PIX* doublepix = pixScale(pix,scaleRatio,scaleRatio);
+					pixDestroy(&pix);
+					pix = doublepix;
+				}
 			
 				
-			api->SetImage(pix);
-			int bytes_per_line =(((pix->w)*(pix->d)+7)/8);
-			text = api->TesseractRect((const unsigned char *)pix->data,pix->d/8,bytes_per_line,0,0,pix->w,pix->h);
-			
-			pixDestroy(&pix);
+				api->SetImage(pix);
+				int bytes_per_line =(((pix->w)*(pix->d)+7)/8);
+				BeginWaitCursor();
+				text = api->TesseractRect((const unsigned char *)pix->data,pix->d/8,bytes_per_line,0,0,pix->w,pix->h);
+				EndWaitCursor();
+				pixDestroy(&pix);
 
-			api->End();
-			delete api;
+				api->End();
+				delete api;
+			}
 
 		 
 			int msgboxID;
@@ -1645,7 +1685,7 @@ void CGTView::OnFileSaveImage(bool isColor,bool isOCR)
 
 
 			if(CString(text).IsEmpty())
-				msgboxID = ::AfxMessageBox(CString("No text found"),MB_ICONERROR);
+				msgboxID = MessageBox(_T("..."),_T("Copy text"),MB_ICONASTERISK | MB_CANCELTRYCONTINUE | MB_DEFBUTTON3);
 			else if(!isColor)
 				msgboxID = MessageBox(CString(printString),_T("Copy text from Selection"),MB_ICONASTERISK | MB_CANCELTRYCONTINUE | MB_DEFBUTTON3);
 			else
@@ -1658,7 +1698,7 @@ void CGTView::OnFileSaveImage(bool isColor,bool isOCR)
 					break;
 				case IDTRYAGAIN:
 					// Resize image and try again
-					if(scaleRatio < 8)
+					if(scaleRatio < maxRatio)
 						scaleRatio += 1;
 					else
 						scaleRatio = 0.5;

@@ -164,6 +164,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="res\bitmap2.bmp" />
+    <None Include="res\bitmap3.bmp" />
+    <None Include="res\bitmap4.bmp" />
     <None Include="res\Bright.ico" />
     <None Include="res\GT.ico" />
     <None Include="res\GT.rc2" />

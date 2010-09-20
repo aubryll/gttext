@@ -131,6 +131,12 @@
     <None Include="res\Toolbar.bmp">
       <Filter>Archivos de recursos</Filter>
     </None>
+    <None Include="res\bitmap3.bmp">
+      <Filter>Archivos de recursos</Filter>
+    </None>
+    <None Include="res\bitmap4.bmp">
+      <Filter>Archivos de recursos</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GT.rc">
