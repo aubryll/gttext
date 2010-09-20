@@ -424,9 +424,11 @@ BOOL CGTDoc::OnSaveDocument(LPCTSTR lpszPathName)
 	{
 		m_strPathName = pathdir + file;
 	}
+	//LPCTSTR lpszPathNameNew = m_strPathName.copy;
+	//lstrcpy(LPWSTR(lpszPathName), lpszPathNameNew);
 	
-	lpszPathName = m_strPathName;
 
+	//lpszPathName = m_strPathName;
 	if(strFileName.Find(_T(".xml")) <= 0)
 		SetLinkPath(m_strPathName + _T(".xml"));
 	else
@@ -434,6 +436,11 @@ BOOL CGTDoc::OnSaveDocument(LPCTSTR lpszPathName)
 
 	if(!GetLock())
 	{
+		LPTSTR lpsz = new TCHAR[m_strPathName.GetLength()+1];
+		_tcscpy(lpsz, m_strPathName);
+		lpszPathName = lpsz;
+		SetPathName(lpszPathName,TRUE);
+		delete[] lpsz;
 		OnFileSave();
 		if (originalName.Find(_T("gt-")) == -1)
 			return FALSE;
@@ -1045,6 +1052,7 @@ void CGTDoc::OnFileSave()
 	if(xmlView == NULL)
 		return;
 	xmlView->OnFileSave(false);
+	
 	SetCurrentSection(currentSeccion);
 }
 
@@ -3169,7 +3177,7 @@ void CGTDoc::OnExportselectionBlack()
 	CGTView* gtView = (CGTView*) GetNextView(pos);
 	if(gtView == NULL)
 		return;
-	gtView->OnFileSaveImage(false);
+	gtView->OnFileSaveImage(false,false,true);
 }
 
 
@@ -3179,7 +3187,7 @@ void CGTDoc::OnExportBlackselectionText()
 	CGTView* gtView = (CGTView*) GetNextView(pos);
 	if(gtView == NULL)
 		return;
-	gtView->OnFileSaveImage(false,true);
+	gtView->OnFileSaveImage(false,true,false);
 	
 }
 
@@ -3189,7 +3197,7 @@ void CGTDoc::OnExportColorselectionText()
 	CGTView* gtView = (CGTView*) GetNextView(pos);
 	if(gtView == NULL)
 		return;
-	gtView->OnFileSaveImage(true,true);
+	gtView->OnFileSaveImage(true,true,false);
 	
 }
 

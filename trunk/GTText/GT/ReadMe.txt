@@ -121,10 +121,9 @@ redistributing Visual C++ applications in MSDN documentation.
 /////////////////////////////////////////////////////////////////////////////
 TODO:
 
-- Chose text selection for small images option
 - Button "Copy to clipboard"
 - Different languages
-- Forms Background color
+- Forms Background color 211 218 237
 - Preview image export
-- All format images defect when opening
+- UNICODE format
 

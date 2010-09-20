@@ -120,6 +120,8 @@
 #define IDC_EXT2                        1065
 #define IDC_TOALL                       1065
 #define IDC_PFOLDER                     1066
+#define IDC_SPLIT1                      1073
+#define IDC_LANGUAGES                   1076
 #define IDC_XMLTREE                     1100
 #define IDC_URL                         1101
 #define IDC_NAME                        1102
@@ -303,9 +305,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        186
+#define _APS_NEXT_RESOURCE_VALUE        192
 #define _APS_NEXT_COMMAND_VALUE         32970
-#define _APS_NEXT_CONTROL_VALUE         1073
+#define _APS_NEXT_CONTROL_VALUE         1077
 #define _APS_NEXT_SYMED_VALUE           110
 #endif
 #endif

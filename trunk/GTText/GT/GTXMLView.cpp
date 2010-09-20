@@ -2390,6 +2390,8 @@ void CXMLView::OnFileSave(bool browse)
 {
 	CFrameWnd* pMainWnd = (CFrameWnd*)AfxGetMainWnd();
 	CSplitterWnd* pParentSplitter = GetParentSplitter(this,true);
+	CGTView* gtView = (CGTView*)((CSplitterWnd*)pParentSplitter->GetParent())->GetPane(0,0);
+
 
 	CGTDoc* pDoc = GetDocument();
 	if (!pDoc)
@@ -2402,6 +2404,7 @@ void CXMLView::OnFileSave(bool browse)
 	CString strFilter((LPCSTR)IDS_DEFAULTXMLFILTERS);
 	_bstr_t bstrPathName,bstrFolderName;
 	CString strPathName;
+	CString imageName;
 	INT_PTR ret;
 	SectionPtrs* section =  pDoc->GetCurrentSection();
 	
@@ -2463,6 +2466,8 @@ void CXMLView::OnFileSave(bool browse)
 			pNodeA = pDoc->GetNodeFromCurrSection(image_filename);
 			file = pDoc->GetImagePath();
 			file = file.Right(file.GetLength()-file.ReverseFind(wchar_t('\\'))-1);
+			pDoc->SetImagePath(CString(pathdir + file));
+			gtView->OnFileSaveImage(true,false,false); 
 			bstrPathName = file;
 			if (pNodeA != NULL)
 				pNodeA->put_text(bstrPathName);
@@ -2633,7 +2638,7 @@ void CXMLView::OnFileSave(bool browse)
 			pathdir = strPathName.Left(strPathName.ReverseFind(wchar_t('\\'))+ 1);
 			bstrPathName = pathdir + file +_T(".xml");
 			
-			pDoc->SetPathName(name,TRUE);
+			pDoc->SetPathName(name,FALSE);
 
 
 			hr = pDoc->GetLinkDom()->save((_variant_t)bstrPathName);
