@@ -27,14 +27,14 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_15BB07CE5F7F431A85C8268510693030"
+        "MsmKey" = "8:_37A0213F50794317BF8638FCC6EC8EFC"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_37A0213F50794317BF8638FCC6EC8EFC"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_6F6BB8DB1A84D7F971E58B19F1ABF486"
+        "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -59,6 +59,12 @@
         {
         "MsmKey" = "8:_AE57506523AC45EB89E71039FC2643F2"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_BC4B2522D31027B1C7BC0E5097C20212"
+        "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -208,26 +214,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_15BB07CE5F7F431A85C8268510693030"
-            {
-            "SourcePath" = "8:..\\..\\..\\tesseract-trunk2\\libpng13.dll"
-            "TargetName" = "8:libpng13.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_B878568AE37B4A0E8EBF1B5F66A7FC32"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_37A0213F50794317BF8638FCC6EC8EFC"
             {
             "SourcePath" = "8:..\\GT\\res\\icon1.ico"
@@ -246,6 +232,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6F6BB8DB1A84D7F971E58B19F1ABF486"
+            {
+            "SourcePath" = "8:MSIMG32.dll"
+            "TargetName" = "8:MSIMG32.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_B878568AE37B4A0E8EBF1B5F66A7FC32"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_7B8246637F604F8193FE43446C4836BD"
@@ -326,6 +332,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_BC4B2522D31027B1C7BC0E5097C20212"
+            {
+            "SourcePath" = "8:gdiplus.dll"
+            "TargetName" = "8:gdiplus.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_B878568AE37B4A0E8EBF1B5F66A7FC32"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_CAB25E72C7AD4F7A8A4F5FF888F3C797"
@@ -486,15 +512,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Ground Truth Text"
-        "ProductCode" = "8:{5EF7500C-1017-4034-9B29-22DFCD9219CD}"
-        "PackageCode" = "8:{F3A5396D-A5EA-4EB4-AE5F-9D4D71D48ACE}"
-        "UpgradeCode" = "8:{C81FD9C0-7B3A-4D76-94E7-740A1324E374}"
+        "ProductCode" = "8:{882067F0-0E4D-46C9-A68A-BFD74F460E66}"
+        "PackageCode" = "8:{B7245F2F-D71F-4E38-80A0-967B80BD7501}"
+        "UpgradeCode" = "8:{01BC2233-F6F8-49BA-81CB-07FB562E9C97}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.3.0"
+        "ProductVersion" = "8:1.3.3"
         "Manufacturer" = "8:Universitat Autònoma de Barcelona"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://gttext.googlecode.com"
@@ -1064,7 +1090,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_C40CDAE4E73A42F8B8D591390D639DFB"
             {
-            "SourcePath" = "8:..\\Release\\GT.exe"
+            "SourcePath" = "8:..\\Debug\\GT.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_B878568AE37B4A0E8EBF1B5F66A7FC32"

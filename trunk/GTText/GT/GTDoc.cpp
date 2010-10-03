@@ -117,6 +117,7 @@ CGTDoc::CGTDoc()
 	m_showPointBar = true;
 	m_idCount = 0;
 	m_onGlyphState = EDIT_NONE;
+	m_languageOCR = "eng";
 }
 
 CGTDoc::~CGTDoc()
@@ -2116,7 +2117,7 @@ void CGTDoc::OnViewShowpoint()
 
 void CGTDoc::OnFilePreferences()
 {
-	CFolders foldersForm(m_glDefaultFolder,m_pcDefaultFolder);
+	CFolders foldersForm(m_glDefaultFolder,m_pcDefaultFolder,m_languageOCR);
 	foldersForm.DoModal();
 }
 

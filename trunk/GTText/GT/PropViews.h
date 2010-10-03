@@ -191,7 +191,7 @@ class CFolders : public CDialog
 {
 // Implementation
 public:
-	CFolders(CString &glyphFold,CString &pageFold);
+	CFolders(CString &glyphFold,CString &pageFold,CString &language);
 	// Dialog data
 	enum { IDD = IDD_PREFERENCES};
 protected:
@@ -202,6 +202,7 @@ private:
 	CImage* m_pImage;
 	CString* c_glyphFolder;
 	CString* c_pageFolder;
+	CString* c_language;
 public:
 	afx_msg void OnBnClickedOk();
 };

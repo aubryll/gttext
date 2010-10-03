@@ -109,10 +109,10 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "&Invert\tCtrl+I",             ID_TOOLS_INVERTALL
         MENUITEM SEPARATOR
-        POPUP "Copy text from..."
+        POPUP "Copy text from"
         BEGIN
             MENUITEM "Selection",                   ID_COPYOCRTEXT_USESELECTION
-            MENUITEM "Full color image",            ID_COPYOCRTEXT_ALLIMAGE
+            MENUITEM "Full image",                  ID_COPYOCRTEXT_ALLIMAGE
         END
     END
     POPUP "&Help"
@@ -181,8 +181,8 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,3,2,0
- PRODUCTVERSION 1,3,2,0
+ FILEVERSION 1,3,3,0
+ PRODUCTVERSION 1,3,3,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -198,12 +198,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "FileDescription", "GT Text Application"
-            VALUE "FileVersion", "1.3.2.0"
+            VALUE "FileVersion", "1.3.3.0"
             VALUE "InternalName", "gttext"
             VALUE "LegalCopyright", "Copyright 2010"
             VALUE "OriginalFilename", "GTText.exe"
             VALUE "ProductName", "gttext aplication"
-            VALUE "ProductVersion", "1.3.2.0"
+            VALUE "ProductVersion", "1.3.3.0"
         END
     END
     BLOCK "VarFileInfo"
@@ -828,13 +828,13 @@ CAPTION "Preferences"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,199,51,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,199,68,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,199,67,50,14
     LTEXT           "Default Glyph folder",IDC_STATIC,9,11,67,8
     EDITTEXT        IDC_GFOLDER,7,22,128,14,ES_AUTOHSCROLL
     LTEXT           "Default Page folder",IDC_STATIC,9,44,67,8
     EDITTEXT        IDC_PFOLDER,7,55,128,14,ES_AUTOHSCROLL
-    CONTROL         "",IDC_LANGUAGES,"ComboBoxEx32",CBS_DROPDOWNLIST | CBS_SORT | NOT WS_VISIBLE | WS_VSCROLL | WS_TABSTOP,147,22,87,21
-    LTEXT           "Text Recognition Language",IDC_STATIC,147,11,90,8,NOT WS_VISIBLE
+    LTEXT           "Text Recognition Language",IDC_STATIC,147,11,90,8
+    COMBOBOX        IDC_LANGUAGES,147,22,73,19,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
 END
 
 
@@ -851,7 +851,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 249
         TOPMARGIN, 7
-        BOTTOMMARGIN, 82
+        BOTTOMMARGIN, 81
     END
 END
 #endif    // APSTUDIO_INVOKED

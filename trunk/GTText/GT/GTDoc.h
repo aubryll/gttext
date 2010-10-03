@@ -178,6 +178,7 @@ private:
 	CString m_currentFolder;
 	CString m_pcDefaultFolder;
 	CString m_glDefaultFolder;
+	CString m_languageOCR;
 	CPoint m_pointSelected;  //x y for the position of xmlview scrollbars 
 	CPoint m_penPoint;  //Used by pen tool
 	CPoint m_lastPenPoint;
@@ -212,6 +213,8 @@ protected: // Crear sólo a partir de serialización
 
 // Operaciones
 public:
+	CString GetOCRLanguage() {return m_languageOCR;};
+	void SetOCRLanguage(CString language) {m_languageOCR = language;};
 	CImage* GetImage();
 	EditEnum GetEditState();
 	void  SetEditState(EditEnum state);

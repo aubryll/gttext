@@ -1264,10 +1264,11 @@ void CBlankView::OnUpdate()
 // CFolders
 
 
-CFolders::CFolders(CString &glyphFold,CString &pageFold) : CDialog(CFolders::IDD)
+CFolders::CFolders(CString &glyphFold,CString &pageFold,CString &language) : CDialog(CFolders::IDD)
 {
 	c_glyphFolder = &glyphFold;
 	c_pageFolder = &pageFold;
+	c_language = &language;
 }
 
 BOOL CFolders::OnInitDialog()
@@ -1276,11 +1277,47 @@ BOOL CFolders::OnInitDialog()
 
 	CEdit* pGlyph;
 	CEdit* pPage;
+	CComboBox* pLanguages;
 	
 	pGlyph = (CEdit*) GetDlgItem(IDC_GFOLDER);
 	pPage = (CEdit*) GetDlgItem(IDC_PFOLDER);
+	pLanguages = (CComboBox*) GetDlgItem(IDC_LANGUAGES);
 	pGlyph->SetWindowTextW(LPCTSTR(CString(*c_glyphFolder)));
 	pPage->SetWindowTextW(LPCTSTR(CString(*c_pageFolder)));
+	//pLanguages->AddString(LPCTSTR(CString(*c_language)));
+	//pLanguages->AddString(LPCTSTR(CString(*c_glyphFolder)));
+	
+	//SetCurrentDirectoryA("tessdata");
+	HANDLE hFind;
+    WIN32_FIND_DATA FindData;
+	DWORD nBufferLength = MAX_PATH;
+	wchar_t szCurrentDirectory[MAX_PATH + 1];
+	GetCurrentDirectory(nBufferLength, szCurrentDirectory); 
+//	szCurrentDirectory[MAX_PATH +1 ] = '\0';
+	CString fileName;
+	CString currentDir = CString(szCurrentDirectory) + _T("\\tessdata\\*.*");
+	hFind = FindFirstFile(currentDir.GetString(), &FindData);
+	int pos;
+	if(hFind != INVALID_HANDLE_VALUE)
+	{
+		do
+		{
+			fileName = CString(FindData.cFileName);
+			if((pos = fileName.Find(L".traineddata")) >= 0)
+			{
+				fileName = fileName.Left(pos);
+				pLanguages->AddString(LPCTSTR(fileName));
+			}
+		}while(FindNextFile(hFind, &FindData)!=0);
+		FindClose(hFind);
+	}
+	pos = pLanguages->FindString(0,LPCTSTR(CString(*c_language)));
+	if(pos>=0)
+		pLanguages->SetCurSel(pos);
+	else
+		pLanguages->SetCurSel(0);
+
+
 
 	return TRUE;
 
@@ -1294,11 +1331,15 @@ void CFolders::OnBnClickedOk()
 {
 	CEdit* pGlyph;
 	CEdit* pPage;
+	CComboBox* pLanguages;
 	
 	pGlyph = (CEdit*) GetDlgItem(IDC_GFOLDER);
 	pPage = (CEdit*) GetDlgItem(IDC_PFOLDER);
+	pLanguages = (CComboBox*) GetDlgItem(IDC_LANGUAGES);
 	pGlyph->GetWindowTextW((*c_glyphFolder));
 	pPage->GetWindowTextW((*c_pageFolder));
+	pLanguages->GetWindowTextW((*c_language));
+	
 	
 	OnOK();
 }
