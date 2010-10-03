@@ -90,11 +90,12 @@ private:
 	
 
 protected:
-
+	
 
 protected:
 	DECLARE_MESSAGE_MAP()
 public:
+	CStringW UTF8toUTF16(const CStringA& utf8);
 	COLORREF GetPixelFast(CImage *pImage,int x, int y);
 	void SetPixelFast(CImage *pImage,int x, int y, COLORREF color);
 	double GetZoom();

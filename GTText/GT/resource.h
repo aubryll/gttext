@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by GT.rc
+// Used by xmltree.rc
 //
 #define IDOK                            1
 #define IDM_ABOUTBOX                    0x0010
@@ -300,14 +300,50 @@
 #define ID_TOOLS_TEXTLANGUAGE           32967
 #define ID_SETLANGUAGE_ENGLISH          32968
 #define ID_SETLANGUAGE_SPANISH          32969
+#define ID_TOOLS_CHANGELANGUAGE         32970
+#define ID_TEXTLANGUAGE_ENG             32971
+#define ID_TEXTLANGUAGE_ESP             32972
+#define ID_TEXTLANGUAGE_CHI             32973
+#define ID_TEXTLANGUAGE_CES             32974
+#define ID_TEXTLANGUAGE_CHI32975        32975
+#define ID_TEXTLANGUAGE_CHI32976        32976
+#define ID_TEXTLANGUAGE_DAN             32977
+#define ID_TEXTLANGUAGE_DAN32978        32978
+#define ID_TEXTLANGUAGE_DEU             32979
+#define ID_TEXTLANGUAGE_ELL             32980
+#define ID_TEXTLANGUAGE_FIN             32981
+#define ID_TEXTLANGUAGE_FRA             32982
+#define ID_TEXTLANGUAGE_HUN             32983
+#define ID_TEXTLANGUAGE_IND             32984
+#define ID_TEXTLANGUAGE_ITA             32985
+#define ID_TEXTLANGUAGE_JPN             32986
+#define ID_TEXTLANGUAGE_KOR             32987
+#define ID_TEXTLANGUAGE_F               32988
+#define ID_TEXTLANGUAGE_F32989          32989
+#define ID_TEXTLANGUAGE_F32990          32990
+#define ID_TEXTLANGUAGE_F32991          32991
+#define ID_TEXTLANGUAGE_F32992          32992
+#define ID_TEXTLANGUAGE_F32993          32993
+#define ID_TEXTLANGUAGE_F32994          32994
+#define ID_TEXTLANGUAGE_F32995          32995
+#define ID_TEXTLANGUAGE_F32996          32996
+#define ID_TEXTLANGUAGE_F32997          32997
+#define ID_TEXTLANGUAGE_F32998          32998
+#define ID_TEXTLANGUAGE_F32999          32999
+#define ID_TEXTLANGUAGE_F33000          33000
+#define ID_TEXTLANGUAGE_F33001          33001
+#define ID_TEXTLANGUAGE_F33002          33002
+#define ID_TEXTLANGUAGE_F33003          33003
+#define ID_TEXTLANGUAGE_F33004          33004
+#define ID_TEXTLANGUAGE_F33005          33005
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        192
-#define _APS_NEXT_COMMAND_VALUE         32970
-#define _APS_NEXT_CONTROL_VALUE         1077
+#define _APS_NEXT_RESOURCE_VALUE        195
+#define _APS_NEXT_COMMAND_VALUE         33006
+#define _APS_NEXT_CONTROL_VALUE         1084
 #define _APS_NEXT_SYMED_VALUE           110
 #endif
 #endif

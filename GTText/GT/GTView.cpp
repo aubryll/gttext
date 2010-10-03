@@ -1603,8 +1603,9 @@ void CGTView::OnFileSaveImage(bool isColor,bool isOCR, bool isExport)
 		CString translated_text = "";
 		strFileName = CString(strPath) + CString(_T("\\BlackToText907.tif"));
 		std::string ss = std::string(CT2CA(strFileName));
+		CStringA language = CStringA(pDoc->GetOCRLanguage());
 		const char *file = ss.c_str(),
-				*lang = "eng";
+			*lang = language.GetString();
 		bool musttryagain = true;
 		l_float32 scaleRatio = 1;
 		l_float32	maxRatio = ((m_imgOriginal->GetHeight()*m_imgOriginal->GetWidth())<250000)?l_float32(6):l_float32(4);
@@ -1672,24 +1673,28 @@ void CGTView::OnFileSaveImage(bool isColor,bool isOCR, bool isExport)
 			int msgboxID;
 			int startLine = 0,
 				lineCount = 0;
-			while(startLine >= 0 && lineCount < NUM_LINES_OCR_SHOW)
+
+			CStringW originalText = CStringW(UTF8toUTF16(CStringA(text))),
+					printString;
+			
+			while((startLine >= 0) && (lineCount < NUM_LINES_OCR_SHOW))
 			{
-				startLine = CString(text).Find('\n',startLine+1);
+				startLine = originalText.Find(_T("\n"),startLine+1);
 				lineCount++;
 			}
-			CString printString;
-			if(lineCount>=20)
-				printString = CString(text).Left(startLine) + _T("...");
+		
+			if(lineCount >= NUM_LINES_OCR_SHOW)
+				printString = originalText.Left(startLine) + _T("...");
 			else
-				printString = CString(text);
+				printString = originalText;
 
 
-			if(CString(text).IsEmpty())
+			if(CStringW(text).IsEmpty())
 				msgboxID = MessageBox(_T("..."),_T("Copy text"),MB_ICONASTERISK | MB_CANCELTRYCONTINUE | MB_DEFBUTTON3);
 			else if(!isColor)
-				msgboxID = MessageBox(CString(printString),_T("Copy text from Selection"),MB_ICONASTERISK | MB_CANCELTRYCONTINUE | MB_DEFBUTTON3);
+				msgboxID = MessageBox(printString,_T("Copy text from Selection"),MB_ICONASTERISK | MB_CANCELTRYCONTINUE | MB_DEFBUTTON3);
 			else
-				msgboxID = MessageBox(CString(printString),_T("Copy text from full color Image"),MB_ICONASTERISK | MB_CANCELTRYCONTINUE | MB_DEFBUTTON3);
+				msgboxID = MessageBox(printString,_T("Copy text from full color Image"),MB_ICONASTERISK | MB_CANCELTRYCONTINUE | MB_DEFBUTTON3);
 
 			switch (msgboxID)
 			{
@@ -1711,7 +1716,22 @@ void CGTView::OnFileSaveImage(bool isColor,bool isOCR, bool isExport)
 					{
 						return;
 					}
-  
+
+#ifdef _UNICODE
+					EmptyClipboard();
+					HGLOBAL hglbCopy;
+					wchar_t *wcBuffer;
+					wcBuffer = 0;
+					hglbCopy = GlobalAlloc( GMEM_DDESHARE,	( originalText.GetLength() + 1 ) * sizeof(wchar_t) ); 
+	
+					wcBuffer = ( wchar_t* )GlobalLock( hglbCopy );
+					wcscpy_s( wcBuffer,( originalText.GetLength() + 1 ), originalText );
+	
+					GlobalUnlock( hglbCopy );
+					::SetClipboardData( CF_UNICODETEXT, hglbCopy );
+					CloseClipboard();
+#else
+        
 					//clear clipboard
 					EmptyClipboard();
  
@@ -1730,6 +1750,8 @@ void CGTView::OnFileSaveImage(bool isColor,bool isOCR, bool isExport)
 					::SetClipboardData(CF_TEXT,clipbuffer);
 					//close clipboard as we don't need it anymore
 					CloseClipboard();
+					
+#endif
 					musttryagain = false;
 					break;
 				default:
@@ -1968,4 +1990,17 @@ void CGTView::SetExt()
 void CGTView::SetToAll()
 {
 	m_isToAll = m_isToAll? false:true;
+}
+
+CStringW CGTView::UTF8toUTF16(const CStringA& utf8)
+{
+   CStringW utf16;
+   int len = MultiByteToWideChar(CP_UTF8, 0, utf8, -1, NULL, 0);
+   if (len>1)
+   { 
+      wchar_t *ptr = utf16.GetBuffer(len-1);
+      if (ptr) MultiByteToWideChar(CP_UTF8, 0, utf8, -1, ptr, len);
+      utf16.ReleaseBuffer();
+   }
+   return utf16;
 }
