@@ -121,9 +121,31 @@ redistributing Visual C++ applications in MSDN documentation.
 /////////////////////////////////////////////////////////////////////////////
 TODO:
 
-- Button "Copy to clipboard"
-- Different languages
-- Forms Background color 211 218 237
-- Preview image export
-- UNICODE format
+Done - Different languages
+Done - Forms Background color 211 218 237
+Done - UNICODE format
 
+- Help tip "Copy to clipboard"
+- Preview image export,new
+
+Bugs:
+In XP do not open images, (check manifest)
+Icon missing on top program All versions (Copy new version)
+
+Extended:
+PC extended (to form already the basic tree , to consider)
+More automatic new languages
+Work out the color text extraction (make it better)
+Image basic manipulation 
+	- Delete text keeping background (that is learnt from master) (and whatever there is selected)
+	- Edit text with same format than image (that is pro eh!)
+    - Train text detection (come on!, are we pros or not!)
+New tools!
+	- Basic Ground Truth comparison calculation (with pixels and centroits)
+	- Scale selection
+	- Fill empty spaces of selection
+	- Automatic selection/binarization of text!. Yes I know, that means even a paper but... are we an engineer/researcher/(hope good business guy)... Yes! business doing something... and we undersant what I mean...
+	- Basic image manipulator (grey-scale and we will see) with the always option to recover the original
+
+Main goal. If you read it, the machine can read it.
+Give to humanity useful-profit-advancement-help-better-efficiency etc... and to aquire a substantial proportion of the 100.000 € year project profit.

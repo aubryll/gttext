@@ -440,7 +440,7 @@ BOOL CGTDoc::OnSaveDocument(LPCTSTR lpszPathName)
 		LPTSTR lpsz = new TCHAR[m_strPathName.GetLength()+1];
 		_tcscpy(lpsz, m_strPathName);
 		lpszPathName = lpsz;
-		SetPathName(lpszPathName,TRUE);
+		SetPathName(lpszPathName,FALSE);
 		delete[] lpsz;
 		OnFileSave();
 		if (originalName.Find(_T("gt-")) == -1)
