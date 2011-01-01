@@ -2638,7 +2638,7 @@ void CXMLView::OnFileSave(bool browse)
 			pathdir = strPathName.Left(strPathName.ReverseFind(wchar_t('\\'))+ 1);
 			bstrPathName = pathdir + file +_T(".xml");
 			
-			pDoc->SetPathName(name,FALSE);
+			//pDoc->SetPathName(name,FALSE);
 
 
 			hr = pDoc->GetLinkDom()->save((_variant_t)bstrPathName);

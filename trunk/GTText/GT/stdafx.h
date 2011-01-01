@@ -22,7 +22,7 @@
 
 #include <afxole.h>
 
-#include <afxcontrolbars.h>	// MFC support for ribbons and control bars
+//#include <afxcontrolbars.h>	// MFC support for ribbons and control bars
 
 
 #import "msxml6.dll"
@@ -106,12 +106,6 @@ extern CXmltreeModule _Module;
 #include <afxcmn.h>			// Compatibilidad MFC para controles comunes de Windows
 #endif // _AFX_NO_AFXCMN_SUPPORT
 */
-
-
-
-
-
-
 
 
 

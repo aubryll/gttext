@@ -51,20 +51,26 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_93C4E46D38014D9B9DBEF91CCFB36EE5"
+        "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_94A1C5C5B36F4510B241CCEA45476A3E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_AE57506523AC45EB89E71039FC2643F2"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_A03A5F1F85FC42AC887033A226EA53AC"
+        "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_BC4B2522D31027B1C7BC0E5097C20212"
-        "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
+        "MsmKey" = "8:_AE57506523AC45EB89E71039FC2643F2"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -76,6 +82,12 @@
         "Entry"
         {
         "MsmKey" = "8:_CAB25E72C7AD4F7A8A4F5FF888F3C797"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_DD522E8403B44421B37624F557ABA483"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -250,7 +262,7 @@
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
             "Register" = "3:1"
-            "Exclude" = "11:FALSE"
+            "Exclude" = "11:TRUE"
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
@@ -334,10 +346,10 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_BC4B2522D31027B1C7BC0E5097C20212"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_CAB25E72C7AD4F7A8A4F5FF888F3C797"
             {
-            "SourcePath" = "8:gdiplus.dll"
-            "TargetName" = "8:gdiplus.dll"
+            "SourcePath" = "8:..\\..\\..\\tesseract-trunk2\\libimage.dll"
+            "TargetName" = "8:libimage.dll"
             "Tag" = "8:"
             "Folder" = "8:_B878568AE37B4A0E8EBF1B5F66A7FC32"
             "Condition" = "8:"
@@ -351,13 +363,13 @@
             "PackageAs" = "3:1"
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_CAB25E72C7AD4F7A8A4F5FF888F3C797"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_DD522E8403B44421B37624F557ABA483"
             {
-            "SourcePath" = "8:..\\..\\..\\tesseract-trunk2\\libimage.dll"
-            "TargetName" = "8:libimage.dll"
+            "SourcePath" = "8:..\\GT\\dll\\msimg32.dll"
+            "TargetName" = "8:msimg32.dll"
             "Tag" = "8:"
             "Folder" = "8:_B878568AE37B4A0E8EBF1B5F66A7FC32"
             "Condition" = "8:"
@@ -512,15 +524,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Ground Truth Text"
-        "ProductCode" = "8:{882067F0-0E4D-46C9-A68A-BFD74F460E66}"
-        "PackageCode" = "8:{B7245F2F-D71F-4E38-80A0-967B80BD7501}"
-        "UpgradeCode" = "8:{01BC2233-F6F8-49BA-81CB-07FB562E9C97}"
+        "ProductCode" = "8:{CDDACDB3-1BA4-4E4B-B410-475B7E89CAF3}"
+        "PackageCode" = "8:{05E30304-4913-4C99-80EE-036B100E70A5}"
+        "UpgradeCode" = "8:{70956D03-7950-48D0-BB74-93D5B4F7B7A9}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.3.3"
+        "ProductVersion" = "8:1.3.4"
         "Manufacturer" = "8:Universitat Autònoma de Barcelona"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://gttext.googlecode.com"
@@ -530,7 +542,7 @@
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:Software to build a Ground Truth from complex color images with text"
         "ARPURLINFOABOUT" = "8:"
-        "ARPPRODUCTICON" = "8:"
+        "ARPPRODUCTICON" = "8:_37A0213F50794317BF8638FCC6EC8EFC"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"
@@ -1057,6 +1069,34 @@
         }
         "MergeModule"
         {
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_93C4E46D38014D9B9DBEF91CCFB36EE5"
+            {
+            "UseDynamicProperties" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "SourcePath" = "8:Microsoft_VC100_MFC_x86.msm"
+                "Properties"
+                {
+                }
+            "LanguageId" = "3:0"
+            "Exclude" = "11:FALSE"
+            "Folder" = "8:"
+            "Feature" = "8:"
+            "IsolateTo" = "8:"
+            }
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_A03A5F1F85FC42AC887033A226EA53AC"
+            {
+            "UseDynamicProperties" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "SourcePath" = "8:Microsoft_VC100_CRT_x86.msm"
+                "Properties"
+                {
+                }
+            "LanguageId" = "3:0"
+            "Exclude" = "11:FALSE"
+            "Folder" = "8:"
+            "Feature" = "8:"
+            "IsolateTo" = "8:"
+            }
         }
         "ProjectOutput"
         {
@@ -1090,7 +1130,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_C40CDAE4E73A42F8B8D591390D639DFB"
             {
-            "SourcePath" = "8:..\\Debug\\GT.exe"
+            "SourcePath" = "8:..\\Release\\GT.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_B878568AE37B4A0E8EBF1B5F66A7FC32"

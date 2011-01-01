@@ -1608,16 +1608,23 @@ void CGTView::OnFileSaveImage(bool isColor,bool isOCR, bool isExport)
 			*lang = language.GetString();
 		bool musttryagain = true;
 		l_float32 scaleRatio = 1;
-		l_float32	maxRatio = ((m_imgOriginal->GetHeight()*m_imgOriginal->GetWidth())<250000)?l_float32(6):l_float32(4);
-		if(maxRatio == 6)
-			if((m_imgOriginal->GetHeight()*m_imgOriginal->GetWidth())<3000)
+		l_float32 numPixels = (m_imgOriginal->GetHeight()*m_imgOriginal->GetWidth());
+		l_float32	maxRatio = (numPixels)<l_float32(250000)?l_float32(5):l_float32(3);
+		if(maxRatio == 5)
+		{
+			if(numPixels<l_float32(3000))
 			{
 				maxRatio = 10;
 				scaleRatio = 5;
 			}
-		if(maxRatio == 4)
-			if((m_imgOriginal->GetHeight()*m_imgOriginal->GetWidth())>5000000)
+		}
+		else if(maxRatio == 3)
+		{
+			if(numPixels>l_float32(5000000))
 				maxRatio = 1.5;
+			else if(numPixels>l_float32(1000000))
+				maxRatio = 2;
+		}
 
 		if(!isColor)
 			m_imgCopy.Save(strFileName);

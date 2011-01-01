@@ -76,9 +76,6 @@
     <None Include="res\bitmap2.bmp">
       <Filter>Archivos de recursos</Filter>
     </None>
-    <None Include="res\Bright.ico">
-      <Filter>Archivos de recursos</Filter>
-    </None>
     <None Include="res\GT.ico">
       <Filter>Archivos de recursos</Filter>
     </None>
@@ -92,24 +89,6 @@
       <Filter>Archivos de recursos</Filter>
     </None>
     <None Include="res\icon1.ico">
-      <Filter>Archivos de recursos</Filter>
-    </None>
-    <None Include="res\icon2.ico">
-      <Filter>Archivos de recursos</Filter>
-    </None>
-    <None Include="res\icon3.ico">
-      <Filter>Archivos de recursos</Filter>
-    </None>
-    <None Include="res\icon4.ico">
-      <Filter>Archivos de recursos</Filter>
-    </None>
-    <None Include="res\icon6.ico">
-      <Filter>Archivos de recursos</Filter>
-    </None>
-    <None Include="res\icon7.ico">
-      <Filter>Archivos de recursos</Filter>
-    </None>
-    <None Include="res\idr_main.ico">
       <Filter>Archivos de recursos</Filter>
     </None>
     <None Include="..\..\..\Samples\mfcie\res\mfcie.rc2">
@@ -129,12 +108,6 @@
     </None>
     <None Include="ReadMe.txt" />
     <None Include="res\Toolbar.bmp">
-      <Filter>Archivos de recursos</Filter>
-    </None>
-    <None Include="res\bitmap3.bmp">
-      <Filter>Archivos de recursos</Filter>
-    </None>
-    <None Include="res\bitmap4.bmp">
       <Filter>Archivos de recursos</Filter>
     </None>
   </ItemGroup>
