@@ -22,7 +22,7 @@
 
 #include <afxole.h>
 
-//#include <afxcontrolbars.h>	// MFC support for ribbons and control bars
+#include <afxcontrolbars.h>	// MFC support for ribbons and control bars
 
 
 #import "msxml6.dll"

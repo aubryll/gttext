@@ -14,7 +14,7 @@
 // Consulte la sección GT.cpp para obtener información sobre la implementación de esta clase
 //
 
-class CGTApp : public CWinApp
+class CGTApp : public CWinAppEx
 {
 public:
 	CGTApp();
@@ -32,6 +32,12 @@ private:
 	BOOL m_bATLInited;
 private:
 	BOOL InitATL();
+	BOOL m_newFromClipboard;
+public:
+	afx_msg void OnFileFromclipboard();
+	BOOL GetClipboardFlag(){return m_newFromClipboard;};
+	
+	afx_msg void OnUpdateFileFromclipboard(CCmdUI *pCmdUI);
 };
 
 extern CGTApp theApp;

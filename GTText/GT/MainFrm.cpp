@@ -109,6 +109,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;      // no se pudo crear
 	}
 
+
 	if (! m_wndBrightBar.Create(this, IDD_DIALOGBRIGHT,
 		CBRS_ALIGN_LEFT|CBRS_TOOLTIPS|CBRS_FLOATING, IDD_DIALOGBRIGHT))
 	{

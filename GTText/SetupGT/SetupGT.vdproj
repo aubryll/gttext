@@ -33,6 +33,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_41502F88DCA265DF281755E29D7E0D69"
+        "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_6F6BB8DB1A84D7F971E58B19F1ABF486"
         "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
         "MsmSig" = "8:_UNDEFINED"
@@ -51,19 +57,13 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_93C4E46D38014D9B9DBEF91CCFB36EE5"
-        "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_94A1C5C5B36F4510B241CCEA45476A3E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_A03A5F1F85FC42AC887033A226EA53AC"
+        "MsmKey" = "8:_972CE20000534ED69083CA701E12892A"
         "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -75,8 +75,20 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_BC4B2522D31027B1C7BC0E5097C20212"
+        "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C40DBF03B738C181E46DE3E5C9D54702"
+        "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -95,6 +107,12 @@
         {
         "MsmKey" = "8:_F113102B2FB5426FA3ECE151F6F87554"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_FA325657017C433791EA0A9ABEF3CB5A"
+        "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -148,7 +166,7 @@
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
-        "Compression" = "3:2"
+        "Compression" = "3:3"
         "SignOutput" = "11:FALSE"
         "CertificateFile" = "8:"
         "PrivateKeyFile" = "8:"
@@ -244,6 +262,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_41502F88DCA265DF281755E29D7E0D69"
+            {
+            "SourcePath" = "8:leptonlib.dll"
+            "TargetName" = "8:leptonlib.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_B878568AE37B4A0E8EBF1B5F66A7FC32"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6F6BB8DB1A84D7F971E58B19F1ABF486"
@@ -344,6 +382,46 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_BC4B2522D31027B1C7BC0E5097C20212"
+            {
+            "SourcePath" = "8:gdiplus.dll"
+            "TargetName" = "8:gdiplus.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_B878568AE37B4A0E8EBF1B5F66A7FC32"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C40DBF03B738C181E46DE3E5C9D54702"
+            {
+            "SourcePath" = "8:tessdll.dll"
+            "TargetName" = "8:tessdll.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_B878568AE37B4A0E8EBF1B5F66A7FC32"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_CAB25E72C7AD4F7A8A4F5FF888F3C797"
@@ -524,15 +602,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Ground Truth Text"
-        "ProductCode" = "8:{CDDACDB3-1BA4-4E4B-B410-475B7E89CAF3}"
-        "PackageCode" = "8:{05E30304-4913-4C99-80EE-036B100E70A5}"
-        "UpgradeCode" = "8:{70956D03-7950-48D0-BB74-93D5B4F7B7A9}"
+        "ProductCode" = "8:{635A2A7F-8079-4536-9E5C-48C01F2E2058}"
+        "PackageCode" = "8:{C6E5EAA3-C23C-4EAE-BC6F-1B38FA10C012}"
+        "UpgradeCode" = "8:{29E3A01B-2868-4A2F-8F6F-063B146B5F1B}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.3.4"
+        "ProductVersion" = "8:1.4.0"
         "Manufacturer" = "8:Universitat Autònoma de Barcelona"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://gttext.googlecode.com"
@@ -541,7 +619,7 @@
         "ARPCONTACT" = "8:David Torne"
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:Software to build a Ground Truth from complex color images with text"
-        "ARPURLINFOABOUT" = "8:"
+        "ARPURLINFOABOUT" = "8:http://gttext.googlecode.com"
         "ARPPRODUCTICON" = "8:_37A0213F50794317BF8638FCC6EC8EFC"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
@@ -1069,11 +1147,11 @@
         }
         "MergeModule"
         {
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_93C4E46D38014D9B9DBEF91CCFB36EE5"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_972CE20000534ED69083CA701E12892A"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
-            "SourcePath" = "8:Microsoft_VC100_MFC_x86.msm"
+            "SourcePath" = "8:Microsoft_VC100_CRT_x86.msm"
                 "Properties"
                 {
                 }
@@ -1083,11 +1161,11 @@
             "Feature" = "8:"
             "IsolateTo" = "8:"
             }
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_A03A5F1F85FC42AC887033A226EA53AC"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_FA325657017C433791EA0A9ABEF3CB5A"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
-            "SourcePath" = "8:Microsoft_VC100_CRT_x86.msm"
+            "SourcePath" = "8:Microsoft_VC100_MFC_x86.msm"
                 "Properties"
                 {
                 }

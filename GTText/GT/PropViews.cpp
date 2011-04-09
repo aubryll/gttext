@@ -1264,11 +1264,12 @@ void CBlankView::OnUpdate()
 // CFolders
 
 
-CFolders::CFolders(CString &glyphFold,CString &pageFold,CString &language) : CDialog(CFolders::IDD)
+CFolders::CFolders(CString &glyphFold,CString &pageFold,CString &language,CString &imageFold) : CDialog(CFolders::IDD)
 {
 	c_glyphFolder = &glyphFold;
 	c_pageFolder = &pageFold;
 	c_language = &language;
+	c_imageFolder = &imageFold;
 }
 
 BOOL CFolders::OnInitDialog()
@@ -1277,13 +1278,16 @@ BOOL CFolders::OnInitDialog()
 
 	CEdit* pGlyph;
 	CEdit* pPage;
+	CEdit* pImage;
 	CComboBox* pLanguages;
 	
 	pGlyph = (CEdit*) GetDlgItem(IDC_GFOLDER);
 	pPage = (CEdit*) GetDlgItem(IDC_PFOLDER);
+	pImage = (CEdit*) GetDlgItem(IDC_IFOLDER);
 	pLanguages = (CComboBox*) GetDlgItem(IDC_LANGUAGES);
 	pGlyph->SetWindowTextW(LPCTSTR(CString(*c_glyphFolder)));
 	pPage->SetWindowTextW(LPCTSTR(CString(*c_pageFolder)));
+	pImage->SetWindowTextW(LPCTSTR(CString(*c_imageFolder)));
 	//pLanguages->AddString(LPCTSTR(CString(*c_language)));
 	//pLanguages->AddString(LPCTSTR(CString(*c_glyphFolder)));
 	
@@ -1331,14 +1335,17 @@ void CFolders::OnBnClickedOk()
 {
 	CEdit* pGlyph;
 	CEdit* pPage;
+	CEdit* pImage;
 	CComboBox* pLanguages;
 	
 	pGlyph = (CEdit*) GetDlgItem(IDC_GFOLDER);
 	pPage = (CEdit*) GetDlgItem(IDC_PFOLDER);
+	pImage = (CEdit*) GetDlgItem(IDC_IFOLDER);
 	pLanguages = (CComboBox*) GetDlgItem(IDC_LANGUAGES);
 	pGlyph->GetWindowTextW((*c_glyphFolder));
 	pPage->GetWindowTextW((*c_pageFolder));
 	pLanguages->GetWindowTextW((*c_language));
+	pImage->GetWindowTextW((*c_imageFolder));
 	
 	
 	OnOK();

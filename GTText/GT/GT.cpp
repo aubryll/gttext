@@ -27,6 +27,8 @@ BEGIN_MESSAGE_MAP(CGTApp, CWinApp)
 
 	// Comando de configuración de impresión estándar
 	ON_COMMAND(ID_FILE_PRINT_SETUP, &CWinApp::OnFilePrintSetup)
+	ON_COMMAND(ID_FILE_FROMCLIPBOARD, &CGTApp::OnFileFromclipboard)
+	ON_UPDATE_COMMAND_UI(ID_FILE_FROMCLIPBOARD, &CGTApp::OnUpdateFileFromclipboard)
 END_MESSAGE_MAP()
 
 
@@ -257,3 +259,24 @@ BOOL CGTApp::InitATL()
 }
 
 
+
+
+void CGTApp::OnFileFromclipboard()
+{
+	m_newFromClipboard = true;
+	OnFileNew();
+	m_newFromClipboard = false;
+}
+
+
+void CGTApp::OnUpdateFileFromclipboard(CCmdUI *pCmdUI)
+{
+	::OpenClipboard(AfxGetMainWnd()->GetSafeHwnd());
+	HANDLE hClip = ::GetClipboardData(CF_BITMAP);
+	HBITMAP hbClip = (HBITMAP) hClip;
+	if(hbClip != NULL)
+		pCmdUI->Enable(true);
+	else
+		pCmdUI->Enable(false);
+	CloseClipboard();
+}

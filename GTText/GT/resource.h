@@ -46,7 +46,6 @@
 #define IDD_PREFERENCES                 167
 #define IDR_MAINFRAME1                  173
 #define IDB_GTTICON                     182
-#define IDB_BITMAP2                     182
 #define IDC_COMBO1                      1000
 #define IDC_COMBO4                      1000
 #define IDC_COMBO2                      1001
@@ -116,6 +115,7 @@
 #define IDC_EXT2                        1065
 #define IDC_TOALL                       1065
 #define IDC_PFOLDER                     1066
+#define IDC_IFOLDER                     1067
 #define IDC_SPLIT1                      1073
 #define IDC_LANGUAGES                   1076
 #define IDC_XMLTREE                     1100
@@ -332,13 +332,16 @@
 #define ID_TEXTLANGUAGE_F33003          33003
 #define ID_TEXTLANGUAGE_F33004          33004
 #define ID_TEXTLANGUAGE_F33005          33005
+#define ID_BUTTON2                      33007
+#define ID_FILE_FROMCLIPBOARD           33008
+#define ID_ACCELERATOR33011             33011
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        195
-#define _APS_NEXT_COMMAND_VALUE         33006
+#define _APS_NEXT_RESOURCE_VALUE        205
+#define _APS_NEXT_COMMAND_VALUE         33012
 #define _APS_NEXT_CONTROL_VALUE         1084
 #define _APS_NEXT_SYMED_VALUE           110
 #endif
