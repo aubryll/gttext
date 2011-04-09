@@ -58,6 +58,7 @@ CGTView::CGTView()
 	m_cursorMap.Create(1,1,24);
 	m_cursorMap.SetPixelRGB(0,0,255,255,255);
 	m_isHold = false;
+	m_loadingFromClipboard = false;
 }
 
 CGTView::~CGTView()
@@ -1094,6 +1095,7 @@ void CGTView::OnRPaint(UINT nFlag,CPoint PxlReal)
 
 BOOL CGTView::OnFileImageOpen()
 {
+	CImage cp_image;
 	SetActiveWindow();
 	CGTDoc* pDoc = GetDocument();
 	CImage *m_imgOriginal;	
@@ -1118,6 +1120,26 @@ BOOL CGTView::OnFileImageOpen()
 		return FALSE;
 	}
 	
+	if(theApp.GetClipboardFlag() )
+	{
+		if ( OpenClipboard() )
+		{
+			HANDLE hClip = GetClipboardData(CF_BITMAP);
+			HBITMAP hbClip = (HBITMAP) hClip;
+			if(hbClip != NULL)
+			{
+				cp_image.Attach(hbClip);
+				TCHAR lpszOldPath[MAX_PATH]; // MAX_PATH = 260,is defined in windef.h
+				GetTempPath(MAX_PATH, lpszOldPath);
+				file = CString(lpszOldPath);
+				file.Append(CString('\\'));
+				file.Append(L"Clipboard.bmp");
+				cp_image.Save(file);
+			}
+			CloseClipboard();
+		}
+	}
+	
 	if (file.IsEmpty())
 	{
 		CFileDialog dlg(TRUE, NULL, NULL, OFN_FILEMUSTEXIST, strFilter);
@@ -1133,9 +1155,8 @@ BOOL CGTView::OnFileImageOpen()
 		file = dlg.GetFolderPath();
 		file.Append(CString('\\'));
 		file.Append(dlg.GetFileName());
-
-		
 	}
+
 
 	pDoc->LoadMask();
 	
@@ -1146,22 +1167,26 @@ BOOL CGTView::OnFileImageOpen()
 	if (pNodeA != NULL)
 		pNodeA->put_text(BSTR(file.GetString()));
 	
+
+	
 	m_imgOriginal->Destroy();
+	
 	if(pDoc->GetImagePath().IsEmpty())
 		hResult = m_imgOriginal->Load(file);
-	else
+	else 
 		hResult = m_imgOriginal->Load((pDoc->GetLinkPath().Left(pDoc->GetLinkPath().ReverseFind(wchar_t('\\'))+ 1)) + file);
 		
-	
-	
 	if (FAILED(hResult)) {
 		CString fmt;
-		fmt = _T("Image \"")+file + _T("\" could not be opened in path \"") + (pDoc->GetLinkPath().Left(pDoc->GetLinkPath().ReverseFind(wchar_t('\\'))+ 1)+_T("\".") );
+		fmt = _T("Image \"")+file + _T("\" could not be opened in path \"") + (pDoc->GetLinkPath().Left(pDoc->GetLinkPath().ReverseFind(wchar_t('\\'))+ 1)+_T("\".")+_T("Try to change the image source in File->Preference") );
 	
 		::AfxMessageBox(fmt);
 		pDoc->SetLoad(true);
 		return FALSE;
 	}
+	
+		
+
 	pDoc->SetImagePath(file);
 	
 	sizeTotal.cx = m_imgOriginal->GetWidth();

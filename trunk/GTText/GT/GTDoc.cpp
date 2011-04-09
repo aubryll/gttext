@@ -2117,8 +2117,12 @@ void CGTDoc::OnViewShowpoint()
 
 void CGTDoc::OnFilePreferences()
 {
-	CFolders foldersForm(m_glDefaultFolder,m_pcDefaultFolder,m_languageOCR);
+	CString file = GetLinkPath().Right(GetLinkPath().GetLength()-GetLinkPath().ReverseFind(wchar_t('\\'))-1);
+	CString folder = GetLinkPath().Left(GetLinkPath().ReverseFind(wchar_t('\\'))+ 1);
+	CFolders foldersForm(m_glDefaultFolder,m_pcDefaultFolder,m_languageOCR,folder);
+	
 	foldersForm.DoModal();
+	m_strLinkPathFile = folder + file;
 }
 
 // CGTDoc diagnostics

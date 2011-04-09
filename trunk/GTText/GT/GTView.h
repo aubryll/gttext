@@ -87,6 +87,7 @@ private:
 	HDC m_memDC;
 	HBITMAP m_hMemBmp;
 	HBITMAP m_hOldBmp;
+	bool m_loadingFromClipboard;
 	
 
 protected:

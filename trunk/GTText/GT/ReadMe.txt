@@ -125,12 +125,22 @@ Done - Different languages
 Done - Forms Background color 211 218 237
 Done - UNICODE format
 
-- Help tip "Copy to clipboard"
+- Help tip "Copy to clipboard": eg. "The text has been copied to the clipboard."
 - Preview image export,new
+- Open file from clipboard "Import Clipboard"
+DONE
+- Open Scanned editable dialog and create tree automatically from results
+- Auto selection
+- Get num selected pixels/area
+- Improve Desktop Icon
+- Inlcude redistribution ms100 libraries as checked/download
+- Width tree view dynamic resize
+- Donation Help link
+- After gt- warning, if the file is an image, create a new project with the image
 
 Bugs:
+Fixed - Icon missing on top program All versions (Copy new version)
 In XP do not open images, (check manifest)
-Icon missing on top program All versions (Copy new version)
 
 Extended:
 PC extended (to form already the basic tree , to consider)
@@ -138,13 +148,13 @@ More automatic new languages
 Work out the color text extraction (make it better)
 Image basic manipulation 
 	- Delete text keeping background (that is learnt from master) (and whatever there is selected)
-	- Edit text with same format than image (that is pro eh!)
-    - Train text detection (come on!, are we pros or not!)
+	- Edit text with same format than image
+    - To train text detection
 New tools!
 	- Basic Ground Truth comparison calculation (with pixels and centroits)
 	- Scale selection
-	- Fill empty spaces of selection
-	- Automatic selection/binarization of text!. Yes I know, that means even a paper but... are we an engineer/researcher/(hope good business guy)... Yes! business doing something... and we undersant what I mean...
+	- Fill empty spaces of selection (check binary morphology)
+	- Automatic selection/binarization of text!. That could mean state of the art research.
 	- Basic image manipulator (grey-scale and we will see) with the always option to recover the original
 
 Main goal. If you read it, the machine can read it.
