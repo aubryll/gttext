@@ -118,6 +118,8 @@
 #define IDC_IFOLDER                     1067
 #define IDC_SPLIT1                      1073
 #define IDC_LANGUAGES                   1076
+#define IDC_SYSLINK1                    1084
+#define IDC_SYSLINKLANG                 1084
 #define IDC_XMLTREE                     1100
 #define IDC_URL                         1101
 #define IDC_NAME                        1102
@@ -335,14 +337,19 @@
 #define ID_BUTTON2                      33007
 #define ID_FILE_FROMCLIPBOARD           33008
 #define ID_ACCELERATOR33011             33011
+#define ID_BUTTON33012                  33012
+#define ID_TOOLS_OCRA                   33013
+#define ID_TOOLS_AREAOCR                33014
+#define ID_TOOLS_AREATEXTCOPIER         33015
+#define ID_BUTTON33017                  33017
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        205
-#define _APS_NEXT_COMMAND_VALUE         33012
-#define _APS_NEXT_CONTROL_VALUE         1084
+#define _APS_NEXT_RESOURCE_VALUE        206
+#define _APS_NEXT_COMMAND_VALUE         33018
+#define _APS_NEXT_CONTROL_VALUE         1085
 #define _APS_NEXT_SYMED_VALUE           110
 #endif
 #endif

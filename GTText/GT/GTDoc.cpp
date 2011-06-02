@@ -13,7 +13,9 @@
 
 #ifndef TESSDLL_IMPORTS
 #define TESSDLL_IMPORTS
+#ifndef XPCOMPATIBLE
 #include "baseapi.h"
+#endif
 #endif
 
 
@@ -89,6 +91,8 @@ BEGIN_MESSAGE_MAP(CGTDoc, CDocument)
 	ON_COMMAND(ID_COPYOCRTEXT_ALLIMAGE, &CGTDoc::OnExportColorselectionText)
 	ON_UPDATE_COMMAND_UI(ID_COPYOCRTEXT_USESELECTION, &CGTDoc::OnUpdateFileExportselection)
 	ON_UPDATE_COMMAND_UI(ID_COPYOCRTEXT_ALLIMAGE, &CGTDoc::OnUpdateFileExportselection)
+	ON_UPDATE_COMMAND_UI(ID_TOOLS_AREATEXTCOPIER, &CGTDoc::OnUpdateToolsAreatextcopier)
+	ON_COMMAND(ID_TOOLS_AREATEXTCOPIER, &CGTDoc::OnToolsAreatextcopier)
 END_MESSAGE_MAP()
 
 
@@ -256,6 +260,11 @@ void CGTDoc::OnImageInfo()
 {
 	CInfoDlg infoDlg(*GetImage());
 	infoDlg.DoModal();
+	POSITION pos = GetFirstViewPosition();
+	CGTView* gtView = (CGTView*) GetNextView(pos);
+	if(gtView == NULL)
+		return;
+	gtView->OnToolsMakeBW();
 }
 
 void CGTDoc::SetDirty(bool isDirty)
@@ -3206,3 +3215,28 @@ void CGTDoc::OnExportColorselectionText()
 	
 }
 
+void CGTDoc::OnUpdateToolsAreatextcopier(CCmdUI *pCmdUI)
+{
+	POSITION pos = GetFirstViewPosition();
+	CGTView* gtView = (CGTView*) GetNextView(pos);
+	if(gtView == NULL)
+		return;
+	pCmdUI->SetCheck(gtView->GetAreaOCRCheck());
+	//pCmdUI->Enable((BOOL)((GetEditState() == EDIT_NONE && GetToolState() != ZOOM_TOOL)));
+	pCmdUI->SetCheck(GetToolState() == OCR_TOOL);
+	//pCmdUI->Enable((BOOL)((GetEditState() == EDIT_NONE && GetToolState() != ZOOM_TOOL)));
+}
+
+void CGTDoc::OnToolsAreatextcopier()
+{
+	POSITION pos = GetFirstViewPosition();
+	CGTView* gtView = (CGTView*) GetNextView(pos);
+	if(gtView == NULL)
+		return;
+	gtView->OnToolsAreatextcopier();
+
+	if(GetToolState() != OCR_TOOL)
+		SetToolState(OCR_TOOL);
+	else
+		SetToolState(NO_TOOL);
+}

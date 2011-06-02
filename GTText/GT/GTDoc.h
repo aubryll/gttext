@@ -78,6 +78,7 @@ enum ToolEnum
 	REGION_TOOL,
 	ZOOM_TOOL,
 	INVERT_TOOL,
+	OCR_TOOL,
 	NO_TOOL
 };
 
@@ -352,6 +353,11 @@ public:
 	afx_msg void OnFilePreferences();
 	afx_msg void OnViewShowpoint();
 	afx_msg void OnUpdateViewPoint(CCmdUI *pCmdUI);
+	afx_msg void OnUpdateToolsAreatextcopier(CCmdUI *pCmdUI);
+	afx_msg void OnToolsAreatextcopier();
+
+
+
 
 
 	afx_msg void OnFileExportselection();

@@ -3,6 +3,7 @@
 #include "GTDoc.h"
 #include "afxwin.h"
 
+
 // Vista de formulario de CMetaDataView
 
 class CMetaDataView : public CFormView
@@ -206,4 +207,6 @@ private:
 	CString* c_imageFolder;
 public:
 	afx_msg void OnBnClickedOk();
+	afx_msg void OnNMClickSyslinklang(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnCbnDropdownLanguages();
 };

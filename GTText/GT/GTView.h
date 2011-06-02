@@ -4,7 +4,7 @@
 #include <afxstr.h>
 #include <atlimage.h>
 #include <comdef.h>
-#include "GTDoc.h"
+
 
 
 
@@ -88,6 +88,9 @@ private:
 	HBITMAP m_hMemBmp;
 	HBITMAP m_hOldBmp;
 	bool m_loadingFromClipboard;
+	CRect  m_ocrRect;
+	CPoint m_ocrPoint;
+	bool m_checkOCRAreaTool;
 	
 
 protected:
@@ -124,6 +127,8 @@ public:
 	int GetPenSize();
 	void SetBorder();
 	void PrintPoint(CPoint PxlReal);
+	bool GetAreaOCRCheck(){return m_checkOCRAreaTool;};
+	void OnToolsAreatextcopier();
 public:
 	afx_msg void OnFileOpen();
 	afx_msg void OnFileNew();
@@ -134,4 +139,6 @@ public:
 	afx_msg void OnRButtonUp(UINT nFlag,CPoint point);
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+	afx_msg void OnUpdateToolsAreatextcopier(CCmdUI *pCmdUI);
+	
 };

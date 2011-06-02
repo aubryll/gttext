@@ -71,11 +71,11 @@ extern CXmltreeModule _Module;
 // Modificar las siguientes secciones define si su objetivo es una plataforma distinta a las especificadas a continuación.
 // Consulte la referencia MSDN para obtener la información más reciente sobre los valores correspondientes a diferentes plataformas.
 #ifndef WINVER				// Permitir el uso de características específicas de Windows XP o posterior.
-#define WINVER 0x0501		// Cambiar para establecer el valor apropiado para otras versiones de Windows.
+#define WINVER 0x0600		// Cambiar para establecer el valor apropiado para otras versiones de Windows.
 #endif
 
 #ifndef _WIN32_WINNT		// Permitir el uso de características específicas de Windows XP o posterior.                   
-#define _WIN32_WINNT 0x0501	// Cambiar para establecer el valor apropiado para otras versiones de Windows.
+#define _WIN32_WINNT 0x0600	// Cambiar para establecer el valor apropiado para otras versiones de Windows.
 #endif						
 
 #ifndef _WIN32_WINDOWS		// Permitir el uso de características específicas de Windows 98 o posterior.
@@ -121,7 +121,3 @@ extern CXmltreeModule _Module;
 #endif
 #endif
 
-#ifndef TESSDLL_IMPORTS
-#define TESSDLL_IMPORTS
-#include "baseapi.h"
-#endif

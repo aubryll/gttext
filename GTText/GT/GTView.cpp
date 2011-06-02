@@ -10,9 +10,35 @@
 #include "GTView.h"
 #include "GTXMLView.h"
 #include "MainFrm.h"
-#include "baseapi.h"
+
+#ifndef XPCOMPATIBLE
+//#include "mfcpch.h"
+// #define USE_VLD //Uncomment for Visual Leak Detector.
+#if (defined _MSC_VER && defined USE_VLD)
+#include <vld.h>
+#endif
+
+// Include automatically generated configuration file if running autoconf
+#ifdef HAVE_CONFIG_H
+#include "config_auto.h"
+#endif
+#ifdef USING_GETTEXT
+#include <libintl.h>
+#include <locale.h>
+#define _(x) gettext(x)
+#else
+#define _(x) (x)
+#endif
+#ifdef HAVE_LIBLEPT
+	#include "strngs.h"
+	#include "tprintf.h"
+	#include "tesseractmain.h"
+#endif
+#endif
 #include "allheaders.h"
-#include <string>
+#include "baseapi.h"
+
+
 #define NUM_LINES_OCR_SHOW 35
 
 
@@ -59,6 +85,9 @@ CGTView::CGTView()
 	m_cursorMap.SetPixelRGB(0,0,255,255,255);
 	m_isHold = false;
 	m_loadingFromClipboard = false;
+	m_ocrRect.SetRectEmpty();
+	m_ocrPoint = CPoint(-1,-1);
+	m_checkOCRAreaTool = false;
 }
 
 CGTView::~CGTView()
@@ -102,21 +131,22 @@ void CGTView::OnLButtonDown(UINT nFlag,CPoint point)
 		return;
 	if(pDoc->GetImage()->IsNull())
 		return;
+
+	CPoint ul;
+	CPoint PxlReal;
+	ul = this->GetScrollPosition();
+	PxlReal = ul + point;
+	PxlReal.x = int(double(PxlReal.x) / m_zoom);
+	PxlReal.y = int(double(PxlReal.y) / m_zoom);
+	point = PxlReal;
+
 	if(pDoc->GetEditState() != EDIT_NONE && (sec->type == glyph))
 	{
 		pDoc->Backup();
 		pDoc->SetModifiedFlag(TRUE);
 		pDoc->SetDirty(true);
-		
-		CPoint ul;
-		CPoint PxlReal;
-		ul = this->GetScrollPosition();
-		PxlReal = ul + point;
-		PxlReal.x = int(PxlReal.x / m_zoom);
-		PxlReal.y = int(PxlReal.y / m_zoom);
 		pDoc->SetPenPoint(PxlReal);
-		point = PxlReal;
-		
+
 		if(pDoc->GetToolState() == PIXEL_TOOL)
 		{
 			pDoc->SetPenPoint(PxlReal);
@@ -128,6 +158,16 @@ void CGTView::OnLButtonDown(UINT nFlag,CPoint point)
 		m_isHold = false;
 		OnLPaint(nFlag,point);
 		m_isHold = false;
+	}
+	
+	//if((pDoc->GetEditState() == EDIT_NONE && pDoc->GetToolState() != ZOOM_TOOL) && m_checkOCRAreaTool)
+	//if((pDoc->GetEditState() == EDIT_NONE && pDoc->GetToolState() == OCR_TOOL))
+	if(pDoc->GetToolState() == OCR_TOOL)
+	{
+		m_ocrPoint.x = point.x*m_zoom;
+		m_ocrPoint.y = point.y*m_zoom;
+		SetPixelFast(&m_cursorMap,0,0,RGB(0,0,63));
+		//m_ocrRect.SetRect(m_ocrPoint,m_ocrPoint);
 	}
 }
 
@@ -143,8 +183,8 @@ BOOL CGTView::OnMouseWheel(UINT nFlags,short zDelta,CPoint point)
 	step = int(pDoc->GetImage()->GetHeight()*m_zoom)/120;
 	ul = this->GetScrollPosition();
 	PxlReal = ul + point;
-	PxlReal.x = int(PxlReal.x / m_zoom);
-	PxlReal.y = int(PxlReal.y / m_zoom);
+	PxlReal.x = int(double(PxlReal.x) / m_zoom);
+	PxlReal.y = int(double(PxlReal.y) / m_zoom);
 	if(zDelta < 0)
 	{
 		if(pDoc->GetToolState() == ZOOM_TOOL)
@@ -213,7 +253,7 @@ BOOL CGTView::OnMouseWheel(UINT nFlags,short zDelta,CPoint point)
 		else
 			return TRUE;
 	}
-	
+	m_ocrPoint = CPoint(-1,-1);
 	Invalidate(false);
 	return TRUE;
 }
@@ -240,8 +280,8 @@ void CGTView::OnRButtonDown(UINT nFlag,CPoint point)
 		CPoint PxlReal;
 		ul = this->GetScrollPosition();
 		PxlReal = ul + point;
-		PxlReal.x = int(PxlReal.x / m_zoom);
-		PxlReal.y = int(PxlReal.y / m_zoom);
+		PxlReal.x = int(double(PxlReal.x) / m_zoom);
+		PxlReal.y = int(double(PxlReal.y) / m_zoom);
 		pDoc->SetPenPoint(PxlReal);
 		point = PxlReal;
 		
@@ -258,6 +298,7 @@ void CGTView::OnRButtonDown(UINT nFlag,CPoint point)
 		m_isHold = false;
 		
 	}
+	m_ocrPoint = CPoint(-1,-1);
 }
 
 void CGTView::OnLButtonUp(UINT nFlag,CPoint point)
@@ -281,6 +322,11 @@ void CGTView::OnLButtonUp(UINT nFlag,CPoint point)
 	PxlReal.x = int(double(PxlReal.x) / m_zoom);
 	PxlReal.y = int(double(PxlReal.y) / m_zoom);
 	ToolEnum state = pDoc->GetToolState();
+	if(pDoc->GetEditState() == EDIT_NONE && state != ZOOM_TOOL)
+	{
+		state = NO_TOOL;
+	}
+
 	switch(state)
 	{
 		case REGION_TOOL:
@@ -340,8 +386,27 @@ void CGTView::OnLButtonUp(UINT nFlag,CPoint point)
 
 			pDoc->GetImageSelection()->LoadMaskPoints(pDoc->GetEditState());
 			break;
-		default:break;
+		default:
+			if(m_ocrPoint != CPoint(-1,-1))
+			{	
+				CPoint	point1 = CPoint(int(double(m_ocrPoint.x)/m_zoom),int(double(m_ocrPoint.y)/m_zoom)),
+						point2 = PxlReal,
+						topLeft = CPoint(min(point1.x,point2.x),min(point1.y,point2.y)),
+						bottomRight = CPoint(max(point1.x,point2.x),max(point1.y,point2.y));
+				m_ocrRect.SetRect(topLeft,bottomRight);
+				//m_cursorMap.AlphaBlend(GetDC()->GetSafeHdc(),m_ocrRect,CRect(0, 0, 1, 1), 127);
+				if(!m_ocrRect.IsRectEmpty())
+				{
+					OnFileSaveImage(true,true,true);
+				}
+				
+m_ocrRect.SetRectEmpty();
+			}
+			
+			break;
 	}
+	m_ocrPoint = CPoint(-1,-1);
+	SetPixelFast(&m_cursorMap,0,0,RGB(255,255,255));
 	PrintPoint(PxlReal);
 	Invalidate(false);
 }
@@ -981,6 +1046,7 @@ void CGTView::OnRButtonUp(UINT nFlag,CPoint point)
 			break;
 		default:break;
 	}
+	m_ocrPoint = CPoint(-1,-1);
 	PrintPoint(PxlReal);
 	Invalidate(false);
 }
@@ -1152,9 +1218,10 @@ BOOL CGTView::OnFileImageOpen()
 		}
 
 		m_nFilterLoad = dlg.m_ofn.nFilterIndex;
-		file = dlg.GetFolderPath();
-		file.Append(CString('\\'));
-		file.Append(dlg.GetFileName());
+		//file = dlg.GetFolderPath();
+		file = dlg.GetPathName();
+		//file.Append(CString('\\'));
+		//file.Append(dlg.GetFileName());
 	}
 
 
@@ -1229,13 +1296,13 @@ void CGTView::OnDraw(CDC* pDC)
 	BYTE  grade = 0;
 	int height,width;
 	
-	
-
 	if (!m_imgOriginal->IsNull()) 
 	{
 		sel = pDoc->GetImageSelection();
 		if(sel->GetCore() || sel->GetOutline() || sel->GetShade())
 			grade = m_bright;
+		if(m_ocrPoint != CPoint(-1,-1))
+			grade = 0;//grade/3;
 		sel->ResetMask();
 		mask = sel->GetImageMask();
 		if(mask->IsNull())
@@ -1454,6 +1521,13 @@ void CGTView::OnDraw(CDC* pDC)
 			}
 		}
 	}
+	
+	if(m_ocrPoint != CPoint(-1,-1))
+	{
+		//m_cursorMap.AlphaBlend(pDC->GetSafeHdc(),m_ocrRect,CRect(0, 0, 1, 1), 15);
+		pDC->DrawFocusRect(&m_ocrRect);
+		//pDC->DrawEdge(&m_ocrRect,EDGE_ETCHED,BF_FLAT);
+	}
 }
 void CGTView::OnInitialUpdate()
 {
@@ -1516,6 +1590,7 @@ void CGTView::Dump(CDumpContext& dc) const
 
 void CGTView::OnFileSaveImage(bool isColor,bool isOCR, bool isExport) 
 {
+
 	CString strFilter;
 	CSimpleArray<GUID> aguidFileTypes;
 	CString strFileName;
@@ -1533,9 +1608,52 @@ void CGTView::OnFileSaveImage(bool isColor,bool isOCR, bool isExport)
 	m_imgMask = pDoc->GetImageSelection()->GetImageMask();
 	height = m_imgOriginal->GetHeight();
 	width = m_imgOriginal->GetWidth();
-	m_imgCopy.Create(width,height,m_imgMask->GetBPP());
-	if(isExport || (!isColor))
+	DWORD nBufferLength = MAX_PATH;
+	//wchar_t languageDirectory[MAX_PATH + 1];
+	char languageDirectory[MAX_PATH + 1];
+	if(isOCR)
 	{
+		
+		GetCurrentDirectoryA(nBufferLength,languageDirectory);
+		strcpy(languageDirectory,(CStringA(languageDirectory) + CStringA("\\")).GetString());
+
+	/*	if(RegGetValue(HKEY_USERS,TEXT(".DEFAULT\\Software\\Tesseract-OCR"),TEXT("InstallDir"),RRF_RT_ANY, NULL, (PVOID)&languageDirectory, &nBufferLength) != ERROR_SUCCESS)
+		{
+			if(RegGetValue(HKEY_CURRENT_USER,TEXT("Software\\Tesseract-OCR"),TEXT("InstallDir"),RRF_RT_ANY, NULL, (PVOID)&languageDirectory, &nBufferLength) != ERROR_SUCCESS)
+				return;
+		}
+		else
+		{
+			RegDeleteKeyValue(HKEY_CURRENT_USER,TEXT("Software\\Microsoft\\Windows\\CurrentVersion\\Run"),TEXT("Tesseract-OCR"));
+			RemoveDirectory(TEXT("%PROGRAMDATA%\\\Microsoft\Windows\\Start Menu\\Programs\\Tesseract-OCR"));
+		}*/
+	}
+	
+	
+	if(isExport && isOCR)
+	{
+		if(m_imgOriginal->GetBPP()<=8)
+			m_imgCopy.Create(m_ocrRect.Width(),m_ocrRect.Height(),24);
+		else
+			m_imgCopy.Create(m_ocrRect.Width(),m_ocrRect.Height(),m_imgMask->GetBPP());
+
+		for(int i = 0;i < width; i++)
+			for(int j = 0;j < height ; j++)
+				if(m_ocrRect.PtInRect(CPoint(i,j)))
+				{
+					if(isColor)
+						SetPixelFast(&m_imgCopy,i-m_ocrRect.left,j-m_ocrRect.top,GetPixelFast(m_imgOriginal,i,j));
+					else
+						SetPixelFast(&m_imgCopy,i-m_ocrRect.left,j-m_ocrRect.top,RGB(0,0,0));
+				}
+	}
+	else if(isExport || (!isColor))
+	{
+		if(m_imgOriginal->GetBPP()<=8)
+			m_imgCopy.Create(width,height,24);
+		else
+			m_imgCopy.Create(width,height,m_imgMask->GetBPP());
+
 		for(int i = 0;i < width; i++)
 			for(int j = 0;j < height ; j++)
 				if(GetPixelFast(m_imgMask,i,j) != COLORREF(0))
@@ -1548,6 +1666,7 @@ void CGTView::OnFileSaveImage(bool isColor,bool isOCR, bool isExport)
 				else
 					SetPixelFast(&m_imgCopy,i,j,RGB(255,255,255));
 	}
+
 	if(!isOCR)
 	{
 		if(!isExport)
@@ -1631,15 +1750,21 @@ void CGTView::OnFileSaveImage(bool isColor,bool isOCR, bool isExport)
 		CStringA language = CStringA(pDoc->GetOCRLanguage());
 		const char *file = ss.c_str(),
 			*lang = language.GetString();
+		
 		bool musttryagain = true;
+
 		l_float32 scaleRatio = 1;
 		l_float32 numPixels = (m_imgOriginal->GetHeight()*m_imgOriginal->GetWidth());
+		if(isExport || (!isColor))
+		{
+			numPixels = (m_ocrRect.Height()*m_ocrRect.Width());
+		}
 		l_float32	maxRatio = (numPixels)<l_float32(250000)?l_float32(5):l_float32(3);
 		if(maxRatio == 5)
 		{
-			if(numPixels<l_float32(3000))
+			if(numPixels<l_float32(24000))
 			{
-				maxRatio = 10;
+				maxRatio = 12;
 				scaleRatio = 5;
 			}
 		}
@@ -1651,23 +1776,40 @@ void CGTView::OnFileSaveImage(bool isColor,bool isOCR, bool isExport)
 				maxRatio = 2;
 		}
 
-		if(!isColor)
+		if(!isColor || isExport)
+		{
 			m_imgCopy.Save(strFileName);
+		}
 		else
+		{
 			m_imgOriginal->Save(strFileName);
-
+		}
+	//	#ifndef XPCOMPATIBLE
+		//tesseract::PageSegMode pagesegmode = tesseract::PSM_AUTO;	
+		tesseract::TessBaseAPI  api;
+		api.Init(languageDirectory, lang);
+		api.SetPageSegMode(tesseract::PSM_AUTO);
 		while(musttryagain)
 		{
-			tesseract::TessBaseAPI* api = new tesseract::TessBaseAPI();
-			api->Init("", lang);
-			api->SetPageSegMode(tesseract::PSM_AUTO);
-				
+			//old:tesseract::TessBaseAPI* api = new tesseract::TessBaseAPI();
+			//old:api->Init(languageDirectory, lang);
+			//old:api->SetPageSegMode(tesseract::PSM_AUTO);
+			
+			
+
 			PIX* pix = pixRead(file);
-			if(pix == NULL)
+			if(pix == NULL || (m_imgOriginal->GetBPP()<=8 && !isExport))
 			{
+				m_imgCopy.Destroy();
+				if(m_imgOriginal->GetBPP()<=8)
+				{
+					m_imgCopy.Create(width,height,24);
+				}
+				else
+					m_imgCopy.Create(width,height,m_imgMask->GetBPP());
 				for(int i = 0;i < width; i++)
 					for(int j = 0;j < height ; j++)
-						if(isColor || GetPixelFast(m_imgMask,i,j) != COLORREF(0))
+						if(isColor || GetPixelFast(m_imgMask,i,j) != COLORREF(0) || (isExport && isOCR))
 						{
 							if(isColor)
 								SetPixelFast(&m_imgCopy,i,j,GetPixelFast(m_imgOriginal,i,j));
@@ -1688,17 +1830,16 @@ void CGTView::OnFileSaveImage(bool isColor,bool isOCR, bool isExport)
 					pixDestroy(&pix);
 					pix = doublepix;
 				}
-			
-				
-				api->SetImage(pix);
+						
+				api.SetImage(pix);
 				int bytes_per_line =(((pix->w)*(pix->d)+7)/8);
 				BeginWaitCursor();
-				text = api->TesseractRect((const unsigned char *)pix->data,pix->d/8,bytes_per_line,0,0,pix->w,pix->h);
+				text = api.TesseractRect((const unsigned char *)pix->data,pix->d/8,bytes_per_line,0,0,pix->w,pix->h);
 				EndWaitCursor();
 				pixDestroy(&pix);
 
-				api->End();
-				delete api;
+				//api->End();
+				//delete api;
 			}
 
 		 
@@ -1725,6 +1866,8 @@ void CGTView::OnFileSaveImage(bool isColor,bool isOCR, bool isExport)
 				msgboxID = MessageBox(_T("..."),_T("Copy text"),MB_ICONASTERISK | MB_CANCELTRYCONTINUE | MB_DEFBUTTON3);
 			else if(!isColor)
 				msgboxID = MessageBox(printString,_T("Copy text from Selection"),MB_ICONASTERISK | MB_CANCELTRYCONTINUE | MB_DEFBUTTON3);
+			else if(isExport)
+				msgboxID = MessageBox(printString,_T("Copy text from selected area"),MB_ICONASTERISK | MB_CANCELTRYCONTINUE | MB_DEFBUTTON3);
 			else
 				msgboxID = MessageBox(printString,_T("Copy text from full color Image"),MB_ICONASTERISK | MB_CANCELTRYCONTINUE | MB_DEFBUTTON3);
 
@@ -1736,10 +1879,20 @@ void CGTView::OnFileSaveImage(bool isColor,bool isOCR, bool isExport)
 				case IDTRYAGAIN:
 					// Resize image and try again
 					if(scaleRatio < maxRatio)
+					{
 						scaleRatio += 1;
+					}
 					else
+					{
 						scaleRatio = 0.5;
-					
+#ifndef HAVE_LIBLEPT
+						api.SetAccuracyVSpeed(tesseract::AVS_MOST_ACCURATE);
+						
+#else
+						//api.Init(languageDirectory, lang,tesseract::OEM_TESSERACT_CUBE_COMBINED);
+						api.SetPageSegMode(tesseract::PSM_AUTO_OSD);
+#endif
+					}
 					musttryagain = true;
 					break;
 				case IDCONTINUE:
@@ -1791,6 +1944,8 @@ void CGTView::OnFileSaveImage(bool isColor,bool isOCR, bool isExport)
 					break;
 			}
 		}
+		api.End();
+		//#endif
 	}
 }
 
@@ -1810,7 +1965,7 @@ void CGTView::OnToolsMakeBW(void)
 		// the image does not use an indexed palette, so we will change each pixel to B&W (slow)
 		COLORREF pixel;
 		int maxY = m_imgOriginal->GetHeight(), maxX = m_imgOriginal->GetWidth();
-		byte r,g,b,avg;
+	/*	byte r,g,b,avg;
 		for (int x=0; x<maxX; x++) {
 			for (int y=0; y<maxY; y++) {
 				pixel = m_imgOriginal->GetPixel(x,y);
@@ -1820,9 +1975,23 @@ void CGTView::OnToolsMakeBW(void)
 				avg = ((r + g + b)/3);
 				m_imgOriginal->SetPixelRGB(x,y,avg,avg,avg);
 			}
+		}*/
+		//New method using RGB 3D Space distance
+		double r,g,b,avg;
+		for (int x=0; x<maxX; x++) {
+			for (int y=0; y<maxY; y++) {
+				pixel = GetPixelFast(m_imgOriginal,x,y);
+				r = double(GetRValue(pixel));
+				g = double(GetGValue(pixel));
+				b = double(GetBValue(pixel));
+				avg = (sqrt(double(((r*r + g*g + b*b)/3))));
+				SetPixelFast(m_imgOriginal,x,y,RGB(int(avg),int(avg),int(avg)));
+			}
 		}
 
-	} else {
+	} 
+	else
+	{
 
 		// the image uses an indexed palette, so we will just change the palette table entries to
 		// their B&W equivalents 
@@ -1948,16 +2117,31 @@ void CGTView::OnMouseMove(UINT nFlags, CPoint point)
 
 	if(pDoc->GetImage()->IsNull())
 		return;
+	if(m_ocrPoint != CPoint(-1,-1))
+	{
+		CPoint	point1 = m_ocrPoint,
+				point2 = this->GetScrollPosition()+point, //Point in screen
+				topLeft = CPoint(min(point1.x,point2.x),min(point1.y,point2.y)),
+				bottomRight = CPoint(max(point1.x,point2.x),max(point1.y,point2.y));
+		
+		bottomRight.x = min(bottomRight.x,int(double(pDoc->GetImage()->GetWidth())*m_zoom));
+		bottomRight.y = min(bottomRight.y,int(double(pDoc->GetImage()->GetHeight())*m_zoom));
+		m_ocrRect.SetRect(topLeft,bottomRight);
+			
+		Invalidate(false);
+		return;
+	}
 
-	if(((nFlags & MK_LBUTTON) != 0) || ((nFlags & MK_RBUTTON) != 0) || ((nFlags & MK_CONTROL) != 0)/* || (pDoc->GetToolState() == INVERT_TOOL)*/)
+	if(((nFlags & MK_LBUTTON) != 0) || ((nFlags & MK_RBUTTON) != 0) || ((nFlags & MK_CONTROL) != 0) /* || (pDoc->GetToolState() == INVERT_TOOL)*/)
 	{
 		
 		CPoint ul;
 		CPoint PxlReal;
 		ul = this->GetScrollPosition();
+		
 		PxlReal = ul + point;
-		PxlReal.x = int(PxlReal.x / m_zoom);
-		PxlReal.y = int(PxlReal.y / m_zoom);
+		PxlReal.x = int(double(PxlReal.x) / m_zoom);
+		PxlReal.y = int(double(PxlReal.y) / m_zoom);
 		state = pDoc->GetToolState();
 		point = PxlReal;
 
@@ -1986,6 +2170,7 @@ void CGTView::OnMouseMove(UINT nFlags, CPoint point)
 				Invalidate(false);
 			}
 		}
+		
 
 		PrintPoint(PxlReal);
 	}
@@ -2004,7 +2189,6 @@ void CGTView::OnMouseMove(UINT nFlags, CPoint point)
 	{
 		OnRPaint(nFlags,point);
 	}
-
 }
 
 void CGTView::SetBorder()
@@ -2035,4 +2219,9 @@ CStringW CGTView::UTF8toUTF16(const CStringA& utf8)
       utf16.ReleaseBuffer();
    }
    return utf16;
+}
+
+void CGTView::OnToolsAreatextcopier()
+{
+	m_checkOCRAreaTool = !m_checkOCRAreaTool;
 }

@@ -124,16 +124,21 @@ TODO:
 Done - Different languages
 Done - Forms Background color 211 218 237
 Done - UNICODE format
+Done - Open file from clipboard "Import Clipboard"
+
 
 - Help tip "Copy to clipboard": eg. "The text has been copied to the clipboard."
 - Preview image export,new
-- Open file from clipboard "Import Clipboard"
-DONE
 - Open Scanned editable dialog and create tree automatically from results
 - Auto selection
 - Get num selected pixels/area
 - Improve Desktop Icon
 - Inlcude redistribution ms100 libraries as checked/download
+(Does not work well, made with static lib)
+- Select with mouse at begining crop text to read
+- Auto select extract in black/white (hidden) if user did not see well at first round (165 optimum)
+- Fix supper zoom bug in extreme
+
 - Width tree view dynamic resize
 - Donation Help link
 - After gt- warning, if the file is an image, create a new project with the image
