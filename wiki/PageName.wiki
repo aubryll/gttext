@@ -82,10 +82,10 @@ The selection algorithm now has an option to only stops checking once arrived to
 
   * The extracted text it is showed in only some lines if text is too long, though it is copied to the clipboard in its full content when pressed continue.
 
-== Future work ==
+===Release 1.4.2===
 
-  * Be able to extract different languages adapting the program to the new characters set.
-
+  * It is able to extract different languages adapting the program to the new characters set using tesseract engine.
+  * It can extract a selected area by cropping the image and letting the engine work on the cropped image. This tool is very useful to get rid of misleading content that confuses the engine.
 
 
 ==References==
