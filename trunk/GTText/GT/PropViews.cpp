@@ -1292,14 +1292,22 @@ BOOL CFolders::OnInitDialog()
 	//pLanguages->AddString(LPCTSTR(CString(*c_glyphFolder)));
 	
 	//SetCurrentDirectoryA("tessdata");
+	
 	HANDLE hFind;
     WIN32_FIND_DATA FindData;
 	DWORD nBufferLength = MAX_PATH;
-	wchar_t szCurrentDirectory[MAX_PATH + 1];
-	GetCurrentDirectory(nBufferLength, szCurrentDirectory); 
-//	szCurrentDirectory[MAX_PATH +1 ] = '\0';
+	//wchar_t languageDirectory[MAX_PATH + 1];
+	char languageDirectory[MAX_PATH + 1];
+	/*if(RegGetValue(HKEY_USERS,TEXT(".DEFAULT\\Software\\Tesseract-OCR"),TEXT("InstallDir"),RRF_RT_ANY, NULL, (PVOID)&languageDirectory, &nBufferLength) != ERROR_SUCCESS)
+	{
+		RegGetValue(HKEY_CURRENT_USER,TEXT("Software\\Tesseract-OCR"),TEXT("InstallDir"),RRF_RT_ANY, NULL, (PVOID)&languageDirectory, &nBufferLength);
+	}*/
+	
+	GetCurrentDirectoryA(nBufferLength,languageDirectory);
+	strcpy(languageDirectory,(CStringA(languageDirectory) + CStringA("\\")).GetString());
+
 	CString fileName;
-	CString currentDir = CString(szCurrentDirectory) + _T("\\tessdata\\*.*");
+	CString currentDir = CString(languageDirectory)+ _T("\\tessdata\\*.*");
 	hFind = FindFirstFile(currentDir.GetString(), &FindData);
 	int pos;
 	if(hFind != INVALID_HANDLE_VALUE)
@@ -1329,6 +1337,8 @@ BOOL CFolders::OnInitDialog()
 
 BEGIN_MESSAGE_MAP(CFolders,CDialog)
 	ON_BN_CLICKED(IDOK, &CFolders::OnBnClickedOk)
+	ON_NOTIFY(NM_CLICK, IDC_SYSLINKLANG, &CFolders::OnNMClickSyslinklang)
+	ON_CBN_DROPDOWN(IDC_LANGUAGES, &CFolders::OnCbnDropdownLanguages)
 END_MESSAGE_MAP()
 
 void CFolders::OnBnClickedOk()
@@ -1349,4 +1359,45 @@ void CFolders::OnBnClickedOk()
 	
 	
 	OnOK();
+}
+
+
+void CFolders::OnNMClickSyslinklang(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	ShellExecute(NULL, L"open", L"tesseract-ocr-language-1.4.2.exe", NULL, NULL, SW_SHOWNORMAL);
+	*pResult = 0;
+}
+
+
+void CFolders::OnCbnDropdownLanguages()
+{
+	CComboBox* pLanguages;
+	HANDLE hFind;
+    WIN32_FIND_DATA FindData;
+	DWORD nBufferLength = MAX_PATH;
+	char languageDirectory[MAX_PATH + 1];
+	pLanguages = (CComboBox*) GetDlgItem(IDC_LANGUAGES);
+	
+	GetCurrentDirectoryA(nBufferLength,languageDirectory);
+	strcpy(languageDirectory,(CStringA(languageDirectory) + CStringA("\\")).GetString());
+
+	CString fileName;
+	CString currentDir = CString(languageDirectory)+ _T("\\tessdata\\*.*");
+	hFind = FindFirstFile(currentDir.GetString(), &FindData);
+	int pos;
+	if(hFind != INVALID_HANDLE_VALUE)
+	{
+		do
+		{
+			fileName = CString(FindData.cFileName);
+			if((pos = fileName.Find(L".traineddata")) >= 0)
+			{
+				fileName = fileName.Left(pos);
+				pos = pLanguages->FindString(0,LPCTSTR(fileName));
+				if(pos<0)
+					pLanguages->AddString(LPCTSTR(fileName));
+			}
+		}while(FindNextFile(hFind, &FindData)!=0);
+		FindClose(hFind);
+	}
 }

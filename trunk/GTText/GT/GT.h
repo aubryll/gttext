@@ -14,7 +14,7 @@
 // Consulte la sección GT.cpp para obtener información sobre la implementación de esta clase
 //
 
-class CGTApp : public CWinAppEx
+class CGTApp : public CWinApp
 {
 public:
 	CGTApp();

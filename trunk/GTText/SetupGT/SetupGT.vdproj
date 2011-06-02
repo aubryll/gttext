@@ -15,26 +15,20 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_09035BD57791442F8FDD0E370A4D4F96"
+        "MsmKey" = "8:_139D89642D3C492AABE685FB4C95A693"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_149188A5363144FCBFCE21833C47098C"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_1E0AD158E5A84337B4822AB3BBA911E4"
+        "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_37A0213F50794317BF8638FCC6EC8EFC"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_41502F88DCA265DF281755E29D7E0D69"
-        "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -47,24 +41,6 @@
         {
         "MsmKey" = "8:_7B8246637F604F8193FE43446C4836BD"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_807D022825434840AEAF39701382ACDE"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_94A1C5C5B36F4510B241CCEA45476A3E"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_972CE20000534ED69083CA701E12892A"
-        "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -87,43 +63,25 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_C40DBF03B738C181E46DE3E5C9D54702"
+        "MsmKey" = "8:_CBA9253AC60B41C699784DB0B631C5D3"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_DD1C160CE97C44EC8D10BC3621753BF6"
         "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_CAB25E72C7AD4F7A8A4F5FF888F3C797"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_DD522E8403B44421B37624F557ABA483"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_F113102B2FB5426FA3ECE151F6F87554"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FA325657017C433791EA0A9ABEF3CB5A"
-        "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FA4630B4C0FF4E4990E64BD262317A33"
-        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_FA9162E482C149D2A01A1891459284EA"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_FD281FC862544B1AB1781019EF45905C"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -176,9 +134,90 @@
             {
             "Enabled" = "11:TRUE"
             "PromptEnabled" = "11:TRUE"
-            "PrerequisitesLocation" = "2:1"
+            "PrerequisitesLocation" = "2:2"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                }
+            }
+        }
+        "ReleaseCompatible"
+        {
+        "DisplayName" = "8:ReleaseCompatible"
+        "IsDebugOnly" = "11:FALSE"
+        "IsReleaseOnly" = "11:FALSE"
+        "OutputFilename" = "8:ReleaseCompatible\\SetupGT.msi"
+        "PackageFilesAs" = "3:2"
+        "PackageFileSize" = "3:-2147483648"
+        "CabType" = "3:1"
+        "Compression" = "3:3"
+        "SignOutput" = "11:FALSE"
+        "CertificateFile" = "8:"
+        "PrivateKeyFile" = "8:"
+        "TimeStampServer" = "8:"
+        "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:2"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                }
+            }
+        }
+        "ReleaseLatestTesser"
+        {
+        "DisplayName" = "8:ReleaseLatestTesser"
+        "IsDebugOnly" = "11:FALSE"
+        "IsReleaseOnly" = "11:FALSE"
+        "OutputFilename" = "8:ReleaseLatestTesser\\SetupGT.msi"
+        "PackageFilesAs" = "3:2"
+        "PackageFileSize" = "3:-2147483648"
+        "CabType" = "3:1"
+        "Compression" = "3:3"
+        "SignOutput" = "11:FALSE"
+        "CertificateFile" = "8:"
+        "PrivateKeyFile" = "8:"
+        "TimeStampServer" = "8:"
+        "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:2"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                }
+            }
+        }
+        "ReleaseXP"
+        {
+        "DisplayName" = "8:ReleaseXP"
+        "IsDebugOnly" = "11:FALSE"
+        "IsReleaseOnly" = "11:FALSE"
+        "OutputFilename" = "8:ReleaseXP\\SetupGT.msi"
+        "PackageFilesAs" = "3:2"
+        "PackageFileSize" = "3:-2147483648"
+        "CabType" = "3:1"
+        "Compression" = "3:3"
+        "SignOutput" = "11:FALSE"
+        "CertificateFile" = "8:"
+        "PrivateKeyFile" = "8:"
+        "TimeStampServer" = "8:"
+        "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:http://www.microsoft.com/downloads/info.aspx?na=41&SrcFamilyId=9B2DA534-3E03-4391-8A4D-074B9F2BC1BF&SrcDisplayLang=en&u=http%3a%2f%2fdownload.microsoft.com%2fdownload%2f1%2f1%2f1%2f1116b75a-9ec3-481a-a3c8-1777b5381140%2fvcredist_x86.exe"
                 "Items"
                 {
                 }
@@ -189,6 +228,20 @@
     {
         "CustomAction"
         {
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_DAB090A84AE443A2BCCF249BEFE780E7"
+            {
+            "Name" = "8:prerequisits.exe"
+            "Condition" = "8:WindowsBuild < 5600"
+            "Object" = "8:_CBA9253AC60B41C699784DB0B631C5D3"
+            "FileType" = "3:2"
+            "InstallAction" = "3:1"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:1"
+            "Identifier" = "8:_8CAAC933_FA2F_467D_8D42_2AE1163A70BE"
+            "InstallerClass" = "11:FALSE"
+            "CustomActionData" = "8:"
+            }
         }
         "DefaultFeature"
         {
@@ -204,32 +257,12 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_09035BD57791442F8FDD0E370A4D4F96"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_139D89642D3C492AABE685FB4C95A693"
             {
-            "SourcePath" = "8:..\\..\\..\\tesseract-trunk2\\librle3.dll"
-            "TargetName" = "8:librle3.dll"
+            "SourcePath" = "8:..\\GT\\tesseract-ocr-language-1.4.2.exe"
+            "TargetName" = "8:tesseract-ocr-language-1.4.2.exe"
             "Tag" = "8:"
             "Folder" = "8:_B878568AE37B4A0E8EBF1B5F66A7FC32"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_149188A5363144FCBFCE21833C47098C"
-            {
-            "SourcePath" = "8:..\\GT\\tessdata\\eng.traineddata"
-            "TargetName" = "8:eng.traineddata"
-            "Tag" = "8:"
-            "Folder" = "8:_8FD483EE26C64117961272E9688813E0"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -264,26 +297,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_41502F88DCA265DF281755E29D7E0D69"
-            {
-            "SourcePath" = "8:leptonlib.dll"
-            "TargetName" = "8:leptonlib.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_B878568AE37B4A0E8EBF1B5F66A7FC32"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6F6BB8DB1A84D7F971E58B19F1ABF486"
             {
             "SourcePath" = "8:MSIMG32.dll"
@@ -308,46 +321,6 @@
             {
             "SourcePath" = "8:..\\debug\\gt-00006664-20081107T11432018-0815.xml"
             "TargetName" = "8:gt-00006664-20081107T11432018-0815.xml"
-            "Tag" = "8:"
-            "Folder" = "8:_B878568AE37B4A0E8EBF1B5F66A7FC32"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_807D022825434840AEAF39701382ACDE"
-            {
-            "SourcePath" = "8:..\\..\\..\\tesseract-trunk2\\libtiff3.dll"
-            "TargetName" = "8:libtiff3.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_B878568AE37B4A0E8EBF1B5F66A7FC32"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_94A1C5C5B36F4510B241CCEA45476A3E"
-            {
-            "SourcePath" = "8:..\\..\\..\\tesseract-trunk2\\jpeg62.dll"
-            "TargetName" = "8:jpeg62.dll"
             "Tag" = "8:"
             "Folder" = "8:_B878568AE37B4A0E8EBF1B5F66A7FC32"
             "Condition" = "8:"
@@ -400,94 +373,14 @@
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
             "Register" = "3:1"
-            "Exclude" = "11:FALSE"
+            "Exclude" = "11:TRUE"
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C40DBF03B738C181E46DE3E5C9D54702"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_CBA9253AC60B41C699784DB0B631C5D3"
             {
-            "SourcePath" = "8:tessdll.dll"
-            "TargetName" = "8:tessdll.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_B878568AE37B4A0E8EBF1B5F66A7FC32"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_CAB25E72C7AD4F7A8A4F5FF888F3C797"
-            {
-            "SourcePath" = "8:..\\..\\..\\tesseract-trunk2\\libimage.dll"
-            "TargetName" = "8:libimage.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_B878568AE37B4A0E8EBF1B5F66A7FC32"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_DD522E8403B44421B37624F557ABA483"
-            {
-            "SourcePath" = "8:..\\GT\\dll\\msimg32.dll"
-            "TargetName" = "8:msimg32.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_B878568AE37B4A0E8EBF1B5F66A7FC32"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F113102B2FB5426FA3ECE151F6F87554"
-            {
-            "SourcePath" = "8:..\\..\\..\\tesseract-trunk2\\zlib1.dll"
-            "TargetName" = "8:zlib1.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_B878568AE37B4A0E8EBF1B5F66A7FC32"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_FA4630B4C0FF4E4990E64BD262317A33"
-            {
-            "SourcePath" = "8:..\\..\\..\\tesseract-trunk2\\libpng12.dll"
-            "TargetName" = "8:libpng12.dll"
+            "SourcePath" = "8:..\\GT\\prerequisits.exe"
+            "TargetName" = "8:prerequisits.exe"
             "Tag" = "8:"
             "Folder" = "8:_B878568AE37B4A0E8EBF1B5F66A7FC32"
             "Condition" = "8:"
@@ -510,6 +403,26 @@
             "TargetName" = "8:pc-00006664-20081120T12402926-4796.xml"
             "Tag" = "8:"
             "Folder" = "8:_B878568AE37B4A0E8EBF1B5F66A7FC32"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_FD281FC862544B1AB1781019EF45905C"
+            {
+            "SourcePath" = "8:..\\GT\\tessdata\\eng.traineddata"
+            "TargetName" = "8:eng.traineddata"
+            "Tag" = "8:"
+            "Folder" = "8:_8FD483EE26C64117961272E9688813E0"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -602,16 +515,16 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Ground Truth Text"
-        "ProductCode" = "8:{635A2A7F-8079-4536-9E5C-48C01F2E2058}"
-        "PackageCode" = "8:{C6E5EAA3-C23C-4EAE-BC6F-1B38FA10C012}"
-        "UpgradeCode" = "8:{29E3A01B-2868-4A2F-8F6F-063B146B5F1B}"
+        "ProductCode" = "8:{5DE03281-D974-47AF-A07B-1FC22BC0917F}"
+        "PackageCode" = "8:{67768F7E-143A-4C42-8D67-407A2A4C3BD1}"
+        "UpgradeCode" = "8:{D620E1D3-93DC-4ED8-BB35-DD2388DCE7C4}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.4.0"
-        "Manufacturer" = "8:Universitat Autònoma de Barcelona"
+        "ProductVersion" = "8:1.4.2"
+        "Manufacturer" = "8:Universitat Autonoma de Barcelona"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://gttext.googlecode.com"
         "Title" = "8:GTText"
@@ -653,6 +566,28 @@
                             "Transitive" = "11:FALSE"
                                 "Keys"
                                 {
+                                    "{60EA8692-D2D5-43EB-80DC-7906BF13D6EF}:_C52582DFBE924352B8BD33D04CFBC417"
+                                    {
+                                    "Name" = "8:[ProductName]"
+                                    "Condition" = "8:"
+                                    "AlwaysCreate" = "11:FALSE"
+                                    "DeleteAtUninstall" = "11:FALSE"
+                                    "Transitive" = "11:FALSE"
+                                        "Keys"
+                                        {
+                                        }
+                                        "Values"
+                                        {
+                                            "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_7705A7D9E97D490898E0680EE6E2F2DE"
+                                            {
+                                            "Name" = "8:InstDir"
+                                            "Condition" = "8:"
+                                            "Transitive" = "11:FALSE"
+                                            "ValueTypes" = "3:2"
+                                            "Value" = "8:[TARGETDIR]"
+                                            }
+                                        }
+                                    }
                                 }
                                 "Values"
                                 {
@@ -687,9 +622,39 @@
                             "Transitive" = "11:FALSE"
                                 "Keys"
                                 {
+                                    "{60EA8692-D2D5-43EB-80DC-7906BF13D6EF}:_39F7364172394517B71338F35DAE8529"
+                                    {
+                                    "Name" = "8:[ProductName]"
+                                    "Condition" = "8:"
+                                    "AlwaysCreate" = "11:FALSE"
+                                    "DeleteAtUninstall" = "11:FALSE"
+                                    "Transitive" = "11:FALSE"
+                                        "Keys"
+                                        {
+                                        }
+                                        "Values"
+                                        {
+                                            "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_17984A42E05C4CE1AB7646E5E581EF5D"
+                                            {
+                                            "Name" = "8:IntsDir"
+                                            "Condition" = "8:"
+                                            "Transitive" = "11:FALSE"
+                                            "ValueTypes" = "3:2"
+                                            "Value" = "8:[TARGETDIR]"
+                                            }
+                                        }
+                                    }
                                 }
                                 "Values"
                                 {
+                                    "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_CEF7722235C349A29345DD52399B788E"
+                                    {
+                                    "Name" = "8:InstPath"
+                                    "Condition" = "8:"
+                                    "Transitive" = "11:FALSE"
+                                    "ValueTypes" = "3:1"
+                                    "Value" = "8:[Installation Folder]"
+                                    }
                                 }
                             }
                         }
@@ -862,7 +827,7 @@
             "Attributes" = "3:3"
                 "Dialogs"
                 {
-                    "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_EC7F1D2CFEE54BD18B10BA488DE4FE3E"
+                    "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_3FC0F35ECB41490EA391DFB27588C147"
                     {
                     "Sequence" = "3:100"
                     "DisplayName" = "8:Finished"
@@ -1057,7 +1022,7 @@
             "Attributes" = "3:3"
                 "Dialogs"
                 {
-                    "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_66DFFA7F718E4A369F5081ECCB441453"
+                    "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_3B72BE4588704837895AEE17615E2F43"
                     {
                     "Sequence" = "3:100"
                     "DisplayName" = "8:Finished"
@@ -1147,11 +1112,11 @@
         }
         "MergeModule"
         {
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_972CE20000534ED69083CA701E12892A"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_1E0AD158E5A84337B4822AB3BBA911E4"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
-            "SourcePath" = "8:Microsoft_VC100_CRT_x86.msm"
+            "SourcePath" = "8:Microsoft_VC100_MFC_x86.msm"
                 "Properties"
                 {
                 }
@@ -1161,11 +1126,11 @@
             "Feature" = "8:"
             "IsolateTo" = "8:"
             }
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_FA325657017C433791EA0A9ABEF3CB5A"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_DD1C160CE97C44EC8D10BC3621753BF6"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
-            "SourcePath" = "8:Microsoft_VC100_MFC_x86.msm"
+            "SourcePath" = "8:Microsoft_VC100_CRT_x86.msm"
                 "Properties"
                 {
                 }
@@ -1208,7 +1173,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_C40CDAE4E73A42F8B8D591390D639DFB"
             {
-            "SourcePath" = "8:..\\Release\\GT.exe"
+            "SourcePath" = "8:..\\ReleaseLatestTesser\\GT.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_B878568AE37B4A0E8EBF1B5F66A7FC32"
