@@ -85,6 +85,7 @@ The selection algorithm now has an option to only stops checking once arrived to
 ===Release 1.4.2===
 
   * It is able to extract different languages adapting the program to the new characters set using tesseract engine.
+
   * It can extract a selected area by cropping the image and letting the engine work on the cropped image. This tool is very useful to get rid of misleading content that confuses the engine.
 
 
