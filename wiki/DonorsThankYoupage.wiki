@@ -1,5 +1,5 @@
 #labels Forprivacypurposes,Deprecated,-Hidden
-#Thank you for donnors
+#Thank you donnors
 
 = Thank you very much =
 
