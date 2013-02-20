@@ -43,7 +43,7 @@ Version 1.1.2
   * Alta escalabilidad hasta 70MP
   * Comprimido de la información Ground Truth
 
-_Información guardada como tiras (x,y,r) en lugar de píxeles sólos (x,y)_
+_Información guardada como tiras (x,y,r) en lugar de píxeles solos (x,y)_
 [http://gttext.googlecode.com/files/gl-GT.pdf exemplo de la definición]
 
 
