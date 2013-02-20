@@ -51,27 +51,27 @@ _Información guardada como tiras (x,y,r) en lugar de píxeles solos (x,y)_
 
 Versión 1.2.1
 
-  * Mejora de la herramienta de edición de píxeles
+  * Mejora de la herramienta de edición de píxeles
 
 ----
 
 Versión 1.2.2
 
-Más detalles en [http://code.google.com/p/gttext/wiki/PageName Versions List]
+Más detalles en [http://code.google.com/p/gttext/wiki/PageName Lista de Versiones]
 
-[http://gttext.googlecode.com/files/GTText_1.2.6.exe Developer Update 1.2.6]
+[http://gttext.googlecode.com/files/GTText_1.2.6.exe Actualización de desarrollo 1.2.6]
 
 ----
 
 Release 1.3.0
 
   * Selección Rápida
-  * Errores corregidos
-  * Exportación de Imágen
+  * Errores corregidos
+  * Exportación de Imágen
 
 - Inclusión de OCR [http://code.google.com/p/tesseract-ocr/Tesseract] Proyecto de HP y Goolge,
 
-  * Extrae texto partir de los píxeles seleccionados.
+  * Extrae texto partir de los píxeles seleccionados.
 
     El reconocimiento de texto copia la selección
     al portapapeles con una precisión muy alta
@@ -88,9 +88,9 @@ Release 1.3.0
 
 Release 1.3.4
 
-  * Se ha corregido errores importantes en Windows 7
-  * Errores corregidos con el icono principal
-  * Reducido en gran medida el tamaño del instalador
+  * Se ha corregido errores importantes en Windows 7
+  * Errores corregidos con el icono principal
+  * Reducido en gran medida el tamaño del instalador
  
 Quiero agradecer a todos ustedes el uso del software por su confianza en este proyecto.
 ----
@@ -111,11 +111,11 @@ David
 ----
 Versión 1.4.3
 
-  * Nuevo multi-idioma de OCR GT Text
+  * Nuevo multi-idioma de OCR GT Text
 
-  * Mejor compatibilidad con viejos sistemas Windows XP
+  * Mejor compatibilidad con viejos sistemas Windows XP
 
-  * Nuevas herramientas para extraer el texto de píxeles seleccionados
+  * Nuevas herramientas para extraer el texto de píxeles seleccionados
 
 
 ----
