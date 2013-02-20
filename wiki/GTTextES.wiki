@@ -1,25 +1,29 @@
-==Ground Truthing tool for Color Images with Text==
+==Herramienta para copiar o etiquetar texto de imágenes==
 
 
-In the research of algorithms that extract text from color images a set of files with the exact location of the text is needed to avoid inefficient and tedious visual checks of the results.
-
-This Ground Truth information saves enormous time and gives accuracy.
-For this the gttext project helps to create fast and quality Ground Truthed data-sets from color text images. 
-
-The basic level of work is at a pixel detection, making possible to group regions to form the glyph or even use a direct editing to get the choice.
-
-Extracting text from complex color images can be done immediately just by selecting the region of the open, scanned or pasted image document.
-
-This computer engineering project was the result of a degree requirement and it is offered to the open source community. <br/>
-Under GNU License, this project is open to improvements and to accept developers that may want to give a positive change.
+En la investigación de algoritmos de OCR en color, la ubicación exacta del texto es necesario para corregir algoritmos de extracción de texto.
 
 
-Enjoy.
+Esta información etiquetada ahorra tiempo enorme y da precisión.
+Para ello, el proyecto gttext ayuda a crear de manera rápida y de calidad imagénes base para mejar algoritmos de extracción de texto.
+
+El nivel básico de trabajo radica en la detección de píxeles, lo que hace posible crear regiones o incluso etiquetar directamente los píxeles para detallar la elección. 
+
+Cualquier usuario, puede a su vez copiar immediatamente el texto de cualquier imágen a su portapapeles desde cualquier imágen o desde el escaner. Los más revolucionarios OCR permiten leer texto en cualquier idioma.
+
+Extraer texto de imágenes en color se puede hacer inmediatamente con sólo seleccionar la región del documento abierto, la imagen escaneada o  el contenido del portapapeles.
+
+
+Este proyecto de ingeniería informática fue el resultado de un requisito de grado y se ofrece a la comunidad de código abierto. <br/>
+Bajo licencia GNU, este proyecto está abierto a mejoras y aceptar los desarrolladores que quieran dar una aportación.
+
+
+Disfrutad!.
 <br/>
 
 [http://gt-text.en.softonic.com/universaldownloader-launch?WL=1730 http://gttext.googlecode.com/files/Softonic%20Download%20Button%20.png]
 <br/>
-Latest release [http://gt-text.en.softonic.com/universaldownloader-launch?WL=1730 GT Text 1.4.4]
+Última version [http://gt-text.en.softonic.com/universaldownloader-launch?WL=1730 GT Text 1.4.4]
 
 <br/>
 [https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JVJCXGDLLZ8PJ http://gttext.googlecode.com/files/btn_donate_SM.gif]
