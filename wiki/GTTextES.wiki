@@ -1,0 +1,166 @@
+==Ground Truthing tool for Color Images with Text==
+
+
+In the research of algorithms that extract text from color images a set of files with the exact location of the text is needed to avoid inefficient and tedious visual checks of the results.
+
+This Ground Truth information saves enormous time and gives accuracy.
+For this the gttext project helps to create fast and quality Ground Truthed data-sets from color text images. 
+
+The basic level of work is at a pixel detection, making possible to group regions to form the glyph or even use a direct editing to get the choice.
+
+Extracting text from complex color images can be done immediately just by selecting the region of the open, scanned or pasted image document.
+
+This computer engineering project was the result of a degree requirement and it is offered to the open source community. <br/>
+Under GNU License, this project is open to improvements and to accept developers that may want to give a positive change.
+
+
+Enjoy.
+<br/>
+
+[http://gt-text.en.softonic.com/universaldownloader-launch?WL=1730 http://gttext.googlecode.com/files/Softonic%20Download%20Button%20.png]
+<br/>
+Latest release [http://gt-text.en.softonic.com/universaldownloader-launch?WL=1730 GT Text 1.4.4]
+
+<br/>
+[https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JVJCXGDLLZ8PJ http://gttext.googlecode.com/files/btn_donate_SM.gif]
+<br/>
+
+<wiki:video url="http://www.youtube.com/watch?v=kQ44D4dUBtg"/>
+<br/>
+[http://revision3.com/tekzilla Tekzilla] presents GT Text, hosted by
+Veronica Belmont
+<br/>
+[http://download.cnet.com/Ground-Truth-Text/3000-10743_4-75758782.html?part=dl-&subj=dl&tag=button http://gttext.googlecode.com/files/dl-button_b.gif]
+<br/>
+Version 1.1.2
+
+  * Faster performance
+  * New mode of region selection
+  * Higher scalability for up to 70MP
+  * Compressed Ground Truth data definition 
+
+_Information stored as runs (x,y,r) instead than single pixels (x,y)_
+[http://gttext.googlecode.com/files/gl-GT.pdf definition_sample]
+
+
+----
+
+Version 1.2.1
+
+  * Improved pixel edition tool
+
+----
+
+Version 1.2.2
+
+More details at [http://code.google.com/p/gttext/wiki/PageName Versions List]
+
+[http://gttext.googlecode.com/files/GTText_1.2.6.exe Developer Update 1.2.6]
+
+----
+
+Release 1.3.0
+
+  * Fastest selection
+  * Fixed Bugs
+  * Image Exporting
+
+-  With the help of the OCR [http://code.google.com/p/tesseract-ocr/ Tesseract] project     from HP and Goolge, 
+
+  * Text extraction from the selected pixels.
+
+    The recognition of text copies the selection
+    to clipboard with very high accuracy
+    in greater than 10px/letter ratio aspects images.
+
+-  Added option to select from all the image.
+
+  * Full text selection to obtain all the regions similar to the one clicked.
+
+    Detect those regions whose color changes more abruptly
+    makes it an ideal tool for readable text capture.
+
+----
+
+Release 1.3.4
+
+  * Fixed important Bugs in Windows 7
+  * Fixed Bugs with main icon
+  * Reduced greatly the installer size
+ 
+I want to thank all of you using the software for your confidence in this project.
+----
+
+Version 1.4.1.
+
+  * Fast creation of new projects from the clipboard image content.
+  * More Keys shortcuts to execute faster the most common operations.
+  * Inner framework updated.
+  * Bug fixes.
+  * Improved OCR detection.
+  * Select the area to perform text extraction.
+
+Less clicks, more stuff. <BR>
+Enjoy <BR>
+David
+
+----
+Version 1.4.3
+
+  * New multi-language OCR GT Text
+
+  * Better compatibility with old Windows XP systems
+
+  * New tools to extract text from selected pixels 
+
+
+----
+[http://gt-text.ud.en.softonic.com/universaldownloader-launch?WL=1730 Release 1.4.4]
+
+  * Importation of documents or images from Scanner or Camera
+
+  * Short cut Ctrl+V to copy fast a new image document from the clipboard
+
+<br>
+All in all, just takes seconds to have the text from any image in any circumstance.
+<br>
+
+Enjoy,
+David
+
+<wiki:video url="http://www.youtube.com/watch?v=pRtD75tlAVw"/>
+<br/>
+More details of GT Text by Veronica Belmont.
+
+Check more of her tips at [http://revision3.com/tekzilla www.tekzilla.com]
+
+<br/>
+<br/>
+<wiki:video url="http://www.youtube.com/watch?v=G3v1uGn2_yc"/>
+
+
+[https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UJ3EJFSVSSLP6 https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif]
+<wiki:comment> 
+</wiki:comment>
+
+<br/>
+[http://flattr.com/thing/811317/GT-Text                          http://api.flattr.com/button/flattr-badge-large.png] 
+
+!FileBuzz.com has agreed to host a link to this project
+and has awarded it with 5 stars
+
+Thank you! 
+
+[http://www.filebuzz.com/fileinfo/59200/GT_Text.html http://nebulacs.com/Award/Award_FileBuzz.jpg]
+
+
+Thank you very much also to [http://www.softpedia.com/get/Multimedia/Graphic/Graphic-Others/GT-Text.shtml http://www.softpedia.com/images/softpedia_download_small.gif] [http://www.soft82.com/download/windows/gt-text/ http://www.soft82.com/images/awards/soft82_award_88x88.gif] [http://www.filetransit.com/view.php?id=80329 http://www.filetransit.com/resources/filetransit_rate5.gif] [http://www.download3k.com/Photo-Graphic/Miscellaneous/Download-GT-Text.html http://www.download3k.com/images/advertise/d3k_logo1.png]
+[http://www.download3k.com/Antivirus-Report-GT-Text.html http://www.download3k.com/images/award_clean.png]
+[http://www.geardownload.com/graphic/gt-text.html http://www.geardownload.com/images/5starsc.jpg]
+[http://download.famouswhy.com/gt_text/ http://download.famouswhy.com/awards/Famous_Software_Award_Logo.png]
+[http://www.top4download.com/gt-text/tykewawn.html http://www.neonixweb.com/media/images/awards/top4download.editorpick.gif]
+[http://www.downloadtyphoon.com/gt-text/infoviybgvos http://www.downloadtyphoon.com/templates/downty/images/award_120x60_pick.gif]
+[http://www.windows7download.com/win7-gt-text/hwqawnpx.html http://www.windows7download.com/templates/w7d/images/awards/award_120x60_pick.png]
+[http://www.windows7download.com/win7-gt-text/hwqawnpx.html  http://www.windows7download.com/templates/w7d/images/awards/windows7compatible_120x60.png]
+[http://www.x64bitdownload.com/downloads/t-64-bit-gt-text-download-zxfgpckk.html http://www.neonixweb.com/media/images/awards/x64bitdownload.x64compatible.gif]
+ 
