@@ -69,18 +69,21 @@ Release 1.3.0
   * Errores corregidos
   * Exportación de Imágen
 
+
 - Inclusión de OCR [http://code.google.com/p/tesseract-ocr/ Tesseract] Proyecto de HP y Goolge,
 
   * Extrae texto partir de los píxeles seleccionados.
 
-    El reconocimiento de texto copia la selección al portapapeles con una precisión muy alta para imágenes mayores 10px por letra.
+    El reconocimiento de texto copia la selección al portapapeles con
+ una precisión muy alta para imágenes mayores 10px por letra.
 
 - Añadida la opción de seleccionar toda la imagen.
 
   * Selección de textos para obtener todas las regiones similares a la que se hizo clic.
 
     Habilidad para detectar las regiones cuyo color 
-cambia más abruptamente lo que la convierte en una herramienta ideal para la captura de texto legible.
+cambia más abruptamente lo que la convierte en una herramienta ideal
+ para la captura de texto legible.
 
 ----
 
