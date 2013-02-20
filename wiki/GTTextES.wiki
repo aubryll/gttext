@@ -79,7 +79,7 @@ Release 1.3.0
 
 - Añadida la opción de seleccionar toda la imagen.
 
-  * Selección de textos para obtener todas las regiones similares a la que se hizo clic.
+  * Selección de textos para obtener todas las regiones similares a la que se hizo clic.
 
     Detectar las regiones cuyo color cambia más abruptamente
     lo que la convierte en una herramienta ideal para la captura de texto legible.
@@ -97,12 +97,12 @@ Quiero agradecer a todos ustedes el uso del software por su confianza en este pr
 
 Versión 1.4.1.
 
-  * Creación rápida de nuevos proyectos del contenido de la imagen portapapeles.
-  * Más atajos de teclas para ejecutar rápidamente las operaciones más comunes.
-  * Marco interior actualizado.
-  * Corrección de errores.
-  * Mejora de la detección de OCR.
-  * Seleccione el área para realizar la extracción de texto.
+  * Creación rápida de nuevos proyectos del contenido de la imagen portapapeles.
+  * Más atajos de teclas para ejecutar rápidamente las operaciones más comunes.
+  * Marco interior actualizado.
+  * Corrección de errores.
+  * Mejora de la detección de OCR.
+  * Seleccione el área para realizar la extracción de texto.
 
 Menos clics, más cosas. <BR>
 Disfrutad <BR>
@@ -121,9 +121,9 @@ Versión 1.4.3
 ----
 [Release 1.4.4 http://gt-text.ud.en.softonic.com/universaldownloader-launch?WL=1730]
 
-  * Importación de documentos o imágenes desde escáner o cámara
+  * Importación de documentos o imágenes desde escáner o cámara
 
-  * Short cut Ctrl + V para copiar rápidamente un documento de nueva imagen desde el portapapeles
+  * Short cut Ctrl + V para copiar rápidamente un documento de nueva imagen desde el portapapeles
 
 <br/>
 En general, sólo toma unos segundos para que el texto de cualquier imagen en cualquier circunstancia.
