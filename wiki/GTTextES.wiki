@@ -81,8 +81,7 @@ Release 1.3.0
 
   * Selección de textos para obtener todas las regiones similares a la que se hizo clic.
 
-    Detectar las regiones cuyo color cambia más abruptamente
-    lo que la convierte en una herramienta ideal para la captura de texto legible.
+    Habilidad para detectar las regiones cuyo color cambia más abruptamente lo que la convierte en una herramienta ideal para la captura de texto legible.
 
 ----
 
