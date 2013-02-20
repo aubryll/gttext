@@ -31,33 +31,33 @@ Disfrutad!.
 
 <wiki:video url="http://www.youtube.com/watch?v=kQ44D4dUBtg"/>
 <br/>
-[http://revision3.com/tekzilla Tekzilla] presents GT Text, hosted by
+[http://revision3.com/tekzilla Tekzilla] presents GT Text, presentado por
 Veronica Belmont
 <br/>
 [http://download.cnet.com/Ground-Truth-Text/3000-10743_4-75758782.html?part=dl-&subj=dl&tag=button http://gttext.googlecode.com/files/dl-button_b.gif]
 <br/>
 Version 1.1.2
 
-  * Faster performance
-  * New mode of region selection
-  * Higher scalability for up to 70MP
-  * Compressed Ground Truth data definition 
+  * Más rápido rendimiento
+  * Nuevo modo de seleccionar texto
+  * Alta escalabilidad hasta 70MP
+  * Comprimido de la información Ground Truth
 
-_Information stored as runs (x,y,r) instead than single pixels (x,y)_
-[http://gttext.googlecode.com/files/gl-GT.pdf definition_sample]
+_Información guardada como tiras (x,y,r) en lugar de píxeles sólos (x,y)_
+[http://gttext.googlecode.com/files/gl-GT.pdf exemplo de la definición]
 
-
-----
-
-Version 1.2.1
-
-  * Improved pixel edition tool
 
 ----
 
-Version 1.2.2
+Versión 1.2.1
 
-More details at [http://code.google.com/p/gttext/wiki/PageName Versions List]
+  * Mejora de la herramienta de edición de píxeles
+
+----
+
+Versión 1.2.2
+
+Más detalles en [http://code.google.com/p/gttext/wiki/PageName Versions List]
 
 [http://gttext.googlecode.com/files/GTText_1.2.6.exe Developer Update 1.2.6]
 
@@ -65,78 +65,78 @@ More details at [http://code.google.com/p/gttext/wiki/PageName Versions List]
 
 Release 1.3.0
 
-  * Fastest selection
-  * Fixed Bugs
-  * Image Exporting
+  * Selección Rápida
+  * Errores corregidos
+  * Exportación de Imágen
 
--  With the help of the OCR [http://code.google.com/p/tesseract-ocr/ Tesseract] project     from HP and Goolge, 
+- Inclusión de OCR [http://code.google.com/p/tesseract-ocr/Tesseract] Proyecto de HP y Goolge,
 
-  * Text extraction from the selected pixels.
+  * Extrae texto partir de los píxeles seleccionados.
 
-    The recognition of text copies the selection
-    to clipboard with very high accuracy
-    in greater than 10px/letter ratio aspects images.
+    El reconocimiento de texto copia la selección
+    al portapapeles con una precisión muy alta
+    para imágenes mayores 10px por letra.
 
--  Added option to select from all the image.
+- Añadida la opción de seleccionar toda la imagen.
 
-  * Full text selection to obtain all the regions similar to the one clicked.
+  * Selección de textos para obtener todas las regiones similares a la que se hizo clic.
 
-    Detect those regions whose color changes more abruptly
-    makes it an ideal tool for readable text capture.
+    Detectar las regiones cuyo color cambia más abruptamente
+    lo que la convierte en una herramienta ideal para la captura de texto legible.
 
 ----
 
 Release 1.3.4
 
-  * Fixed important Bugs in Windows 7
-  * Fixed Bugs with main icon
-  * Reduced greatly the installer size
- 
-I want to thank all of you using the software for your confidence in this project.
+  * Se ha corregido errores importantes en Windows 7
+  * Errores corregidos con el icono principal
+  * Reducido en gran medida el tamaño del instalador
+ 
+Quiero agradecer a todos ustedes el uso del software por su confianza en este proyecto.
 ----
 
-Version 1.4.1.
+Versión 1.4.1.
 
-  * Fast creation of new projects from the clipboard image content.
-  * More Keys shortcuts to execute faster the most common operations.
-  * Inner framework updated.
-  * Bug fixes.
-  * Improved OCR detection.
-  * Select the area to perform text extraction.
+  * Creación rápida de nuevos proyectos del contenido de la imagen portapapeles.
+  * Más atajos de teclas para ejecutar rápidamente las operaciones más comunes.
+  * Marco interior actualizado.
+  * Corrección de errores.
+  * Mejora de la detección de OCR.
+  * Seleccione el área para realizar la extracción de texto.
 
-Less clicks, more stuff. <BR>
-Enjoy <BR>
+Menos clics, más cosas. <BR>
+Disfrutad <BR>
 David
 
 ----
-Version 1.4.3
+Versión 1.4.3
 
-  * New multi-language OCR GT Text
+  * Nuevo multi-idioma de OCR GT Text
 
-  * Better compatibility with old Windows XP systems
+  * Mejor compatibilidad con viejos sistemas Windows XP
 
-  * New tools to extract text from selected pixels 
+  * Nuevas herramientas para extraer el texto de píxeles seleccionados
 
 
 ----
-[http://gt-text.ud.en.softonic.com/universaldownloader-launch?WL=1730 Release 1.4.4]
+[Release 1.4.4 http://gt-text.ud.en.softonic.com/universaldownloader-launch?WL=1730]
 
-  * Importation of documents or images from Scanner or Camera
+  * Importación de documentos o imágenes desde escáner o cámara
 
-  * Short cut Ctrl+V to copy fast a new image document from the clipboard
+  * Short cut Ctrl + V para copiar rápidamente un documento de nueva imagen desde el portapapeles
 
-<br>
-All in all, just takes seconds to have the text from any image in any circumstance.
-<br>
+<br/>
+En general, sólo toma unos segundos para que el texto de cualquier imagen en cualquier circunstancia.
+<br/>
 
-Enjoy,
+Disfrutad,
 David
 
 <wiki:video url="http://www.youtube.com/watch?v=pRtD75tlAVw"/>
 <br/>
-More details of GT Text by Veronica Belmont.
+Más detalles de GT Text por Veronica Belmont.
 
-Check more of her tips at [http://revision3.com/tekzilla www.tekzilla.com]
+Más detalles en [http://revision3.com/tekzilla www.tekzilla.com]
 
 <br/>
 <br/>
@@ -150,15 +150,14 @@ Check more of her tips at [http://revision3.com/tekzilla www.tekzilla.com]
 <br/>
 [http://flattr.com/thing/811317/GT-Text                          http://api.flattr.com/button/flattr-badge-large.png] 
 
-!FileBuzz.com has agreed to host a link to this project
-and has awarded it with 5 stars
+!FileBuzz.com ha accedido a alojar un link a este proyecto y lo ha premiado con 5 estrellas
 
-Thank you! 
+Gracias! 
 
 [http://www.filebuzz.com/fileinfo/59200/GT_Text.html http://nebulacs.com/Award/Award_FileBuzz.jpg]
 
 
-Thank you very much also to [http://www.softpedia.com/get/Multimedia/Graphic/Graphic-Others/GT-Text.shtml http://www.softpedia.com/images/softpedia_download_small.gif] [http://www.soft82.com/download/windows/gt-text/ http://www.soft82.com/images/awards/soft82_award_88x88.gif] [http://www.filetransit.com/view.php?id=80329 http://www.filetransit.com/resources/filetransit_rate5.gif] [http://www.download3k.com/Photo-Graphic/Miscellaneous/Download-GT-Text.html http://www.download3k.com/images/advertise/d3k_logo1.png]
+Muchas Gracias también a [http://www.softpedia.com/get/Multimedia/Graphic/Graphic-Others/GT-Text.shtml http://www.softpedia.com/images/softpedia_download_small.gif] [http://www.soft82.com/download/windows/gt-text/ http://www.soft82.com/images/awards/soft82_award_88x88.gif] [http://www.filetransit.com/view.php?id=80329 http://www.filetransit.com/resources/filetransit_rate5.gif] [http://www.download3k.com/Photo-Graphic/Miscellaneous/Download-GT-Text.html http://www.download3k.com/images/advertise/d3k_logo1.png]
 [http://www.download3k.com/Antivirus-Report-GT-Text.html http://www.download3k.com/images/award_clean.png]
 [http://www.geardownload.com/graphic/gt-text.html http://www.geardownload.com/images/5starsc.jpg]
 [http://download.famouswhy.com/gt_text/ http://download.famouswhy.com/awards/Famous_Software_Award_Logo.png]
