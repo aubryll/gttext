@@ -1,4 +1,4 @@
-==Herramienta para copiar o etiquetar texto de imágenes==
+==Herramienta OCR para copiar o etiquetar texto de imágenes==
 
 
 En la investigación de algoritmos de OCR en color, la ubicación exacta del texto es necesario para corregir algoritmos de extracción de texto.
