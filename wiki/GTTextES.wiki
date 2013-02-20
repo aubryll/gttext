@@ -31,7 +31,7 @@ Disfrutad!
 
 <wiki:video url="http://www.youtube.com/watch?v=kQ44D4dUBtg"/>
 <br/>
-[http://revision3.com/tekzilla Tekzilla] presents GT Text, presentado por
+[http://revision3.com/tekzilla Tekzilla] presentada GT Text, por
 Veronica Belmont
 <br/>
 [http://download.cnet.com/Ground-Truth-Text/3000-10743_4-75758782.html?part=dl-&subj=dl&tag=button http://gttext.googlecode.com/files/dl-button_b.gif]
