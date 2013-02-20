@@ -73,9 +73,7 @@ Release 1.3.0
 
   * Extrae texto partir de los píxeles seleccionados.
 
-    El reconocimiento de texto copia la selección
-    al portapapeles con una precisión muy alta
-    para imágenes mayores 10px por letra.
+    El reconocimiento de texto copia la selección al portapapeles con una precisión muy alta para imágenes mayores 10px por letra.
 
 - Añadida la opción de seleccionar toda la imagen.
 
