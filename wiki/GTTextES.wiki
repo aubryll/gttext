@@ -69,7 +69,7 @@ Release 1.3.0
   * Errores corregidos
   * Exportación de Imágen
 
-
+<br/>
 - Inclusión de OCR [http://code.google.com/p/tesseract-ocr/ Tesseract] Proyecto de HP y Goolge,
 
   * Extrae texto partir de los píxeles seleccionados.
