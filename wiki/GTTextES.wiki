@@ -118,7 +118,7 @@ Versión 1.4.3
 
 
 ----
-[Release 1.4.4 http://gt-text.ud.en.softonic.com/universaldownloader-launch?WL=1730]
+[http://gt-text.ud.en.softonic.com/universaldownloader-launch?WL=1730 Lanzamiento 1.4.4]
 
   * Importación de documentos o imágenes desde escáner o cámara
 
