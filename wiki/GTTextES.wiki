@@ -18,7 +18,7 @@ Este proyecto de ingeniería informática fue el resultado de un requisito de gr
 Bajo licencia GNU, este proyecto está abierto a mejoras y aceptar los desarrolladores que quieran dar una aportación.
 
 
-Disfrutad!.
+Disfrutad!
 <br/>
 
 [http://gt-text.en.softonic.com/universaldownloader-launch?WL=1730 http://gttext.googlecode.com/files/Softonic%20Download%20Button%20.png]
