@@ -120,7 +120,7 @@ Versión 1.4.3
 
 
 ----
-[http://gt-text.ud.en.softonic.com/universaldownloader-launch?WL=1730 Última version 1.4.4]
+Version 1.4.4]
 
   * Importación de documentos o imágenes desde escáner o cámara
 
@@ -130,7 +130,16 @@ Versión 1.4.3
 En general, sólo toma unos segundos para que el texto de cualquier imagen en cualquier circunstancia.
 <br/>
 
-Disfrutad,
+----
+[http://gt-text.ud.en.softonic.com/universaldownloader-launch?WL=1730 Última Versión 1.4.5]
+
+  * Tesseract 3.02 Mejor reconocimiento del texto y un sin fin más de lenguas para reconocer, incluido catalán,basco o de oriente medio.
+
+  * Copia inmediatamente lo que ves en tu pantalla en el programa para
+copiar su texto.
+
+Disfrutad!
+Y no olvideis de apoyarnos!
 David
 
 <wiki:video url="http://www.youtube.com/watch?v=pRtD75tlAVw"/>
