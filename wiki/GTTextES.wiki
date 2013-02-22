@@ -137,9 +137,9 @@ En general, sólo toma unos segundos para que el texto de cualquier imagen en cu
 
   * Copia inmediatamente lo que ves en tu pantalla.
 
-Disfrutad!
-Y no olvideis de apoyarnos!
-David
+Disfrutad!<BR>
+Y no olvideis de apoyarnos! <BR>
+David <BR>
 
 <wiki:video url="http://www.youtube.com/watch?v=pRtD75tlAVw"/>
 <br/>
