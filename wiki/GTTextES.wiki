@@ -120,7 +120,7 @@ Versión 1.4.3
 
 
 ----
-Version 1.4.4]
+Version 1.4.4
 
   * Importación de documentos o imágenes desde escáner o cámara
 
