@@ -135,8 +135,7 @@ En general, sólo toma unos segundos para que el texto de cualquier imagen en cu
 
   * Tesseract 3.02 Mejor reconocimiento del texto y un sin fin más de lenguas para reconocer, incluido catalán,basco o de oriente medio.
 
-  * Copia inmediatamente lo que ves en tu pantalla en el programa para
-copiar su texto.
+  * Copia inmediatamente lo que ves en tu pantalla.
 
 Disfrutad!
 Y no olvideis de apoyarnos!
