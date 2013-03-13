@@ -1,4 +1,4 @@
-#labels OCR,software
+#labels documentacion,español
 ==Herramienta OCR para copiar o etiquetar texto de imágenes==
 
 
@@ -10,7 +10,7 @@ Para ello, el proyecto gttext ayuda a crear de manera rápida y de calidad un Gr
 
 El nivel básico de trabajo radica en la detección de píxeles, lo que hace posible crear regiones o incluso etiquetar directamente los píxeles para detallar la elección. 
 
-Cualquier usuario, puede a su vez copiar immediatamente el texto de cualquier imágen a su portapapeles o escanear un documento y digitalizar su texto. Usando uno de los más revolucionario OCR, éste permite extraer texto en cualquier idioma, rápidamente y la habilidad de graduarse.
+Cualquier usuario, puede a su vez copiar immediatamente el texto de cualquier imágen a su portapapeles o escanear un documento y digitalizar su texto. Usando uno de los más revolucionarios OCR, éste permite extraer texto en cualquier idioma, rápidamente y la habilidad de graduarse.
 
 Extraer texto de imágenes en color se puede hacer inmediatamente con sólo seleccionar la región del documento abierto, imagen escaneada o  una imagen copiada en el portapapeles.
 
