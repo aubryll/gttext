@@ -1,4 +1,4 @@
-#labels documentacion,español
+#labels Programa,OCR
 ==Herramienta OCR para copiar o etiquetar texto de imágenes==
 
 
