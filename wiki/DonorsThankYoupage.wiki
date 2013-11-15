@@ -4,6 +4,7 @@
 = Thank you very much =
 
 Thank you very much for your contribution to the project.
+<br/>
 We will publish your name in the GT Text contribution history.
 
 Developers of GT Text.
