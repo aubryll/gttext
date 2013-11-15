@@ -8,4 +8,5 @@ Thank you very much for your contribution to the project.
 We will publish your name in the Supporters list.
 
 Developers of GT Text.
+<br/>
 dtorne@gmail.com
