@@ -4,6 +4,7 @@
 = Thank you very much =
 
 Thank you very much for your contribution to the project.
+We store your name in supporters list.
 
 <br/>
 GT Text team.
