@@ -22,10 +22,9 @@ Bajo licencia GNU, este proyecto está abierto a mejoras y aceptar los desarroll
 Disfrutad!
 <br/>
 
-[http://gt-text.en.softonic.com/universaldownloader-launch?WL=1730 http://gttext.googlecode.com/files/Softonic%20Download%20Button%20.png]
+[http://download.cnet.com/Ground-Truth-Text/3000-10743_4-75758782.html?part=dl-&subj=dl&tag=button  GT Text 1.4.5]
 <br/>
-Última version [http://gt-text.en.softonic.com/universaldownloader-launch?WL=1730 GT Text 1.4.5]
-
+Última version [http://download.cnet.com/Ground-Truth-Text/3000-10743_4-75758782.html?part=dl-&subj=dl&tag=button  GT Text 1.4.5]
 <br/>
 [https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JVJCXGDLLZ8PJ http://gttext.googlecode.com/files/btn_donate_SM.gif]
 <br/>
