@@ -22,7 +22,7 @@ Bajo licencia GNU, este proyecto está abierto a mejoras y aceptar los desarroll
 Disfrutad!
 <br/>
 
-[http://download.cnet.com/Ground-Truth-Text/3000-10743_4-75758782.html?part=dl-&subj=dl&tag=button  GT Text 1.4.5]
+[http://download.cnet.com/Ground-Truth-Text/3000-10743_4-75758782.html?part=dl-&subj=dl&tag=button http://gttext.googlecode.com/files/dl-button_b.gif]
 <br/>
 Última version [http://download.cnet.com/Ground-Truth-Text/3000-10743_4-75758782.html?part=dl-&subj=dl&tag=button  GT Text 1.4.5]
 <br/>
