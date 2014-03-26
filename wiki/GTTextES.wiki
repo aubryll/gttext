@@ -1,4 +1,4 @@
-#labels Programa,OCR
+#labels Gratis,OCR
 ==Herramienta OCR para copiar o etiquetar texto de imágenes==
 
 
