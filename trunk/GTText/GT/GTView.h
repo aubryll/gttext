@@ -91,6 +91,11 @@ private:
 	CRect  m_ocrRect;
 	CPoint m_ocrPoint;
 	bool m_checkOCRAreaTool;
+	bool m_isScanning;
+	float m_scaleRatio;
+	bool m_secondRound;
+	bool m_nopopup;
+	ImportSource m_latestImport;
 	
 
 protected:
@@ -119,8 +124,8 @@ public:
 	void OnUpdateSizeX16(CCmdUI* pCmdUI);
 	void OnUpdateSizeFill(CCmdUI* pCmdUI);
 	void OnChangeSize(UINT nID);
-	BOOL OnExtendedFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlue,CImage *picture,CImage *mask,CPoint point,MaskVector *pointsVector,bool isAdded=true);
-	BOOL OnFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlue,CImage *picture,CImage *mask,CPoint point,MaskVector *pointsVector,bool isAdded=true);
+	BOOL OnExtendedFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlue,CImage *picture,CImage *mask,CPoint point,MaskVector *pointsVector,bool isAdded=true,bool isHidden = false);
+	BOOL OnFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlue,CImage *picture,CImage *mask,CPoint point,MaskVector *pointsVector,bool isAdded=true, bool isHidden = false);
 	void OnLPaint(UINT nFlag,CPoint point);
 	void OnRPaint(UINT nFlag,CPoint point);
 	void OnChangePen(PenEnum pen);
@@ -128,7 +133,12 @@ public:
 	void SetBorder();
 	void PrintPoint(CPoint PxlReal);
 	bool GetAreaOCRCheck(){return m_checkOCRAreaTool;};
-	void OnToolsAreatextcopier();
+	void OnToolsAreatextcopier(bool value);
+	int CaptureBMP(LPCTSTR szFile);
+	void SetNoOCRPopUp();
+	bool GetNoOCRPopUp();
+	ImportSource GetLatestImport();
+	void SetLatestImport(ImportSource latest);
 public:
 	afx_msg void OnFileOpen();
 	afx_msg void OnFileNew();
@@ -139,6 +149,5 @@ public:
 	afx_msg void OnRButtonUp(UINT nFlag,CPoint point);
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
-	afx_msg void OnUpdateToolsAreatextcopier(CCmdUI *pCmdUI);
-	
+		
 };

@@ -1,8 +1,7 @@
 // MainFrm.h: interfaz de la clase CMainFrame
 //
+#include "MainWnd.h"
 
-
-#pragma once
 class CSideBar:public CDialogBar
 {
 public:
@@ -21,7 +20,8 @@ public:
 
 class CMainFrame : public CFrameWnd
 {
-	
+
+		
 protected: // Crear sólo a partir de serialización
 	CMainFrame();
 	DECLARE_DYNCREATE(CMainFrame)
@@ -30,6 +30,7 @@ protected: // Crear sólo a partir de serialización
 protected:
 	CSplitterWnd m_wndSplitter;
 	CSplitterWnd m_wndSplitterXML;
+	CMainWindow m_mainWindow;
 	CDialogBar  m_wndBrightBar;
 	CDialogBar  m_wndSensitivityBar;
 	CSideBar  m_wndZoomBar;
@@ -55,6 +56,8 @@ public:
 // Implementación
 public:
 	virtual ~CMainFrame();
+
+
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;
@@ -90,6 +93,10 @@ public:
 	afx_msg void OnBnClickedExt();
 	afx_msg void OnBnClickedToAllImage();
 	afx_msg void OnViewBrushsizebar();
+
+	afx_msg void OnUpdateFileFromscannerorcamera(CCmdUI *pCmdUI);
+	afx_msg void OnUpdateFileFromscreen(CCmdUI *pCmdUI);
 };
+
 
 

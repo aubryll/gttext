@@ -8,6 +8,10 @@
 #include "PropViews.h"
 #include "GTView.h"
 
+#include "WiaWrap.h"
+#include "BitmapWnd.h"
+#include "MainWnd.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -57,6 +61,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_BN_CLICKED(IDC_EXT, &CMainFrame::OnBnClickedExt)
 	ON_BN_CLICKED(IDC_TOALL, &CMainFrame::OnBnClickedToAllImage)
 	ON_COMMAND(ID_VIEW_BRUSHSIZEBAR, &CMainFrame::OnViewBrushsizebar)
+	ON_UPDATE_COMMAND_UI(ID_FROMSCANNERORCAMERA, &CMainFrame::OnUpdateFileFromscannerorcamera)
+	ON_UPDATE_COMMAND_UI(ID_FROMSCREEN, &CMainFrame::OnUpdateFileFromscreen)
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -249,6 +255,8 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	return 0;
 }
+
+#include ".\Scanner\MainWnd.h"
 
 BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT /*lpcs*/,
 	CCreateContext* pContext)
@@ -735,3 +743,17 @@ void CMainFrame::OnViewBrushsizebar()
 	ShowControlBar(& m_wndBrightBar, bVisible, FALSE);
 	RecalcLayout();
 }
+
+
+
+
+void CMainFrame::OnUpdateFileFromscannerorcamera(CCmdUI *pCmdUI)
+{
+	pCmdUI->Enable(m_mainWindow.IsEnabled());
+}
+
+void CMainFrame::OnUpdateFileFromscreen(CCmdUI *pCmdUI)
+{
+	pCmdUI->Enable(true);
+}
+

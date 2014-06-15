@@ -10,6 +10,8 @@
 #include "GTView.h"
 #include "GTXMLView.h"
 #include "MainFrm.h"
+#include <time.h>
+#include "./Scanner/MainWnd.h"
 
 #ifndef XPCOMPATIBLE
 //#include "mfcpch.h"
@@ -37,6 +39,8 @@
 #endif
 #include "allheaders.h"
 #include "baseapi.h"
+#include "strngs.h"
+#define _(x) (x)
 
 
 #define NUM_LINES_OCR_SHOW 35
@@ -88,6 +92,10 @@ CGTView::CGTView()
 	m_ocrRect.SetRectEmpty();
 	m_ocrPoint = CPoint(-1,-1);
 	m_checkOCRAreaTool = false;
+	m_scaleRatio = 2;
+	m_secondRound = false;
+	m_nopopup = false;
+	m_latestImport = imagefile;
 }
 
 CGTView::~CGTView()
@@ -160,13 +168,15 @@ void CGTView::OnLButtonDown(UINT nFlag,CPoint point)
 		m_isHold = false;
 	}
 	
-	//if((pDoc->GetEditState() == EDIT_NONE && pDoc->GetToolState() != ZOOM_TOOL) && m_checkOCRAreaTool)
-	//if((pDoc->GetEditState() == EDIT_NONE && pDoc->GetToolState() == OCR_TOOL))
 	if(pDoc->GetToolState() == OCR_TOOL)
 	{
 		m_ocrPoint.x = point.x*m_zoom;
 		m_ocrPoint.y = point.y*m_zoom;
 		SetPixelFast(&m_cursorMap,0,0,RGB(0,0,63));
+		if(pDoc->GetImageSelection()->GetOutline() || pDoc->GetImageSelection()->GetShade() || pDoc->GetImageSelection()->GetCore())
+			m_checkOCRAreaTool = pDoc->IsOCRSelection();
+		else
+			m_checkOCRAreaTool = false;
 		//m_ocrRect.SetRect(m_ocrPoint,m_ocrPoint);
 	}
 }
@@ -399,8 +409,8 @@ void CGTView::OnLButtonUp(UINT nFlag,CPoint point)
 				{
 					OnFileSaveImage(true,true,true);
 				}
-				
-m_ocrRect.SetRectEmpty();
+				m_checkOCRAreaTool = pDoc->IsOCRSelection();
+				m_ocrRect.SetRectEmpty();
 			}
 			
 			break;
@@ -535,7 +545,7 @@ void CGTView::SetPixelFast(CImage *pImage,int x, int y, COLORREF color)
 
 //Currently using the diference of speed in the color change as the stop decision
 
-BOOL CGTView::OnExtendedFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlue,CImage *picture,CImage *mask,CPoint point,MaskVector *pointsVector,bool isAdded)
+BOOL CGTView::OnExtendedFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlue,CImage *picture,CImage *mask,CPoint point,MaskVector *pointsVector,bool isAdded,bool isHidden)
 {
 	CGTDoc* pDoc = GetDocument();
 	FloodFillPoints seedPoints;
@@ -567,13 +577,13 @@ BOOL CGTView::OnExtendedFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlu
 	//if(m_isHold == false)
 		CGTView::BeginWaitCursor();
 
-	if(imageRect.left < 0)
+	if(imageRect.left < 0 || m_isToAll)
 		imageRect.left = 0;
-	if(imageRect.right > picture->GetWidth())
+	if(imageRect.right > picture->GetWidth() || m_isToAll)
 		imageRect.right = picture->GetWidth();
-	if(imageRect.top < 0)
+	if(imageRect.top < 0 || m_isToAll)
 		imageRect.top = 0;
-	if(imageRect.bottom > picture->GetHeight())
+	if(imageRect.bottom > picture->GetHeight() || m_isToAll)
 		imageRect.bottom = picture->GetHeight();
 
 	
@@ -596,7 +606,9 @@ BOOL CGTView::OnExtendedFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlu
 			editColor = RGB(0,0,255);
 			break;
 
-		default:break;
+		default:
+			editColor = RGB(255,255,255);
+			break;
 	}
 		
 	floodColor = RGB(255,255,255);
@@ -649,7 +661,8 @@ BOOL CGTView::OnExtendedFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlu
 						pointsVector->push_back(VectorRun(point,1));
 						if(isAdded)
 						{
-							sel->UpdateEditBox(point);
+							if(!isHidden)
+								sel->UpdateEditBox(point);
 							SetPixelFast(mask,point.x,point.y,(editColor | maskPixel));
 						}
 						else
@@ -666,7 +679,8 @@ BOOL CGTView::OnExtendedFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlu
 					
 					if(isAdded)
 					{
-						sel->UpdateEditBox(point);
+						if(!isHidden)
+							sel->UpdateEditBox(point);
 						SetPixelFast(mask,point.x,point.y,(editColor | maskPixel));
 					}
 					else
@@ -764,7 +778,7 @@ BOOL CGTView::OnExtendedFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlu
 }
 
 
-BOOL CGTView::OnFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlue,CImage *picture,CImage *mask,CPoint point,MaskVector *pointsVector,bool isAdded)
+BOOL CGTView::OnFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlue,CImage *picture,CImage *mask,CPoint point,MaskVector *pointsVector,bool isAdded,bool isHidden)
 {
 	CGTDoc* pDoc = GetDocument();
 	FloodFillPoints2 seedPoints;
@@ -790,7 +804,7 @@ BOOL CGTView::OnFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlue,CImage
 		
 	if(m_isExt == 2 || (m_isExt == 0 && m_isToAll && m_isOutline))
 	{
-		return OnExtendedFloodFill(targetRed,targetGreen,targetBlue,picture,mask,point,pointsVector,isAdded);
+		return OnExtendedFloodFill(targetRed,targetGreen,targetBlue,picture,mask,point,pointsVector,isAdded,isHidden);
 	}
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
@@ -800,13 +814,13 @@ BOOL CGTView::OnFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlue,CImage
 	//if(m_isHold == false)
 		CGTView::BeginWaitCursor();
 
-	if(imageRect.left < 0)
+	if(imageRect.left < 0 || m_isToAll)
 		imageRect.left = 0;
-	if(imageRect.right > picture->GetWidth())
+	if(imageRect.right > picture->GetWidth() || m_isToAll)
 		imageRect.right = picture->GetWidth();
-	if(imageRect.bottom < 0)
+	if(imageRect.bottom < 0 || m_isToAll)
 		imageRect.top = 0;
-	if(imageRect.bottom > picture->GetHeight())
+	if(imageRect.bottom > picture->GetHeight() || m_isToAll)
 		imageRect.bottom = picture->GetHeight();
 
 
@@ -829,7 +843,9 @@ BOOL CGTView::OnFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlue,CImage
 			editColor = RGB(0,0,255);
 			break;
 
-		default:break;
+		default:
+			editColor = RGB(255,255,255);
+			break;
 	}
 
 	floodColor = RGB(255,255,255);
@@ -879,7 +895,8 @@ BOOL CGTView::OnFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlue,CImage
 						pointsVector->push_back(VectorRun(point,1));
 						if(isAdded)
 						{
-							sel->UpdateEditBox(point);
+							if(!isHidden)
+								sel->UpdateEditBox(point);
 							SetPixelFast(mask,point.x,point.y,(editColor | maskPixel));
 						}
 						else
@@ -895,7 +912,8 @@ BOOL CGTView::OnFloodFill(BYTE targetRed,BYTE targetGreen,BYTE targetBlue,CImage
 					pointsVector->push_back(VectorRun(point,1));	
 					if(isAdded)
 					{
-						sel->UpdateEditBox(point);
+						if(!isHidden)
+							sel->UpdateEditBox(point);
 						SetPixelFast(mask,point.x,point.y,(editColor | maskPixel));
 					}
 					else
@@ -1185,8 +1203,10 @@ BOOL CGTView::OnFileImageOpen()
 		pDoc->SetLoad(false);
 		return FALSE;
 	}
-	
-	if(theApp.GetClipboardFlag() )
+
+	m_latestImport = theApp.GetImportType();
+
+	if(theApp.GetImportType() == clipboard )
 	{
 		if ( OpenClipboard() )
 		{
@@ -1194,26 +1214,96 @@ BOOL CGTView::OnFileImageOpen()
 			HBITMAP hbClip = (HBITMAP) hClip;
 			if(hbClip != NULL)
 			{
+				time_t rawtime;
+				struct tm * timeinfo;
+				wchar_t buffer [80];
+
 				cp_image.Attach(hbClip);
 				TCHAR lpszOldPath[MAX_PATH]; // MAX_PATH = 260,is defined in windef.h
 				GetTempPath(MAX_PATH, lpszOldPath);
 				file = CString(lpszOldPath);
 				file.Append(CString('\\'));
-				file.Append(L"Clipboard.bmp");
+
+				time ( &rawtime );
+				timeinfo = localtime ( &rawtime );
+
+				wcsftime (buffer,80,L"Clipboard%y%m%d%H%M%S.bmp",timeinfo);
+				
+				file.Append(buffer);
 				cp_image.Save(file);
 			}
 			CloseClipboard();
 		}
 	}
+	else if(theApp.GetImportType() == scanner )
+	{
+		theApp.SetImportType(imagefile);
+		CImage* image = NULL;
+		CMainWindow* scannerManager = theApp.GetScannerManager();
+		if(scannerManager != NULL)
+		{
+			image = scannerManager->GetScannedImage();
+		}
+		
+		if ( image != NULL )
+		{
+			time_t rawtime;
+			struct tm * timeinfo;
+			wchar_t buffer [80];
+
+			cp_image =*image;
+			TCHAR lpszOldPath[MAX_PATH]; // MAX_PATH = 260,is defined in windef.h
+			GetTempPath(MAX_PATH, lpszOldPath);
+			file = CString(lpszOldPath);
+			file.Append(CString('\\'));
+			time ( &rawtime );
+			timeinfo = localtime ( &rawtime );
+
+			wcsftime (buffer,80,L"Scanner%y%m%d%H%M%S.bmp",timeinfo);
+				
+			file.Append(buffer);
+
+			cp_image.Save(file);
+		}
+	}
+	else if(theApp.GetImportType() == snapshot )
+	{
+		theApp.SetImportType(imagefile);
+		time_t rawtime;
+		struct tm * timeinfo;
+		wchar_t buffer [80];
+
+		TCHAR lpszOldPath[MAX_PATH]; // MAX_PATH = 260,is defined in windef.h
+		GetTempPath(MAX_PATH, lpszOldPath);
+		file = CString(lpszOldPath);
+		file.Append(CString('\\'));
+		time ( &rawtime );
+		timeinfo = localtime ( &rawtime );
+
+		wcsftime (buffer,80,L"Snapshot%y%m%d%H%M%S.bmp",timeinfo);
+				
+		file.Append(buffer);
+
+		CaptureBMP(file);
+		
+	}
+	else if(theApp.GetImportType() == noimport )
+	{
+		pDoc->SetLoad(false);
+		return FALSE;
+	}
+		
 	
 	if (file.IsEmpty())
 	{
+		strFilter = L"IMAGE FILE |*.BMP;*.JPG;*.JPEG;*.JPE;*.JFIF;*.GIF;*.TIF;*.TIFF;*.PNG||";
 		CFileDialog dlg(TRUE, NULL, NULL, OFN_FILEMUSTEXIST, strFilter);
 		dlg.m_ofn.nFilterIndex = m_nFilterLoad;
 
 		hResult = (int)dlg.DoModal();
 		if(FAILED(hResult)||hResult == 2) {
 			pDoc->SetLoad(false);
+			m_latestImport = noimport;
 				return FALSE;
 		}
 
@@ -1279,6 +1369,16 @@ void CGTView::SetSesitivity(int sensitivity)
 		m_floodDistance = sensitivity;
 }
 
+ImportSource CGTView::GetLatestImport()
+{
+	return m_latestImport;
+}
+
+void CGTView::SetLatestImport(ImportSource latest)
+{
+	m_latestImport = latest;
+}
+
 // Draw of CGTView
 
 void CGTView::OnDraw(CDC* pDC)
@@ -1295,14 +1395,25 @@ void CGTView::OnDraw(CDC* pDC)
 	CRect Clrect;
 	BYTE  grade = 0;
 	int height,width;
+	bool isOCRSelection = false;
 	
 	if (!m_imgOriginal->IsNull()) 
 	{
 		sel = pDoc->GetImageSelection();
-		if(sel->GetCore() || sel->GetOutline() || sel->GetShade())
-			grade = m_bright;
+		
 		if(m_ocrPoint != CPoint(-1,-1))
-			grade = 0;//grade/3;
+		{
+			if(m_checkOCRAreaTool && !sel->IsEmpty() && (sel->GetCore() || sel->GetOutline() || sel->GetShade()))
+			{
+				grade = 250;
+				isOCRSelection = true;
+			}
+			else
+				grade = 0;
+		}
+		else if(sel->GetCore() || sel->GetOutline() || sel->GetShade())
+			grade = m_bright;
+
 		sel->ResetMask();
 		mask = sel->GetImageMask();
 		if(mask->IsNull())
@@ -1401,12 +1512,14 @@ void CGTView::OnDraw(CDC* pDC)
 			
 			if( (zoomWidth+zoomX) > m_Map.GetWidth() || (zoomHeight+zoomY) > m_Map.GetHeight())
 			{
-				m_imgOriginal->StretchBlt(memDC,0,0,width,height,SRCCOPY);
+				if(!isOCRSelection)
+					m_imgOriginal->StretchBlt(memDC,0,0,width,height,SRCCOPY);
 				m_Map.AlphaBlend(memDC, 0, 0, width,height, 0, 0, m_imgOriginal->GetWidth(), m_imgOriginal->GetHeight(), grade);
 			}
 			else
 			{
-				m_imgOriginal->StretchBlt(memDC,0,0,int(zoomWidth*m_zoom),int(zoomHeight*m_zoom),zoomX,zoomY,zoomWidth,zoomHeight,SRCCOPY);
+				if(!isOCRSelection)
+					m_imgOriginal->StretchBlt(memDC,0,0,int(zoomWidth*m_zoom),int(zoomHeight*m_zoom),zoomX,zoomY,zoomWidth,zoomHeight,SRCCOPY);
 				m_Map.AlphaBlend(memDC,0,0,int(zoomWidth*m_zoom),int(zoomHeight*m_zoom),zoomX,zoomY,zoomWidth,zoomHeight,grade);
 			}
 
@@ -1455,15 +1568,13 @@ void CGTView::OnDraw(CDC* pDC)
 		{
 			if(!m_isZoomed)
 			{
-				m_imgOriginal->StretchBlt(pDC->GetSafeHdc(),0,0,width,height,SRCCOPY);
+				if(!isOCRSelection)
+					m_imgOriginal->StretchBlt(pDC->GetSafeHdc(),0,0,width,height,SRCCOPY);
 				m_Map.AlphaBlend(pDC->GetSafeHdc(), 0, 0, width,height, 0, 0, m_imgOriginal->GetWidth(), m_imgOriginal->GetHeight(), grade);
 		
 			}
 			else
 			{
-
-//					m_imgOriginal->StretchBlt(pDC->GetSafeHdc(),0,0,width,height,SRCCOPY);
-//				m_Map.AlphaBlend(pDC->GetSafeHdc(), 0, 0, width,height, 0, 0, m_imgOriginal->GetWidth(), m_imgOriginal->GetHeight(), grade);
 
 				SCROLLINFO scrollInfoH,scrollInfoW;
 
@@ -1511,11 +1622,6 @@ void CGTView::OnDraw(CDC* pDC)
 					SetScrollInfo(SB_VERT,&scrollInfoH);
 				}
 				
-				//SetScrollInfo(SB_HORZ,&scrollInfoW);
-				//SetScrollInfo(SB_VERT,&scrollInfoH);
-
-			
-
 				m_isZoomed = false;
 			
 			}
@@ -1587,20 +1693,28 @@ void CGTView::Dump(CDumpContext& dc) const
 
 
 
+//isOCR 1 isExport 1 for Area OCR
+//isOCR 1 isExport 0 for all image OCR
 
+//Performs OCR operations and its locally image related enhancements
 void CGTView::OnFileSaveImage(bool isColor,bool isOCR, bool isExport) 
 {
 
 	CString strFilter;
 	CSimpleArray<GUID> aguidFileTypes;
-	CString strFileName;
+	CString strFileName,
+			strScaleFileName;
 	CString strExtension;
 	HRESULT hResult;
 	CGTDoc* pDoc = GetDocument();
 	int height = 0,width = 0;
 	CImage *m_imgOriginal,
 		   *m_imgMask,
-		   m_imgCopy;	
+		   m_imgCopy,
+		   m_imgMaskCopy;
+	COLORREF clickColor,
+			 cornerColor;
+	bool secondRound = false, evenRound = false;
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
 		return;
@@ -1611,22 +1725,21 @@ void CGTView::OnFileSaveImage(bool isColor,bool isOCR, bool isExport)
 	DWORD nBufferLength = MAX_PATH;
 	//wchar_t languageDirectory[MAX_PATH + 1];
 	char languageDirectory[MAX_PATH + 1];
+	
+	if(!(pDoc->GetImageSelection()->GetImageMask()->IsNull()) &&
+		pDoc->IsOCRSelection() &&
+		isOCR &&
+		m_checkOCRAreaTool &&
+		!(pDoc->GetImageSelection()->IsEmpty()) &&
+		((pDoc->GetImageSelection()->GetOutline())  || (pDoc->GetImageSelection()->GetShade())  || (pDoc->GetImageSelection()->GetCore())))
+	{
+		isColor = false;
+	}
 	if(isOCR)
 	{
 		
 		GetCurrentDirectoryA(nBufferLength,languageDirectory);
 		strcpy(languageDirectory,(CStringA(languageDirectory) + CStringA("\\")).GetString());
-
-	/*	if(RegGetValue(HKEY_USERS,TEXT(".DEFAULT\\Software\\Tesseract-OCR"),TEXT("InstallDir"),RRF_RT_ANY, NULL, (PVOID)&languageDirectory, &nBufferLength) != ERROR_SUCCESS)
-		{
-			if(RegGetValue(HKEY_CURRENT_USER,TEXT("Software\\Tesseract-OCR"),TEXT("InstallDir"),RRF_RT_ANY, NULL, (PVOID)&languageDirectory, &nBufferLength) != ERROR_SUCCESS)
-				return;
-		}
-		else
-		{
-			RegDeleteKeyValue(HKEY_CURRENT_USER,TEXT("Software\\Microsoft\\Windows\\CurrentVersion\\Run"),TEXT("Tesseract-OCR"));
-			RemoveDirectory(TEXT("%PROGRAMDATA%\\\Microsoft\Windows\\Start Menu\\Programs\\Tesseract-OCR"));
-		}*/
 	}
 	
 	
@@ -1644,7 +1757,7 @@ void CGTView::OnFileSaveImage(bool isColor,bool isOCR, bool isExport)
 					if(isColor)
 						SetPixelFast(&m_imgCopy,i-m_ocrRect.left,j-m_ocrRect.top,GetPixelFast(m_imgOriginal,i,j));
 					else
-						SetPixelFast(&m_imgCopy,i-m_ocrRect.left,j-m_ocrRect.top,RGB(0,0,0));
+						SetPixelFast(&m_imgCopy,i-m_ocrRect.left,j-m_ocrRect.top,(GetPixelFast(m_imgMask,i,j) != COLORREF(0))?RGB(0,0,0):RGB(255,255,255));
 				}
 	}
 	else if(isExport || (!isColor))
@@ -1732,6 +1845,7 @@ void CGTView::OnFileSaveImage(bool isColor,bool isOCR, bool isExport)
 	}
 	else
 	{
+		BeginWaitCursor();
 			
 		TCHAR strPath[ MAX_PATH ];
 
@@ -1746,14 +1860,17 @@ void CGTView::OnFileSaveImage(bool isColor,bool isOCR, bool isExport)
 		
 		CString translated_text = "";
 		strFileName = CString(strPath) + CString(_T("\\BlackToText907.tif"));
-		std::string ss = std::string(CT2CA(strFileName));
+		strScaleFileName = CString(strPath) + CString(_T("\\BlackToText908.tif"));
+		std::string ss = std::string(CT2CA(strFileName)),
+					sss = std::string(CT2CA(strScaleFileName));
 		CStringA language = CStringA(pDoc->GetOCRLanguage());
 		const char *file = ss.c_str(),
-			*lang = language.GetString();
+			*lang = language.GetString(),
+			*scaleFile = sss.c_str();
+		double signDev = 1;
 		
 		bool musttryagain = true;
-
-		l_float32 scaleRatio = 1;
+		l_float32 scaleRatio = m_scaleRatio;
 		l_float32 numPixels = (m_imgOriginal->GetHeight()*m_imgOriginal->GetWidth());
 		if(isExport || (!isColor))
 		{
@@ -1785,61 +1902,235 @@ void CGTView::OnFileSaveImage(bool isColor,bool isOCR, bool isExport)
 			m_imgOriginal->Save(strFileName);
 		}
 	//	#ifndef XPCOMPATIBLE
-		//tesseract::PageSegMode pagesegmode = tesseract::PSM_AUTO;	
+		tesseract::PageSegMode pagesegmode = tesseract::PSM_AUTO;
 		tesseract::TessBaseAPI  api;
+		//api.Init(languageDirectory, lang,tesseract::OEM_TESSERACT_ONLY);
 		api.Init(languageDirectory, lang);
-		api.SetPageSegMode(tesseract::PSM_AUTO);
 		while(musttryagain)
 		{
-			//old:tesseract::TessBaseAPI* api = new tesseract::TessBaseAPI();
-			//old:api->Init(languageDirectory, lang);
-			//old:api->SetPageSegMode(tesseract::PSM_AUTO);
+			/*if(evenRound) {
+				api.End();
+				api.SetPageSegMode(tesseract::PSM_AUTO_OSD);
+				api.Init(languageDirectory, lang,tesseract::OEM_TESSERACT_CUBE_COMBINED);
+			}*/
 			
-			
-
 			PIX* pix = pixRead(file);
-			if(pix == NULL || (m_imgOriginal->GetBPP()<=8 && !isExport))
+			//We copy to disk in case existed an error or we enhance the binary text selection (secondRound)
+			if(pix == NULL || (m_imgOriginal->GetBPP()<=8 && !isExport) || secondRound)
 			{
 				m_imgCopy.Destroy();
-				if(m_imgOriginal->GetBPP()<=8)
+
+				if(secondRound && pix != NULL)
+				{
+					int isExt = m_isExt,
+						isOutline = m_isOutline,
+						floodDistance = m_floodDistance,
+						roundsCounter = 0;
+					bool	isToAll = m_isToAll;
+					MaskVector maskVect;
+					double meanDistance = 0,deviation  = 0, vect_size;
+
+										
+					//PIX* doublepix = pixScaleAreaMap(pix,scaleRatio,scaleRatio);
+					//PIX *doublepix = pixScale(pix,scaleRatio,scaleRatio);
+					//pixDestroy(&pix);
+					//pix = doublepix;
+					////pixWrite("C:\\Users\\David\\AppData\\Local\\BlackToText908.tif",pix,IFF_TIFF);
+					//pixWrite(scaleFile,pix,IFF_TIFF);
+					m_imgCopy.Destroy();
+					m_imgCopy.Load(CString(strScaleFileName).GetString());
+					
+					
+					m_isExt = 0;
+					m_isToAll = true;
+					m_isOutline = 1;
+					//m_floodDistance = 182;
+					EditEnum region = pDoc->GetEditState();
+					pDoc->SetEditState(EDIT_NONE);
+					cornerColor = 1;
+					m_floodDistance = 253;
+					
+					CPoint point;
+					
+					point.x = (rand()%10 > 4)?m_imgCopy.GetWidth()-1:0;
+					point.y = (rand()%10 > 4)?m_imgCopy.GetHeight()-1:0;
+					
+					clickColor = GetPixelFast(&m_imgCopy,point.x,point.y);
+						
+					m_isExt = 1;
+					m_isToAll = false;
+					m_isOutline = 1;
+					while(roundsCounter<10)
+					{
+						maskVect.clear();
+						m_imgMaskCopy.Destroy();
+						m_imgMaskCopy.Create(m_imgCopy.GetWidth(),m_imgCopy.GetHeight(),m_imgCopy.GetBPP());
+						OnFloodFill(GetRValue(clickColor),GetGValue(clickColor),GetBValue(clickColor),&m_imgCopy,&m_imgMaskCopy,point,&maskVect);
+						if(!maskVect.empty())
+						{
+							VectorRun pointRun;
+							COLORREF colorText;
+							MaskVector deviationVect = maskVect; 
+							meanDistance = 0;
+							deviation  = 0;
+							vect_size = double(maskVect.size());
+
+							while(!maskVect.empty())
+							{
+								pointRun = maskVect.back();
+								maskVect.pop_back();
+								colorText = GetPixelFast(&m_imgCopy,pointRun.first.x,pointRun.first.y);
+								m_floodDistance = sqrt(pow(double(GetRValue(colorText))-double(GetRValue(clickColor)),2)+pow(double(GetGValue(colorText))-double(GetGValue(clickColor)),2)+pow(double(GetBValue(colorText))-double(GetBValue(clickColor)),2));
+								meanDistance += m_floodDistance;
+							}
+							meanDistance = meanDistance / vect_size;
+							maskVect = deviationVect;
+							while(!maskVect.empty())
+							{
+								pointRun = maskVect.back();
+								maskVect.pop_back();
+								colorText = GetPixelFast(&m_imgCopy,pointRun.first.x,pointRun.first.y);
+								m_floodDistance = sqrt(pow(double(GetRValue(colorText))-double(GetRValue(clickColor)),2)+pow(double(GetGValue(colorText))-double(GetGValue(clickColor)),2)+pow(double(GetBValue(colorText))-double(GetBValue(clickColor)),2));
+								deviation += pow(meanDistance - m_floodDistance,2);
+							}
+							
+							
+							m_floodDistance = (meanDistance/vect_size) + 3*(sqrt(deviation / vect_size));
+							roundsCounter = 10;			
+						}
+						else
+						{
+							m_floodDistance /= 2;
+							if(m_floodDistance <= 1)
+							{
+								m_floodDistance = 255;
+								point.x = ((rand()%10) > 4)?m_imgCopy.GetWidth()-1:0;
+								point.y = ((rand()%10) > 4)?m_imgCopy.GetHeight()-1:0;
+								clickColor = GetPixelFast(&m_imgCopy,point.x,point.y);
+					
+								roundsCounter++;
+								continue;
+
+							}
+							
+						}
+						
+						
+						m_isExt = 0;
+						m_isToAll = true;
+						m_isOutline = 1;
+						m_imgMaskCopy.Destroy();
+						m_imgMaskCopy.Create(m_imgCopy.GetWidth(),m_imgCopy.GetHeight(),m_imgCopy.GetBPP());
+						roundsCounter++;
+						int totalPixels = m_imgCopy.GetWidth()*m_imgCopy.GetHeight();
+						int i=0;
+						do
+						{
+							maskVect.clear();
+							//2+double((rand()%100)/100))*
+							m_floodDistance = (meanDistance/vect_size) + (4+double((rand()%200)/100))*sqrt(deviation / vect_size);
+							OnFloodFill(GetRValue(clickColor),GetGValue(clickColor),GetBValue(clickColor),&m_imgCopy,&m_imgMaskCopy,point,&maskVect);
+							if(maskVect.size()>(totalPixels-(totalPixels/2)))
+								signDev = signDev*1.2;
+							if(maskVect.size()<(totalPixels/50))
+								signDev = -signDev;
+						}
+						while((i++<10) && ((maskVect.size()==(totalPixels-(totalPixels))) || (maskVect.size()==(totalPixels))));
+						
+						if(i>=10)
+							signDev = 1;
+						
+						if(!maskVect.empty())
+							break;
+					}	
+
+					m_isExt = isExt;
+					m_isToAll = isToAll,
+					m_isOutline = isOutline;
+					m_floodDistance = floodDistance;
+					pDoc->SetEditState(region);
+				}
+				else if(m_imgOriginal->GetBPP()<=8)
 				{
 					m_imgCopy.Create(width,height,24);
 				}
 				else
+				{
 					m_imgCopy.Create(width,height,m_imgMask->GetBPP());
-				for(int i = 0;i < width; i++)
-					for(int j = 0;j < height ; j++)
-						if(isColor || GetPixelFast(m_imgMask,i,j) != COLORREF(0) || (isExport && isOCR))
-						{
-							if(isColor)
-								SetPixelFast(&m_imgCopy,i,j,GetPixelFast(m_imgOriginal,i,j));
-							else
+				}
+				
+				
+				
+				if(secondRound)
+				{
+					int areaWidth = m_imgMaskCopy.GetWidth(),
+						areaHeight = m_imgMaskCopy.GetHeight();
+
+					for(int i = 0;i < areaWidth; i++)
+						for(int j = 0;j < areaHeight ; j++)
+							if(GetPixelFast(&m_imgMaskCopy,i,j) != COLORREF(0))
+							{
 								SetPixelFast(&m_imgCopy,i,j,RGB(0,0,0));
-						}
-						else
-							SetPixelFast(&m_imgCopy,i,j,RGB(255,255,255));
-				hResult = m_imgCopy.Save(strFileName);
-				pix = pixRead(file);
+							}
+							else
+								SetPixelFast(&m_imgCopy,i,j,RGB(255,255,255));
+				}
+				else 
+				{
+					for(int i = 0;i < width; i++)
+						for(int j = 0;j < height ; j++)
+							if(isColor || GetPixelFast(m_imgMask,i,j) != COLORREF(0) || (isExport && isOCR))
+							{
+								if(isColor)
+									SetPixelFast(&m_imgCopy,i,j,GetPixelFast(m_imgOriginal,i,j));
+								else
+									SetPixelFast(&m_imgCopy,i,j,RGB(0,0,0));
+							}
+							else
+								SetPixelFast(&m_imgCopy,i,j,RGB(255,255,255));
+				}
+				
+				if(secondRound)
+				{
+					//Pix* openpix,*openPax;
+					hResult = m_imgCopy.Save(strScaleFileName);
+					//pix = pixRead("C:\\Users\\David\\AppData\\Local\\BlackToText908.tif");
+					pix = pixRead(scaleFile);
+
+					//if(scaleRatio > 2.0)
+						//pixOpen(pix,pix,selCreate(3,3,"cell"));
+					//else if((scaleRatio > 4.0))
+					//pix =	pixOpen(pix,pix,selCreate(int(scaleRatio),int(scaleRatio),"cell"));
+					//openpix = pixConvert1To32(openpix,/*pixOpen(NULL,*/pixConvertTo1(openpix,200)/*,selCreate(int(0),int(0),"cell"))*/,255,0);
+					//pix = pixOpenGray(pix,5,5);
+#ifdef _DEBUG
+					pixWrite("C:\\Users\\David\\AppData\\Local\\BlackToText909.tif",pix,IFF_TIFF);
+#endif
+				}
+				else
+				{
+					hResult = m_imgCopy.Save(strFileName);
+					pix = pixRead(file);
+				}
 			}
 				
 			if(pix != NULL)
 			{
-				if(scaleRatio != 1)
+				if(scaleRatio != 1 && !secondRound)
 				{
 					PIX* doublepix = pixScale(pix,scaleRatio,scaleRatio);
 					pixDestroy(&pix);
 					pix = doublepix;
 				}
-						
+										
 				api.SetImage(pix);
 				int bytes_per_line =(((pix->w)*(pix->d)+7)/8);
-				BeginWaitCursor();
+				
 				text = api.TesseractRect((const unsigned char *)pix->data,pix->d/8,bytes_per_line,0,0,pix->w,pix->h);
 				EndWaitCursor();
 				pixDestroy(&pix);
 
-				//api->End();
-				//delete api;
+				
 			}
 
 		 
@@ -1860,9 +2151,23 @@ void CGTView::OnFileSaveImage(bool isColor,bool isOCR, bool isExport)
 				printString = originalText.Left(startLine) + _T("...");
 			else
 				printString = originalText;
+		/*	HWND hEdit = CreateWindowEx(WS_EX_CLIENTEDGE,
+		L"RichEdit",
+		printString,
+		WS_CHILD|WS_VISIBLE|ES_MULTILINE|ES_AUTOVSCROLL|ES_AUTOHSCROLL,
+		100,
+		100,
+		200,
+		100,
+		this->GetSafeHwnd(),
+		NULL,
+		GetModuleHandle(NULL),
+		NULL);
+			SendMessage(hEdit,WM_SETTEXT,NULL,(LPARAM)"Insert text here...");*/
 
-
-			if(CStringW(text).IsEmpty())
+			if(m_nopopup)
+				msgboxID = IDCONTINUE;
+			else if(CStringW(text).IsEmpty())
 				msgboxID = MessageBox(_T("..."),_T("Copy text"),MB_ICONASTERISK | MB_CANCELTRYCONTINUE | MB_DEFBUTTON3);
 			else if(!isColor)
 				msgboxID = MessageBox(printString,_T("Copy text from Selection"),MB_ICONASTERISK | MB_CANCELTRYCONTINUE | MB_DEFBUTTON3);
@@ -1880,19 +2185,20 @@ void CGTView::OnFileSaveImage(bool isColor,bool isOCR, bool isExport)
 					// Resize image and try again
 					if(scaleRatio < maxRatio)
 					{
-						scaleRatio += 1;
+						scaleRatio += 2;
 					}
 					else
 					{
-						scaleRatio = 0.5;
-#ifndef HAVE_LIBLEPT
-						api.SetAccuracyVSpeed(tesseract::AVS_MOST_ACCURATE);
-						
-#else
-						//api.Init(languageDirectory, lang,tesseract::OEM_TESSERACT_CUBE_COMBINED);
-						api.SetPageSegMode(tesseract::PSM_AUTO_OSD);
-#endif
+						scaleRatio = 1;
+					//	api.End();
+						//api.SetPageSegMode(tesseract::PSM_AUTO_OSD);
+					//	api.Init(languageDirectory, lang,tesseract::OEM_TESSERACT_CUBE_COMBINED);
+						//scaleRatio = 0.5;
+						//secondRound = secondRound?false:true;
+						scaleRatio = evenRound?1:2;				
+						evenRound = evenRound?false:true;
 					}
+					BeginWaitCursor();	
 					musttryagain = true;
 					break;
 				case IDCONTINUE:
@@ -1943,6 +2249,7 @@ void CGTView::OnFileSaveImage(bool isColor,bool isOCR, bool isExport)
 					musttryagain = false;
 					break;
 			}
+			m_scaleRatio = scaleRatio;
 		}
 		api.End();
 		//#endif
@@ -2208,6 +2515,16 @@ void CGTView::SetToAll()
 	m_isToAll = m_isToAll? false:true;
 }
 
+void CGTView::SetNoOCRPopUp()
+{
+	m_nopopup = m_nopopup? false:true;
+}
+
+bool CGTView::GetNoOCRPopUp()
+{
+	return m_nopopup;
+}
+
 CStringW CGTView::UTF8toUTF16(const CStringA& utf8)
 {
    CStringW utf16;
@@ -2221,7 +2538,172 @@ CStringW CGTView::UTF8toUTF16(const CStringA& utf8)
    return utf16;
 }
 
-void CGTView::OnToolsAreatextcopier()
+void CGTView::OnToolsAreatextcopier(bool value)
 {
-	m_checkOCRAreaTool = !m_checkOCRAreaTool;
+	m_checkOCRAreaTool = value;
 }
+
+int CGTView::CaptureBMP(LPCTSTR szFile)
+{
+    // Source[1]
+    HDC hdcScr, hdcMem;
+    HBITMAP hbmScr;
+    BITMAP bmp;
+    int iXRes, iYRes;
+
+    // Create a normal DC and a memory DC for the entire screen. The
+    // normal DC provides a "snapshot" of the screen contents. The
+    // memory DC keeps a copy of this "snapshot" in the associated
+    // bitmap.
+    hdcScr = CreateDC(L"DISPLAY", NULL, NULL, NULL);
+    hdcMem = CreateCompatibleDC(hdcScr);
+
+    iXRes = GetDeviceCaps(hdcScr, HORZRES);
+    iYRes = GetDeviceCaps(hdcScr, VERTRES);
+
+    // Create a compatible bitmap for hdcScreen.
+    hbmScr = CreateCompatibleBitmap(hdcScr, iXRes, iYRes);
+    if (hbmScr == 0) return 0;
+
+    // Select the bitmaps into the compatible DC.
+    if (!SelectObject(hdcMem, hbmScr)) return 0;
+	
+	//Hide the program 333ms to capture the screen
+	CWnd* pWnd = AfxGetMainWnd();
+    pWnd->ShowWindow(SW_HIDE);
+    ::Sleep(333);
+
+    // Copy color data for the entire display into a
+    // bitmap that is selected into a compatible DC.
+    if (!StretchBlt(hdcMem,
+        0, 0, iXRes, iYRes,
+        hdcScr,
+        0, 0, iXRes, iYRes,
+        SRCCOPY | CAPTUREBLT))
+
+        return 0;
+	
+	//Shows the screen again
+	pWnd->ShowWindow(SW_SHOW);
+    
+    // Source[2]
+    PBITMAPINFO pbmi;
+    WORD cClrBits;
+
+    // Retrieve the bitmap's color format, width, and height.
+    if (!GetObject(hbmScr, sizeof(BITMAP), (LPSTR) &bmp)) return 0;
+
+    // Convert the color format to a count of bits.
+    cClrBits = (WORD)(bmp.bmPlanes * bmp.bmBitsPixel);
+    if (cClrBits == 1)
+        cClrBits = 1;
+    else if (cClrBits <= 4)
+        cClrBits = 4;
+    else if (cClrBits <= 8)
+        cClrBits = 8;
+    else if (cClrBits <= 16)
+        cClrBits = 16;
+    else if (cClrBits <= 24)
+        cClrBits = 24;
+    else cClrBits = 32;
+
+    // Allocate memory for the BITMAPINFO structure. (This structure
+    // contains a BITMAPINFOHEADER structure and an array of RGBQUAD
+    // data structures.)
+    if (cClrBits != 24)
+        pbmi = (PBITMAPINFO) LocalAlloc(LPTR,
+                sizeof(BITMAPINFOHEADER) +
+                sizeof(RGBQUAD) * (1 << cClrBits));
+
+    // There is no RGBQUAD array for the 24-bit-per-pixel format.
+    else
+        pbmi = (PBITMAPINFO) LocalAlloc(LPTR,
+                sizeof(BITMAPINFOHEADER));
+
+    // Initialize the fields in the BITMAPINFO structure.
+    pbmi->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+    pbmi->bmiHeader.biWidth = bmp.bmWidth;
+    pbmi->bmiHeader.biHeight = bmp.bmHeight;
+    pbmi->bmiHeader.biPlanes = bmp.bmPlanes;
+    pbmi->bmiHeader.biBitCount = bmp.bmBitsPixel;
+    if (cClrBits < 24)
+        pbmi->bmiHeader.biClrUsed = (1 << cClrBits);
+
+    // If the bitmap is not compressed, set the BI_RGB flag.
+    pbmi->bmiHeader.biCompression = BI_RGB;
+
+    // Compute the number of bytes in the array of color
+    // indices and store the result in biSizeImage.
+    pbmi->bmiHeader.biSizeImage = (pbmi->bmiHeader.biWidth + 7) / 8
+                                    * pbmi->bmiHeader.biHeight * cClrBits;
+
+    // Set biClrImportant to 0, indicating that all of the
+    // device colors are important.
+    pbmi->bmiHeader.biClrImportant = 0;
+
+    HANDLE hf;                  // file handle
+    BITMAPFILEHEADER hdr;       // bitmap file-header
+    PBITMAPINFOHEADER pbih;     // bitmap info-header
+    LPBYTE lpBits;              // memory pointer
+    DWORD dwTotal;              // total count of bytes
+    DWORD cb;                   // incremental count of bytes
+    BYTE *hp;                   // byte pointer
+    DWORD dwTmp;
+
+    pbih = (PBITMAPINFOHEADER) pbmi;
+    lpBits = (LPBYTE) GlobalAlloc(GMEM_FIXED, pbih->biSizeImage);
+
+    if (!lpBits) return 0;
+
+    // Retrieve the color table (RGBQUAD array) and the bits
+    // (array of palette indices) from the DIB.
+    if (!GetDIBits(hdcMem, hbmScr, 0, (WORD) pbih->biHeight, lpBits, pbmi, DIB_RGB_COLORS)) return 0;
+
+    // Create the .BMP file.
+    hf = CreateFile(szFile,
+                    GENERIC_READ | GENERIC_WRITE,
+                    (DWORD) 0,
+                    NULL,
+                    CREATE_ALWAYS,
+                    FILE_ATTRIBUTE_NORMAL,
+                    (HANDLE) NULL);
+    if (hf == INVALID_HANDLE_VALUE) return 0;
+
+    hdr.bfType = 0x4d42;        // 0x42 = "B" 0x4d = "M"
+
+    // Compute the size of the entire file.
+    hdr.bfSize = (DWORD) (sizeof(BITMAPFILEHEADER) +
+                 pbih->biSize + pbih->biClrUsed *
+                 sizeof(RGBQUAD) + pbih->biSizeImage);
+    hdr.bfReserved1 = 0;
+    hdr.bfReserved2 = 0;
+
+    // Compute the offset to the array of color indices.
+    hdr.bfOffBits = (DWORD) sizeof(BITMAPFILEHEADER) +
+                    pbih->biSize + pbih->biClrUsed *
+                    sizeof (RGBQUAD);
+
+    // Copy the BITMAPFILEHEADER into the .BMP file.
+    if (!WriteFile(hf, (LPVOID) &hdr, sizeof(BITMAPFILEHEADER), (LPDWORD) &dwTmp, NULL)) return 0;
+
+    // Copy the BITMAPINFOHEADER and RGBQUAD array into the file.
+    if (!WriteFile(hf, (LPVOID) pbih, sizeof(BITMAPINFOHEADER)
+                + pbih->biClrUsed * sizeof (RGBQUAD),
+                (LPDWORD) &dwTmp, NULL))
+        return 0;
+
+    // Copy the array of color indices into the .BMP file.
+    dwTotal = cb = pbih->biSizeImage;
+    hp = lpBits;
+    if (!WriteFile(hf, (LPSTR) hp, (int) cb, (LPDWORD) &dwTmp, NULL)) return 0;
+
+    // Close the .BMP file.
+    if (!CloseHandle(hf)) return 0;
+
+    // Free memory.
+    GlobalFree((HGLOBAL)lpBits);
+	::DeleteDC(hdcScr);
+    ::DeleteDC(hdcMem);
+
+    return 1;
+} 

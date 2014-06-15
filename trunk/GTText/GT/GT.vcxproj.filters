@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
+    <Filter Include="Scan">
+      <UniqueIdentifier>{be22df06-fa3c-4d4b-92c8-772aba896bc0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GT.cpp">
@@ -37,6 +40,33 @@
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="Scanner\GetImage.cpp">
+      <Filter>Scan</Filter>
+    </ClCompile>
+    <ClCompile Include="Scanner\EventCallback.cpp">
+      <Filter>Scan</Filter>
+    </ClCompile>
+    <ClCompile Include="Scanner\BitmapWnd.cpp">
+      <Filter>Scan</Filter>
+    </ClCompile>
+    <ClCompile Include="Scanner\ProgressDlg.cpp">
+      <Filter>Scan</Filter>
+    </ClCompile>
+    <ClCompile Include="Scanner\MainWnd.cpp">
+      <Filter>Scan</Filter>
+    </ClCompile>
+    <ClCompile Include="Scanner\DataCallback.cpp">
+      <Filter>Scan</Filter>
+    </ClCompile>
+    <ClCompile Include="Scanner\BitmapUtil.cpp">
+      <Filter>Scan</Filter>
+    </ClCompile>
+    <ClCompile Include="Scanner\WiaWrap.cpp">
+      <Filter>Scan</Filter>
+    </ClCompile>
+    <ClCompile Include="ScreenImage.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
   </ItemGroup>
@@ -69,6 +99,30 @@
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="XMLDOMDocumentEventsSink.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Scanner\MainWnd.h">
+      <Filter>Scan</Filter>
+    </ClInclude>
+    <ClInclude Include="Scanner\ProgressDlg.h">
+      <Filter>Scan</Filter>
+    </ClInclude>
+    <ClInclude Include="Scanner\EventCallback.h">
+      <Filter>Scan</Filter>
+    </ClInclude>
+    <ClInclude Include="Scanner\BitmapWnd.h">
+      <Filter>Scan</Filter>
+    </ClInclude>
+    <ClInclude Include="Scanner\DataCallback.h">
+      <Filter>Scan</Filter>
+    </ClInclude>
+    <ClInclude Include="Scanner\BitmapUtil.h">
+      <Filter>Scan</Filter>
+    </ClInclude>
+    <ClInclude Include="Scanner\WiaWrap.h">
+      <Filter>Scan</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenImage.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>

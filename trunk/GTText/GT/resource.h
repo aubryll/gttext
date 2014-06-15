@@ -46,6 +46,8 @@
 #define IDD_PREFERENCES                 167
 #define IDR_MAINFRAME1                  173
 #define IDB_GTTICON                     182
+#define IDD_DIALOG_BAR                  206
+#define IDD_LANGUAGE                    207
 #define IDC_COMBO1                      1000
 #define IDC_COMBO4                      1000
 #define IDC_COMBO2                      1001
@@ -342,13 +344,30 @@
 #define ID_TOOLS_AREAOCR                33014
 #define ID_TOOLS_AREATEXTCOPIER         33015
 #define ID_BUTTON33017                  33017
+#define ID_HELP_HELP                    33018
+#define ID_FILE_IMPORT                  33019
+#define ID_FILE_FROMSCANNERORCAMERA     33020
+#define IDC_MESSAGE                     33021
+#define ID_FROMSCANNERORCAMERA          33021
+#define IDC_PROGRESS_BAR                33022
+#define ID_FILE_IMPORT33022             33022
+#define IDS_BITMAP_WINDOW_TITLE         33023
+#define IDS_WAIT                        33024
+#define IDS_STATUS_TRANSFER_FROM_DEVICE 33025
+#define ID_FILE_EXPORTSELECTION33025    33025
+#define IDS_STATUS_TRANSFER_TO_CLIENT   33026
+#define IDS_ERROR_GET_IMAGE_DLG         33027
+#define IDS_STATUS_PROCESSING_DATA      33028
+#define ID_FROMSCREEN                   33028
+#define ID_DISABLE_POPUP                33029
+#define ID_TOOLS_DISABLE_POPUP          33029
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        206
-#define _APS_NEXT_COMMAND_VALUE         33018
+#define _APS_NEXT_RESOURCE_VALUE        208
+#define _APS_NEXT_COMMAND_VALUE         33030
 #define _APS_NEXT_CONTROL_VALUE         1085
 #define _APS_NEXT_SYMED_VALUE           110
 #endif

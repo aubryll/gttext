@@ -5,6 +5,9 @@
 #include <atlimage.h>
 #include <map>
 #include <vector>
+#include <iostream>
+#include <fstream>
+#include <sstream>
 
 typedef enum
 {
@@ -150,6 +153,7 @@ public:
 	CImageSelection & operator= (const CImageSelection &copy);
 	void EraseArea(CRect size,EditEnum region);
 	BOOL ChangeLine(CPoint point1,CPoint point2,EditEnum region,bool isAdded,int size);
+	bool IsEmpty();
 
 
 
@@ -206,6 +210,7 @@ private:
 	EditEnum m_onGlyphState;
 	ToolEnum m_tool;
 	MaskVector m_copyVector;
+	bool m_isSelectionOCR;
 
 protected: // Crear sólo a partir de serialización
 	CGTDoc();
@@ -216,6 +221,7 @@ protected: // Crear sólo a partir de serialización
 public:
 	CString GetOCRLanguage() {return m_languageOCR;};
 	void SetOCRLanguage(CString language) {m_languageOCR = language;};
+	bool IsOCRSelection(){return m_isSelectionOCR;};
 	CImage* GetImage();
 	EditEnum GetEditState();
 	void  SetEditState(EditEnum state);
@@ -355,10 +361,12 @@ public:
 	afx_msg void OnUpdateViewPoint(CCmdUI *pCmdUI);
 	afx_msg void OnUpdateToolsAreatextcopier(CCmdUI *pCmdUI);
 	afx_msg void OnToolsAreatextcopier();
+	afx_msg void OnUpdateFileSelectionOCR(CCmdUI *pCmdUI);
+	afx_msg void OnUpdateFileCopyTextAll(CCmdUI *pCmdUI);
 
-
-
-
+	afx_msg void OnFileSelectionOCR();
+	afx_msg void OnToolsDisablePopUp();
+	afx_msg void OnUpdateDisablePopUp(CCmdUI *pCmdUI);
 
 	afx_msg void OnFileExportselection();
 	afx_msg void OnUpdateFileExportselection(CCmdUI *pCmdUI);
@@ -366,6 +374,7 @@ public:
 	afx_msg void OnExportselectionBlack();
 	afx_msg void OnExportBlackselectionText();
 	afx_msg void OnExportColorselectionText();
+	afx_msg void OnHelpHelp();
 };
 
 
