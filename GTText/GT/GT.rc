@@ -21,108 +21,92 @@ LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// Menu
+// Dialog
 //
 
-IDR_MAINFRAME MENU
+IDD_DIALOG_BAR DIALOG 0, 0, 184, 63
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Progress"
+FONT 8, "MS Shell Dlg"
 BEGIN
-    POPUP "&File"
+    DEFPUSHBUTTON   "Cancel",IDCANCEL,127,43,50,14
+    LTEXT           "",IDC_MESSAGE,7,7,170,8
+    CONTROL         "1",IDC_PROGRESS_BAR,"msctls_progress32",WS_BORDER,7,22,170,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_DIALOG_BAR, DIALOG
     BEGIN
-        MENUITEM "&New\tCtrl+N",                ID_FILE_NEW
-        MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
-        MENUITEM "&Save\tCtrl+S",               ID_FILE_SAVE
-        MENUITEM "Save &As...",                 ID_FILE_SAVE_AS
-        MENUITEM SEPARATOR
-        MENUITEM "&Import Clipboard\tCtrl+K",   ID_FILE_FROMCLIPBOARD
-        POPUP "Export Selection"
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Spanish resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,4,4,0
+ PRODUCTVERSION 1,4,4,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904e4"
         BEGIN
-            MENUITEM "Color",                       ID_EXPORTSELECTION_COLOR32960
-            MENUITEM "Black",                       ID_EXPORTSELECTION_BLACK32959
-        END
-        MENUITEM SEPARATOR
-        MENUITEM "&Print...\tCtrl+P",           ID_FILE_PRINT
-        MENUITEM "Print Pre&view",              ID_FILE_PRINT_PREVIEW
-        MENUITEM "P&rint Setup...",             ID_FILE_PRINT_SETUP
-        MENUITEM SEPARATOR
-        MENUITEM "Recent File",                 ID_FILE_MRU_FILE1
-        MENUITEM SEPARATOR
-        MENUITEM "Preferences...",              ID_FILE_PREFERENCES
-        MENUITEM SEPARATOR
-        MENUITEM "E&xit",                       ID_APP_EXIT
-    END
-    POPUP "&Edit"
-    BEGIN
-        MENUITEM "&Undo\tCtrl+Z",               ID_EDIT_UNDO
-        MENUITEM "&Redo\tCtrl+Y",               ID_EDIT_REDO
-        MENUITEM SEPARATOR
-        MENUITEM "&Cut\tCtrl+X",                ID_EDIT_CUT
-        MENUITEM "&Copy\tCtrl+C",               ID_EDIT_COPY
-        MENUITEM "&Paste\tCtrl+V",              ID_EDIT_PASTE
-        MENUITEM SEPARATOR
-        MENUITEM "Edit Shade",                  ID_EDIT_SHADE, INACTIVE
-        MENUITEM "Edit Outline",                ID_EDIT_OUTLINE, INACTIVE
-        MENUITEM "Edit Core",                   ID_EDIT_CORE, INACTIVE
-    END
-    POPUP "&View"
-    BEGIN
-        MENUITEM "&Toolbar",                    ID_VIEW_TOOLBAR
-        MENUITEM "Image Bar",                   ID_VIEW_IMAGEBAR
-        MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
-        MENUITEM "Point Status",                ID_VIEW_POINT
-        MENUITEM SEPARATOR
-        MENUITEM "Selection Bright",            ID_VIEW_SELECTIONBRIGHT
-        MENUITEM "Selection Sensitivity",       ID_VIEW_SENSITIVITY
-        MENUITEM SEPARATOR
-        MENUITEM "Zoom Bar",                    ID_VIEW_ZOOMBAR
-        MENUITEM "Brush Size Bar",              ID_VIEW_BRUSHSIZEBAR
-        MENUITEM SEPARATOR
-        POPUP "Zoom"
-        BEGIN
-            MENUITEM "1/2x",                        ID_ZOOM_1
-            MENUITEM SEPARATOR
-            MENUITEM "1x",                          ID_ZOOM_1X
-            MENUITEM "2x",                          ID_ZOOM_2X
-            MENUITEM "4x",                          ID_ZOOM_4X
-            MENUITEM "8x",                          ID_ZOOM_8X
-            MENUITEM "16x",                         ID_ZOOM_16X
-            MENUITEM "Fit",                         ID_ZOOM_FIT
-        END
-    END
-    POPUP "Image"
-    BEGIN
-        MENUITEM "Show &Shade",                 ID_VIEW_SHADE
-        MENUITEM "Show Outline",                ID_VIEW_OUTLINE
-        MENUITEM "Show Core",                   ID_VIEW_CORE
-        MENUITEM SEPARATOR
-        MENUITEM "Info",                        ID_IMAGE_INFO
-    END
-    POPUP "XML"
-    BEGIN
-        MENUITEM "&Undo\tCtrl+U",               ID_EDIT_UNDOXML
-        MENUITEM "&Redo\tCtrl+R",               ID_EDIT_REDOXML
-    END
-    POPUP "Tools"
-    BEGIN
-        MENUITEM "Pixel Select",                ID_TOOLS_PIXELSELECT, INACTIVE
-        MENUITEM "Region Select",               ID_TOOLS_REGIONSELECT, INACTIVE
-        MENUITEM SEPARATOR
-        MENUITEM "Zoom Select",                 ID_ZOOM_TOOL
-        MENUITEM SEPARATOR
-        MENUITEM "&Invert\tCtrl+I",             ID_TOOLS_INVERTALL
-        MENUITEM SEPARATOR
-        MENUITEM "Area Text OCR",               ID_TOOLS_AREATEXTCOPIER, CHECKED
-        POPUP "Copy Text from"
-        BEGIN
-            MENUITEM "Selection...",                ID_COPYOCRTEXT_USESELECTION
-            MENUITEM "&Full image...\tCtrl+F",      ID_COPYOCRTEXT_ALLIMAGE
+            VALUE "FileDescription", "GT Text Application"
+            VALUE "FileVersion", "1.4.4.0"
+            VALUE "InternalName", "gttext"
+            VALUE "LegalCopyright", "Copyright 2011"
+            VALUE "OriginalFilename", "GTText.exe"
+            VALUE "ProductName", "gttext aplication"
+            VALUE "ProductVersion", "1.4.4.0"
         END
     END
-    POPUP "&Help"
+    BLOCK "VarFileInfo"
     BEGIN
-        MENUITEM "&About GT...",                ID_APP_ABOUT
+        VALUE "Translation", 0x409, 1252
     END
 END
 
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral (Sys. Default) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEUSD)
+LANGUAGE LANG_NEUTRAL, SUBLANG_SYS_DEFAULT
+#pragma code_page(1252)
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -146,139 +130,6 @@ BEGIN
     LTEXT           "Indexed:",IDC_STATIC,129,25,30,8
     LTEXT           "DIB Section:",IDC_STATIC,119,13,40,8
 END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// DESIGNINFO
-//
-
-#ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO
-BEGIN
-    IDD_INFODLG, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 206
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 63
-    END
-END
-#endif    // APSTUDIO_INVOKED
-
-#endif    // Spanish resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// English (United States) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
-#pragma code_page(1252)
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Version
-//
-
-VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,4,2,0
- PRODUCTVERSION 1,4,2,0
- FILEFLAGSMASK 0x3fL
-#ifdef _DEBUG
- FILEFLAGS 0x1L
-#else
- FILEFLAGS 0x0L
-#endif
- FILEOS 0x4L
- FILETYPE 0x1L
- FILESUBTYPE 0x0L
-BEGIN
-    BLOCK "StringFileInfo"
-    BEGIN
-        BLOCK "040904e4"
-        BEGIN
-            VALUE "FileDescription", "GT Text Application"
-            VALUE "FileVersion", "1.4.2.0"
-            VALUE "InternalName", "gttext"
-            VALUE "LegalCopyright", "Copyright 2011"
-            VALUE "OriginalFilename", "GTText.exe"
-            VALUE "ProductName", "gttext aplication"
-            VALUE "ProductVersion", "1.4.2.0"
-        END
-    END
-    BLOCK "VarFileInfo"
-    BEGIN
-        VALUE "Translation", 0x409, 1252
-    END
-END
-
-#endif    // English (United States) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// Neutral (Sys. Default) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEUSD)
-LANGUAGE LANG_NEUTRAL, SUBLANG_SYS_DEFAULT
-#pragma code_page(1252)
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Menu
-//
-
-IDR_MENUTR MENU
-BEGIN
-    POPUP "Context GT"
-    BEGIN
-        MENUITEM "New Text Region",             ID_CONTEXTGT_NEWTEXTREGION
-    END
-END
-
-IDR_MENUTL MENU
-BEGIN
-    POPUP "Context GT"
-    BEGIN
-        MENUITEM "New Text Line",               ID_CONTEXTGT_NEWTEXTLINE
-        MENUITEM "Delete Text Region",          ID_CONTEXTGT_DELETETEXTREGION
-    END
-END
-
-IDR_MENUW MENU
-BEGIN
-    POPUP "Context GT"
-    BEGIN
-        MENUITEM "New Word",                    ID_CONTEXTGT_NEWWORD
-        MENUITEM "Delete Text Line",            ID_CONTEXTGT_DELETETEXTLINE
-    END
-END
-
-IDR_MENUG MENU
-BEGIN
-    POPUP "Context GT"
-    BEGIN
-        MENUITEM "New Glyph",                   ID_CONTEXTGT_NEWGLYPH
-        MENUITEM "Create Word Glyphs",          ID_CONTEXTGT_CREATEWORDGLYPH
-        MENUITEM "Delete Word",                 ID_CONTEXTGT_DELETEWORD
-    END
-END
-
-IDR_MENUGD MENU
-BEGIN
-    POPUP "Context GT"
-    BEGIN
-        MENUITEM "Delete Glyph",                ID_CONTEXTGT_DELETEGLYPH
-    END
-END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Dialog
-//
 
 IDD_FORMVIEW DIALOGEX 0, 0, 177, 301
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
@@ -403,9 +254,37 @@ CAPTION "About GT"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
-    LTEXT           "GT Version 1.4.1",IDC_STATIC,40,10,119,8,SS_NOPREFIX
+    LTEXT           "GT Version 1.4.4",IDC_STATIC,40,10,119,8,SS_NOPREFIX
     LTEXT           "Copyright (C) 2011",IDC_STATIC,40,25,119,8
     DEFPUSHBUTTON   "OK",IDOK,177,31,50,16,WS_GROUP
+END
+
+IDD_PREFERENCES DIALOGEX 0, 0, 256, 111
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Preferences"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,199,73,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,199,89,50,14
+    LTEXT           "Default Glyph folder",IDC_STATIC,9,11,67,8
+    EDITTEXT        IDC_GFOLDER,7,22,128,14,ES_AUTOHSCROLL
+    LTEXT           "Default Page folder",IDC_STATIC,9,44,67,8
+    EDITTEXT        IDC_PFOLDER,7,55,128,14,ES_AUTOHSCROLL
+    LTEXT           "Text Recognition Language",IDC_STATIC,147,11,90,8
+    COMBOBOX        IDC_LANGUAGES,147,22,73,19,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Project path",IDC_STATIC,9,78,67,8
+    EDITTEXT        IDC_IFOLDER,7,88,128,14,ES_AUTOHSCROLL
+    CONTROL         "<a href=""http://www.google.com"">Add languages</a>",IDC_SYSLINKLANG,
+                    "SysLink",WS_TABSTOP,147,39,78,11
+END
+
+IDD_LANGUAGE DIALOGEX 0, 0, 127, 14
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    COMBOBOX        IDC_LANGUAGES,0,0,73,19,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "<a href=""http://www.google.com"">Add languages</a>",IDC_SYSLINKLANG,
+                    "SysLink",WS_TABSTOP,76,2,50,11
 END
 
 
@@ -417,6 +296,14 @@ END
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO
 BEGIN
+    IDD_INFODLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 206
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 63
+    END
+
     IDD_FORMVIEW, DIALOG
     BEGIN
         RIGHTMARGIN, 176
@@ -474,8 +361,171 @@ BEGIN
         TOPMARGIN, 10
         BOTTOMMARGIN, 48
     END
+
+    IDD_PREFERENCES, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 249
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 103
+    END
+
+    IDD_LANGUAGE, DIALOG
+    BEGIN
+    END
 END
 #endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MENUTR MENU
+BEGIN
+    POPUP "Context GT"
+    BEGIN
+        MENUITEM "New Text Region",             ID_CONTEXTGT_NEWTEXTREGION
+    END
+END
+
+IDR_MENUTL MENU
+BEGIN
+    POPUP "Context GT"
+    BEGIN
+        MENUITEM "New Text Line",               ID_CONTEXTGT_NEWTEXTLINE
+        MENUITEM "Delete Text Region",          ID_CONTEXTGT_DELETETEXTREGION
+    END
+END
+
+IDR_MENUW MENU
+BEGIN
+    POPUP "Context GT"
+    BEGIN
+        MENUITEM "New Word",                    ID_CONTEXTGT_NEWWORD
+        MENUITEM "Delete Text Line",            ID_CONTEXTGT_DELETETEXTLINE
+    END
+END
+
+IDR_MENUG MENU
+BEGIN
+    POPUP "Context GT"
+    BEGIN
+        MENUITEM "New Glyph",                   ID_CONTEXTGT_NEWGLYPH
+        MENUITEM "Create Word Glyphs",          ID_CONTEXTGT_CREATEWORDGLYPH
+        MENUITEM "Delete Word",                 ID_CONTEXTGT_DELETEWORD
+    END
+END
+
+IDR_MENUGD MENU
+BEGIN
+    POPUP "Context GT"
+    BEGIN
+        MENUITEM "Delete Glyph",                ID_CONTEXTGT_DELETEGLYPH
+    END
+END
+
+IDR_MAINFRAME MENU
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&New Project\tCtrl+N",        ID_FILE_NEW
+        MENUITEM "&Open Project...\tCtrl+O",    ID_FILE_OPEN
+        MENUITEM "&Save\tCtrl+S",               ID_FILE_SAVE
+        MENUITEM "Save &As...",                 ID_FILE_SAVE_AS
+        MENUITEM "Create from &clipboard\tCtrl+K", ID_FILE_FROMCLIPBOARD
+        MENUITEM SEPARATOR
+        MENUITEM "Import from Scanner or Ca&mera...\tCtrl+M", ID_FROMSCANNERORCAMERA
+        MENUITEM SEPARATOR
+        POPUP "Export Selection"
+        BEGIN
+            MENUITEM "To Color Image",              ID_EXPORTSELECTION_COLOR32960
+            MENUITEM "To Binary Image",             ID_EXPORTSELECTION_BLACK32959
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "&Print...\tCtrl+P",           ID_FILE_PRINT
+        MENUITEM "Print Pre&view",              ID_FILE_PRINT_PREVIEW
+        MENUITEM "Print Setup...",              ID_FILE_PRINT_SETUP
+        MENUITEM SEPARATOR
+        MENUITEM "Recent File",                 ID_FILE_MRU_FILE1
+        MENUITEM SEPARATOR
+        MENUITEM "Preferences...",              ID_FILE_PREFERENCES
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       ID_APP_EXIT
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Undo\tCtrl+Z",               ID_EDIT_UNDO
+        MENUITEM "&Redo\tCtrl+Y",               ID_EDIT_REDO
+        MENUITEM SEPARATOR
+        MENUITEM "&Cut\tCtrl+X",                ID_EDIT_CUT
+        MENUITEM "&Copy\tCtrl+C",               ID_EDIT_COPY
+        MENUITEM "&Paste\tCtrl+V",              ID_EDIT_PASTE
+        MENUITEM SEPARATOR
+        MENUITEM "Edit Shade",                  ID_EDIT_SHADE, INACTIVE
+        MENUITEM "Edit Outline",                ID_EDIT_OUTLINE, INACTIVE
+        MENUITEM "Edit Core",                   ID_EDIT_CORE, INACTIVE
+    END
+    POPUP "&View"
+    BEGIN
+        MENUITEM "&Toolbar",                    ID_VIEW_TOOLBAR
+        MENUITEM "Image Bar",                   ID_VIEW_IMAGEBAR
+        MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
+        MENUITEM "Point Status",                ID_VIEW_POINT
+        MENUITEM SEPARATOR
+        MENUITEM "Selection Bright",            ID_VIEW_SELECTIONBRIGHT
+        MENUITEM "Selection Sensitivity",       ID_VIEW_SENSITIVITY
+        MENUITEM SEPARATOR
+        MENUITEM "Zoom Bar",                    ID_VIEW_ZOOMBAR
+        MENUITEM "Brush Size Bar",              ID_VIEW_BRUSHSIZEBAR
+        MENUITEM SEPARATOR
+        POPUP "Zoom"
+        BEGIN
+            MENUITEM "1/2x",                        ID_ZOOM_1
+            MENUITEM SEPARATOR
+            MENUITEM "1x",                          ID_ZOOM_1X
+            MENUITEM "2x",                          ID_ZOOM_2X
+            MENUITEM "4x",                          ID_ZOOM_4X
+            MENUITEM "8x",                          ID_ZOOM_8X
+            MENUITEM "16x",                         ID_ZOOM_16X
+            MENUITEM "Fit",                         ID_ZOOM_FIT
+        END
+    END
+    POPUP "Image"
+    BEGIN
+        MENUITEM "Show Shade",                  ID_VIEW_SHADE
+        MENUITEM "Show Outline",                ID_VIEW_OUTLINE
+        MENUITEM "Show Core",                   ID_VIEW_CORE
+        MENUITEM SEPARATOR
+        MENUITEM "Info",                        ID_IMAGE_INFO
+    END
+    POPUP "XML"
+    BEGIN
+        MENUITEM "&Undo\tCtrl+U",               ID_EDIT_UNDOXML
+        MENUITEM "&Redo\tCtrl+R",               ID_EDIT_REDOXML
+    END
+    POPUP "Tools"
+    BEGIN
+        MENUITEM "Pixel Select",                ID_TOOLS_PIXELSELECT, INACTIVE
+        MENUITEM "Region Select",               ID_TOOLS_REGIONSELECT, INACTIVE
+        MENUITEM SEPARATOR
+        MENUITEM "Zoom Select",                 ID_ZOOM_TOOL
+        MENUITEM SEPARATOR
+        MENUITEM "&Invert\tCtrl+I",             ID_TOOLS_INVERTALL
+        MENUITEM SEPARATOR
+        MENUITEM "Area Text OCR",               ID_TOOLS_AREATEXTCOPIER, CHECKED
+        POPUP "Copy Text from"
+        BEGIN
+            MENUITEM "Pixel Selection",             ID_COPYOCRTEXT_USESELECTION
+            MENUITEM "&Full image...\tCtrl+F",      ID_COPYOCRTEXT_ALLIMAGE
+        END
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About GT...",                ID_APP_ABOUT
+    END
+END
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -819,50 +869,6 @@ END
 LANGUAGE LANG_SPANISH, SUBLANG_SPANISH_MODERN
 #pragma code_page(1252)
 
-/////////////////////////////////////////////////////////////////////////////
-//
-// Dialog
-//
-
-IDD_PREFERENCES DIALOGEX 0, 0, 256, 111
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Preferences"
-FONT 8, "MS Shell Dlg", 400, 0, 0x1
-BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,199,73,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,199,89,50,14
-    LTEXT           "Default Glyph folder",IDC_STATIC,9,11,67,8
-    EDITTEXT        IDC_GFOLDER,7,22,128,14,ES_AUTOHSCROLL
-    LTEXT           "Default Page folder",IDC_STATIC,9,44,67,8
-    EDITTEXT        IDC_PFOLDER,7,55,128,14,ES_AUTOHSCROLL
-    LTEXT           "Text Recognition Language",IDC_STATIC,147,11,90,8
-    COMBOBOX        IDC_LANGUAGES,147,22,73,19,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Project path",IDC_STATIC,9,78,67,8
-    EDITTEXT        IDC_IFOLDER,7,88,128,14,ES_AUTOHSCROLL
-    CONTROL         "<a href=""http://www.google.com"">Add languages</a>",IDC_SYSLINKLANG,
-                    "SysLink",WS_TABSTOP,147,39,78,11
-END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// DESIGNINFO
-//
-
-#ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO
-BEGIN
-    IDD_PREFERENCES, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 249
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 103
-    END
-END
-#endif    // APSTUDIO_INVOKED
-
-
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -923,17 +929,19 @@ IDR_TOOLBARIM           BITMAP                  "res\\toolbar1.bmp"
 
 IDR_MAINFRAME TOOLBAR 16, 15
 BEGIN
+    BUTTON      ID_FROMSCREEN
     BUTTON      ID_FILE_NEW
-    SEPARATOR
-    BUTTON      ID_FILE_OPEN
     BUTTON      ID_FILE_SAVE
     SEPARATOR
     BUTTON      ID_EDIT_CUT
     BUTTON      ID_EDIT_COPY
     BUTTON      ID_EDIT_PASTE
     SEPARATOR
+    BUTTON      ID_FROMSCANNERORCAMERA
     BUTTON      ID_FILE_PRINT
     BUTTON      ID_COPYOCRTEXT_ALLIMAGE
+    SEPARATOR
+    BUTTON      ID_TOOLS_DISABLE_POPUP
     BUTTON      ID_APP_ABOUT
 END
 
@@ -961,6 +969,7 @@ END
 
 IDR_MAINFRAME ACCELERATORS
 BEGIN
+    "F",            ID_COPYOCRTEXT_ALLIMAGE, VIRTKEY, CONTROL, NOINVERT
     "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
     VK_INSERT,      ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
     VK_DELETE,      ID_EDIT_CUT,            VIRTKEY, SHIFT, NOINVERT
@@ -972,6 +981,7 @@ BEGIN
     VK_BACK,        ID_EDIT_UNDO,           VIRTKEY, ALT, NOINVERT
     "Z",            ID_EDIT_UNDO,           VIRTKEY, CONTROL, NOINVERT
     "U",            ID_EDIT_UNDOXML,        VIRTKEY, CONTROL, NOINVERT
+    "K",            ID_FILE_FROMCLIPBOARD,  VIRTKEY, CONTROL, NOINVERT
     "N",            ID_FILE_NEW,            VIRTKEY, CONTROL, NOINVERT
     "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL, NOINVERT
     "P",            ID_FILE_PRINT,          VIRTKEY, CONTROL, NOINVERT
@@ -979,8 +989,7 @@ BEGIN
     VK_F6,          ID_NEXT_PANE,           VIRTKEY, NOINVERT
     VK_F6,          ID_PREV_PANE,           VIRTKEY, SHIFT, NOINVERT
     "I",            ID_TOOLS_INVERTALL,     VIRTKEY, CONTROL, NOINVERT
-    "K",            ID_FILE_FROMCLIPBOARD,  VIRTKEY, CONTROL, NOINVERT
-    "F",            ID_COPYOCRTEXT_ALLIMAGE, VIRTKEY, CONTROL, NOINVERT
+    "M",            ID_FROMSCANNERORCAMERA, VIRTKEY, CONTROL, NOINVERT
 END
 
 
@@ -1018,7 +1027,7 @@ END
 
 STRINGTABLE
 BEGIN
-    ID_FILE_NEW             "Create a new document\nNew"
+    ID_FILE_NEW             "Creates New Document\nOpen Image"
     ID_FILE_OPEN            "Open an existing document\nOpen"
     ID_FILE_CLOSE           "Close the active document\nClose"
     ID_FILE_SAVE            "Save the active document\nSave"
@@ -1106,11 +1115,6 @@ END
 
 STRINGTABLE
 BEGIN
-    AFX_IDS_PREVIEW_CLOSE   "Close print preview mode\nCancel Preview"
-END
-
-STRINGTABLE
-BEGIN
     ID_VIEW_SHADE           "View Shade\nClick here to display the shade of the glyph"
     ID_VIEW_CORE            "View Core\nClick here to display the core of the glyph"
     ID_VIEW_OUTLINE         "View Ouline\nClick here to display the outline of the glyph"
@@ -1167,20 +1171,40 @@ END
 
 STRINGTABLE
 BEGIN
+    ID_FILE_PREFERENCES     "Change the program preferences\nChange Preferences"
     ID_VIEW_SHOWPOINT       "\nView Point Coordinates"
     ID_VIEW_POINT           "View Point Coordinates"
+    ID_EXPORTSELECTION_BLACK32959 
+                            "Save an image with the selected pixels as black and the backround as white (binary)\nSave Binary Pixel Seleted Image"
 END
 
 STRINGTABLE
 BEGIN
+    ID_FILE_FROMCLIPBOARD   "Create a new document from clipboard Image\nNew Document from cliboard"
     ID_TOOLS_AREATEXTCOPIER "Extracts the digital text from the selected area\nClick here to select the copy text tool"
+    ID_FROMSCANNERORCAMERA  "Scan an image and create a new document\nImport Scan or Camera Image"
+    IDS_BITMAP_WINDOW_TITLE "Image %d"
 END
 
 STRINGTABLE
 BEGIN
+    ID_EXPORTSELECTION_COLOR32960 
+                            "Save an image using the original selected pixels and a white backround"
     ID_COPYOCRTEXT_ALLIMAGE "Copy image text to clipboard\nCopy image text"
     ID_COPYOCRTEXT_USESELECTION 
                             "Copy text from binary image of selected pixels"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_WAIT                "Wait..."
+    IDS_STATUS_TRANSFER_FROM_DEVICE 
+                            "Reading data from the device (%d%% complete)"
+    IDS_STATUS_TRANSFER_TO_CLIENT "Transferring data (%d%% complete)"
+    IDS_ERROR_GET_IMAGE_DLG "Unable to retrieve image from device. Verify the device is properly connected and try again."
+    IDS_STATUS_PROCESSING_DATA 
+                            "Captures screen content as an image\nCapture Screen Image"
+    ID_TOOLS_DISABLE_POPUP  "Disables OCR pop-up and uses last configuration\nDisable OCR pop-up"
 END
 
 #endif    // Spanish (Spain, International Sort) resources

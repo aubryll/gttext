@@ -142,6 +142,7 @@
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseLatestTesser|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\include\tesseract_versionnumbers.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -250,7 +251,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <AdditionalIncludeDirectories>C:\Users\David\Documents\Visual Studio 2010\Projects\tesseract-trunk2\include;C:\Users\David\Documents\Visual Studio 2010\Projects\tesseract-trunk2\ccmain;C:\Users\David\Documents\Visual Studio 2010\Projects\tesseract-trunk2\api;C:\Users\David\Documents\Visual Studio 2010\Projects\tesseract-trunk2</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\Scanner;..\..\..\include;..\..\..\include\tesseract;..\..\..\include\leptonica</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -261,8 +262,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalLibraryDirectories>C:\Users\David\Documents\Visual Studio 2010\Projects\tesseract-trunk2\lib;C:\Users\David\Documents\Visual Studio 2010\Projects\tesseract-trunk2;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>tessdll.lib;leptonlib.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ws2_32.lib;user32.lib;liblept$(LIBLEPT_VERSION)d.lib;libtesseract$(LIBTESS_VERSION)d.lib</AdditionalDependencies>
     </Link>
     <ProjectReference>
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
@@ -305,7 +306,7 @@
       <ValidateAllParameters>false</ValidateAllParameters>
     </Midl>
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\David\Documents\Visual Studio 2010\Projects\tesseract-trunk2\include;C:\Users\David\Documents\Visual Studio 2010\Projects\tesseract-trunk2\ccmain;C:\Users\David\Documents\Visual Studio 2010\Projects\tesseract-trunk2\api;C:\Users\David\Documents\Visual Studio 2010\Projects\tesseract-trunk2</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\Scanner;C:\Users\David\Documents\Visual Studio 2010\Projects\tesseract-trunk2\include;C:\Users\David\Documents\Visual Studio 2010\Projects\tesseract-trunk2\ccmain;C:\Users\David\Documents\Visual Studio 2010\Projects\tesseract-trunk2\api;C:\Users\David\Documents\Visual Studio 2010\Projects\tesseract-trunk2</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -326,7 +327,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalDependencies>tessdll.lib;leptonlib.lib</AdditionalDependencies>
+      <AdditionalDependencies>tessdll.lib;leptonlib.lib;odbc32.lib;odbccp32.lib;comctl32.lib;wiaguid.lib;gdiplus.lib;</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Users\David\Documents\Visual Studio 2010\Projects\tesseract-trunk2\lib;C:\Users\David\Documents\Visual Studio 2010\Projects\tesseract-trunk2;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>
@@ -439,8 +440,8 @@
       <ValidateAllParameters>false</ValidateAllParameters>
     </Midl>
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\David\Documents\Visual Studio 2010\Projects\tessearct-ocr\api;C:\Users\David\Documents\Visual Studio 2010\Projects\tessearct-ocr\ccmain;C:\Users\David\Documents\Visual Studio 2010\Projects\tessearct-ocr\ccutil;C:\Users\David\Documents\Visual Studio 2010\Projects\tessearct-ocr\ccstruct;C:\Users\David\Documents\Visual Studio 2010\Projects\tessearct-ocr\classify;C:\Users\David\Documents\Visual Studio 2010\Projects\tessearct-ocr\cutil;C:\Users\David\Documents\Visual Studio 2010\Projects\tessearct-ocr\dict;C:\Users\David\Documents\Visual Studio 2010\Projects\tessearct-ocr\display;C:\Users\David\Documents\Visual Studio 2010\Projects\tessearct-ocr\image;C:\Users\David\Documents\Visual Studio 2010\Projects\tessearct-ocr\textord;C:\Users\David\Documents\Visual Studio 2010\Projects\tessearct-ocr\viewer;C:\Users\David\Documents\Visual Studio 2010\Projects\tessearct-ocr\wordrec;C:\Users\David\Documents\Visual Studio 2010\Projects\tessearct-ocr\pageseg;C:\Users\David\Documents\Visual Studio 2010\Projects\tessearct-ocr\vs2010\include\leptonica;C:\Users\David\Documents\Visual Studio 2010\Projects\tessearct-ocr\vs2010\include;C:\Users\David\Documents\Visual Studio 2010\Projects\tessearct-ocr\vs2010;C:\Users\David\Documents\Visual Studio 2010\Projects\tessearct-ocr</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;__MSW32__;_LIB;USE_STD_NAMESPACE;HAVE_LIBLEPT;XPCOMPATIBLE;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.\Scanner;..\..\..\include;..\..\..\include\tesseract;..\..\..\include\leptonica</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;__MSW32__;_LIB;USE_STD_NAMESPACE;HAVE_LIBLEPT;XPCOMPATIBLE;NDEBUG;TESSDLL_IMPORTS;CCUTIL_IMPORTS;LIBLEPT_IMPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -460,21 +461,22 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalDependencies>libtesseract.lib;ws2_32.lib;user32.lib;zlib-static-mtdll.lib;libpng-static-mtdll.lib;libjpeg-static-mtdll.lib;libtiff-static-mtdll.lib;giflib-static-mtdll.lib;liblept-static-mtdll.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Users\David\Documents\Visual Studio 2010\Projects\tessearct-ocr\vs2008\lib;C:\Users\David\Documents\Visual Studio 2010\Projects\tessearct-ocr\vs2010\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ws2_32.lib;user32.lib;odbc32.lib;odbccp32.lib;comctl32.lib;liblept$(LIBLEPT_VERSION).lib;libtesseract$(LIBTESS_VERSION).lib;wiaguid.lib;gdiplus.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
+      <Version>$(LIBTESS_NUMBER)</Version>
     </Link>
     <CustomBuildStep>
       <Inputs>
       </Inputs>
     </CustomBuildStep>
     <ProjectReference>
-      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -633,6 +635,15 @@
     <ClCompile Include="InfoDlg.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="PropViews.cpp" />
+    <ClCompile Include="Scanner\BitmapUtil.cpp" />
+    <ClCompile Include="Scanner\BitmapWnd.cpp" />
+    <ClCompile Include="Scanner\DataCallback.cpp" />
+    <ClCompile Include="Scanner\EventCallback.cpp" />
+    <ClCompile Include="Scanner\GetImage.cpp" />
+    <ClCompile Include="Scanner\MainWnd.cpp" />
+    <ClCompile Include="Scanner\ProgressDlg.cpp" />
+    <ClCompile Include="Scanner\WiaWrap.cpp" />
+    <ClCompile Include="ScreenImage.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -655,6 +666,14 @@
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="PropViews.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Scanner\BitmapUtil.h" />
+    <ClInclude Include="Scanner\BitmapWnd.h" />
+    <ClInclude Include="Scanner\DataCallback.h" />
+    <ClInclude Include="Scanner\EventCallback.h" />
+    <ClInclude Include="Scanner\MainWnd.h" />
+    <ClInclude Include="Scanner\ProgressDlg.h" />
+    <ClInclude Include="Scanner\WiaWrap.h" />
+    <ClInclude Include="ScreenImage.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="XMLDOMDocumentEventsSink.h" />
   </ItemGroup>

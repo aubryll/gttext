@@ -11,6 +11,7 @@
 #include "PropViews.h"
 
 
+
 #ifndef TESSDLL_IMPORTS
 #define TESSDLL_IMPORTS
 #ifndef XPCOMPATIBLE
@@ -87,12 +88,15 @@ BEGIN_MESSAGE_MAP(CGTDoc, CDocument)
 	ON_UPDATE_COMMAND_UI(ID_EXPORTSELECTION_COLOR32960, &CGTDoc::OnUpdateFileExportselection)
 	ON_COMMAND(ID_EXPORTSELECTION_COLOR32960, &CGTDoc::OnExportselectionColor)
 	ON_COMMAND(ID_EXPORTSELECTION_BLACK32959, &CGTDoc::OnExportselectionBlack)
-	ON_COMMAND(ID_COPYOCRTEXT_USESELECTION, &CGTDoc::OnExportBlackselectionText)
+	ON_COMMAND(ID_COPYOCRTEXT_USESELECTION, &CGTDoc::OnFileSelectionOCR)
 	ON_COMMAND(ID_COPYOCRTEXT_ALLIMAGE, &CGTDoc::OnExportColorselectionText)
-	ON_UPDATE_COMMAND_UI(ID_COPYOCRTEXT_USESELECTION, &CGTDoc::OnUpdateFileExportselection)
-	ON_UPDATE_COMMAND_UI(ID_COPYOCRTEXT_ALLIMAGE, &CGTDoc::OnUpdateFileExportselection)
+	ON_UPDATE_COMMAND_UI(ID_COPYOCRTEXT_USESELECTION, &CGTDoc::OnUpdateFileSelectionOCR)
+	ON_UPDATE_COMMAND_UI(ID_COPYOCRTEXT_ALLIMAGE, &CGTDoc::OnUpdateFileCopyTextAll)
 	ON_UPDATE_COMMAND_UI(ID_TOOLS_AREATEXTCOPIER, &CGTDoc::OnUpdateToolsAreatextcopier)
+	ON_UPDATE_COMMAND_UI(ID_TOOLS_DISABLE_POPUP, &CGTDoc::OnUpdateDisablePopUp)
 	ON_COMMAND(ID_TOOLS_AREATEXTCOPIER, &CGTDoc::OnToolsAreatextcopier)
+	ON_COMMAND(ID_TOOLS_DISABLE_POPUP, &CGTDoc::OnToolsDisablePopUp)
+	ON_COMMAND(ID_HELP_HELP, &CGTDoc::OnHelpHelp)
 END_MESSAGE_MAP()
 
 
@@ -112,7 +116,7 @@ CGTDoc::CGTDoc()
 	m_newLinkPathFile = _T("gt-00006664-20081107T11432018-0815.xml");
 	m_edition_state = EDIT_NONE;
 	m_isDirty = false;
-	m_tool = NO_TOOL;
+	m_tool = OCR_TOOL;
 	m_isBackuped = 0;
 	m_isXMLBackuped = 0;
 	m_pcDefaultFolder = "pc";
@@ -122,6 +126,7 @@ CGTDoc::CGTDoc()
 	m_idCount = 0;
 	m_onGlyphState = EDIT_NONE;
 	m_languageOCR = "eng";
+	m_isSelectionOCR = false;
 }
 
 CGTDoc::~CGTDoc()
@@ -201,7 +206,7 @@ void CGTDoc::Release(bool deep)
 		m_pDOMGlyphDocOld = NULL;
 		
 		m_edition_state = EDIT_NONE;
-		m_tool = NO_TOOL;
+		m_tool = OCR_TOOL;
 		m_imgSelection = CImageSelection();
 		m_pDOMLinkDoc = NULL;
 		m_pDOMPageDoc = NULL;
@@ -252,7 +257,37 @@ void  CGTDoc::SetOnGlyphState(EditEnum state)
 
 void CGTDoc::OnCloseDocument()
 {
-	Release();
+	TCHAR strPath[ MAX_PATH ];
+
+	// Get the special folder path.
+	SHGetSpecialFolderPathW(
+			0,       
+			strPath, // String buffer.
+			CSIDL_LOCAL_APPDATA, // CSLID of folder
+			TRUE );
+
+	CString	strFileName = CString(strPath) + CString(_T("\\gt-props"));
+	std::wofstream outfile;
+	POSITION pos = GetFirstViewPosition();
+	CGTView* gtView = (CGTView*) GetNextView(pos);
+	if(gtView != NULL) {
+		outfile.open(strFileName.GetString());
+		outfile << GetOCRLanguage().GetString()<<L"\n";
+		if(gtView->GetNoOCRPopUp())
+			outfile << L"NoPopUp\n";
+		else
+			outfile << L"YesPopUp\n";
+		if(gtView->GetLatestImport() == snapshot)
+			outfile << L"snapshot\n";
+		else if(gtView->GetLatestImport() == imagefile)
+			outfile << L"imagefile\n";
+		else if(gtView->GetLatestImport() == scanner)
+			outfile << L"scanner\n";
+		else if(gtView->GetLatestImport() == noimport)
+			outfile << L"noimport\n";
+		outfile.close();
+	}
+    Release();
 	CDocument::OnCloseDocument();
 }
 
@@ -489,9 +524,48 @@ BOOL CGTDoc::OnNewDocument()
 				SavePoints();
 		SetDirty(false);
 	}
+	if(theApp.GetImportType() == indetermined) {
+		TCHAR strPath[ MAX_PATH ];
 
-	gtView->OnFileImageOpen();
-		
+		// Get the special folder path.
+		SHGetSpecialFolderPathW(
+				0,       
+				strPath, // String buffer.
+				CSIDL_LOCAL_APPDATA, // CSLID of folder
+				TRUE );
+
+		CString	strFileName = CString(strPath) + CString(_T("\\gt-props"));
+		std::wifstream infile(strFileName.GetString());
+		if(infile.is_open()) {
+			if( infile.good() ) {
+				
+				std::wstring line;
+				infile>>line;
+				SetOCRLanguage(CString(line.c_str()));
+				infile>>line;
+				if(line.compare(L"NoPopUp") == 0)
+					gtView->SetNoOCRPopUp();
+				infile>>line;
+				if(line.compare(L"snapshot") == 0) {
+					theApp.SetImportType(snapshot);					
+				}
+				else if(line.compare(L"image") == 0) {
+					theApp.SetImportType(imagefile);
+				}
+				else if(line.compare(L"scanner") == 0) {
+					theApp.SetImportType(noimport);
+				}
+				infile.close();
+			}
+			else
+				theApp.SetImportType(imagefile);
+		}
+		else
+			theApp.SetImportType(imagefile);
+	}
+
+	theApp.SetActive(true);
+
 	if (m_isLoad)
 	{
 		if (!CDocument::OnNewDocument())
@@ -504,6 +578,7 @@ BOOL CGTDoc::OnNewDocument()
 		m_newLinkPathFile = _T("gt-00006664-20081107T11432018-0815.xml");
 		m_strLinkPathFileOld = _T("gt-00006664-20081107T11432018-0815.xml");
 		m_currentFolder = _T("");
+
 
 		return TRUE;
 	}
@@ -1918,11 +1993,23 @@ void CGTDoc::OnEditPaste()
 			EndWaitCursor();
 		}
 	}
+	else
+	{
+		theApp.OnFileFromclipboard();
+	}
 }
 
 void CGTDoc::OnUpdateEditPaste(CCmdUI *pCmdUI)
 {
-	pCmdUI->Enable((m_copyVector.size() != 0) && (m_edition_state != EDIT_NONE));
+	bool existContent = false;
+	::OpenClipboard(AfxGetMainWnd()->GetSafeHwnd());
+	HANDLE hClip = ::GetClipboardData(CF_BITMAP);
+	HBITMAP hbClip = (HBITMAP) hClip;
+	if(hbClip != NULL)
+		existContent = true;
+	CloseClipboard();
+
+	pCmdUI->Enable(((m_copyVector.size() != 0) && (m_edition_state != EDIT_NONE))||existContent);
 }
 
 void CGTDoc::OnEditCut()
@@ -3001,6 +3088,11 @@ void CImageSelection::SetOutline(bool outline)
 	m_isChanged = true;
 }
 
+bool CImageSelection::IsEmpty()
+{
+	return (m_coreVector.empty() && m_outlineVector.empty() && m_shadeVector.empty());
+}
+
 CImageSelection & CImageSelection::operator= (const CImageSelection &copy)
 {
 	if(&copy == this)
@@ -3171,7 +3263,12 @@ void CGTDoc::OnFileExportselection()
 
 void CGTDoc::OnUpdateFileExportselection(CCmdUI *pCmdUI)
 {
-	pCmdUI->Enable(!m_imgOriginal.IsNull() && !m_imgSelection.GetImageMask()->IsNull());
+	pCmdUI->Enable(!m_imgOriginal.IsNull() && !m_imgSelection.IsEmpty());
+}
+
+void CGTDoc::OnUpdateFileCopyTextAll(CCmdUI *pCmdUI)
+{
+	pCmdUI->Enable(!m_imgOriginal.IsNull());
 }
 
 
@@ -3222,21 +3319,64 @@ void CGTDoc::OnUpdateToolsAreatextcopier(CCmdUI *pCmdUI)
 	if(gtView == NULL)
 		return;
 	pCmdUI->SetCheck(gtView->GetAreaOCRCheck());
-	//pCmdUI->Enable((BOOL)((GetEditState() == EDIT_NONE && GetToolState() != ZOOM_TOOL)));
 	pCmdUI->SetCheck(GetToolState() == OCR_TOOL);
-	//pCmdUI->Enable((BOOL)((GetEditState() == EDIT_NONE && GetToolState() != ZOOM_TOOL)));
+	pCmdUI->Enable(!m_imgOriginal.IsNull());
 }
 
 void CGTDoc::OnToolsAreatextcopier()
+{
+	if(GetToolState() != OCR_TOOL)
+		SetToolState(OCR_TOOL);
+	else
+		SetToolState(NO_TOOL);
+}
+
+void CGTDoc::OnToolsDisablePopUp()
 {
 	POSITION pos = GetFirstViewPosition();
 	CGTView* gtView = (CGTView*) GetNextView(pos);
 	if(gtView == NULL)
 		return;
-	gtView->OnToolsAreatextcopier();
+	gtView->SetNoOCRPopUp();
+}
 
-	if(GetToolState() != OCR_TOOL)
-		SetToolState(OCR_TOOL);
+void CGTDoc::OnUpdateDisablePopUp(CCmdUI *pCmdUI)
+{
+	POSITION pos = GetFirstViewPosition();
+	CGTView* gtView = (CGTView*) GetNextView(pos);
+	if(gtView == NULL)
+		return;
+	pCmdUI->Enable(true);
+	pCmdUI->SetCheck(gtView->GetNoOCRPopUp());
+}
+
+void CGTDoc::OnUpdateFileSelectionOCR(CCmdUI *pCmdUI)
+{
+	POSITION pos = GetFirstViewPosition();
+	CGTView* gtView = (CGTView*) GetNextView(pos);
+	if(gtView == NULL)
+		return;
+	
+	if(!m_imgSelection.GetImageMask()->IsNull() && !m_imgOriginal.IsNull())
+		pCmdUI->Enable(!GetImageSelection()->IsEmpty() && (GetImageSelection()->GetOutline() || GetImageSelection()->GetShade() || GetImageSelection()->GetCore()));
 	else
-		SetToolState(NO_TOOL);
+		pCmdUI->Enable(FALSE);
+	
+	pCmdUI->SetCheck(gtView->GetAreaOCRCheck());
+	m_isSelectionOCR = gtView->GetAreaOCRCheck();
+}
+
+void CGTDoc::OnFileSelectionOCR()
+{
+	POSITION pos = GetFirstViewPosition();
+	CGTView* gtView = (CGTView*) GetNextView(pos);
+	if(gtView == NULL)
+		return;
+	m_isSelectionOCR = !m_isSelectionOCR;
+	gtView->OnToolsAreatextcopier(m_isSelectionOCR);
+}
+
+void CGTDoc::OnHelpHelp()
+{
+	ShellExecute(NULL,L"open",L"http://www.youtube.com/watch?v=G3v1uGn2_yc",NULL, NULL, SW_SHOWNORMAL);
 }

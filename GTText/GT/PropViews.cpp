@@ -1364,7 +1364,16 @@ void CFolders::OnBnClickedOk()
 
 void CFolders::OnNMClickSyslinklang(NMHDR *pNMHDR, LRESULT *pResult)
 {
-	ShellExecute(NULL, L"open", L"tesseract-ocr-language-1.4.2.exe", NULL, NULL, SW_SHOWNORMAL);
+	
+	//TCHAR Buffer[FILENAME_MAX];
+	//DWORD dwRet;
+	//dwRet = GetCurrentDirectory(FILENAME_MAX, Buffer);
+	//if( dwRet == 0 )
+ //   {
+ //     printf("GetCurrentDirectory failed (%d)\n", GetLastError());
+ //     return;
+ //   }
+    ShellExecute(NULL, L"open", L"tesseract-ocr-language-1.4.5.exe "/*+CString(Buffer)*/, NULL, NULL, SW_SHOWNORMAL);
 	*pResult = 0;
 }
 

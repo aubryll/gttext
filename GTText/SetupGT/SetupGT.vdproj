@@ -15,20 +15,44 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_139D89642D3C492AABE685FB4C95A693"
+        "MsmKey" = "8:_124D8EA812F93D1B48A9D67B51824DAA"
+        "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_2313E6D985C84AD380BB78A46B3BF02A"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_1E0AD158E5A84337B4822AB3BBA911E4"
-        "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
+        "MsmKey" = "8:_278F390DECB4494FAE47E9EC82CCEA2E"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3235980446944231AB78FCFFD4347B91"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_37A0213F50794317BF8638FCC6EC8EFC"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_49F7EBAD9E404994A622F6BE494473DC"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_4FB345036A3B8B5F95A5296C9A04162F"
+        "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -63,13 +87,19 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_C7C9CAC0E5574976BD38F716F61D85C3"
+        "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_CBA9253AC60B41C699784DB0B631C5D3"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_DD1C160CE97C44EC8D10BC3621753BF6"
+        "MsmKey" = "8:_E6E40B2A73FD4D22B2857D424481BBCD"
         "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -81,8 +111,8 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_FD281FC862544B1AB1781019EF45905C"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_C40CDAE4E73A42F8B8D591390D639DFB"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -253,14 +283,82 @@
         {
             "LaunchCondition"
             {
+                "{A06ECF26-33A3-4562-8140-9B0E340D4F24}:_BD2E04AFCB914678B92A958DE6416004"
+                {
+                "Name" = "8:.NET Framework"
+                "Message" = "8:[VSDNETMSG]"
+                "FrameworkVersion" = "8:.NETFramework,Version=v4.0,Profile=Client"
+                "AllowLaterVersions" = "11:FALSE"
+                "InstallUrl" = "8:http://go.microsoft.com/fwlink/?LinkId=131000"
+                }
             }
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_139D89642D3C492AABE685FB4C95A693"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_124D8EA812F93D1B48A9D67B51824DAA"
             {
-            "SourcePath" = "8:..\\GT\\tesseract-ocr-language-1.4.2.exe"
-            "TargetName" = "8:tesseract-ocr-language-1.4.2.exe"
+            "SourcePath" = "8:libtesseract302.dll"
+            "TargetName" = "8:libtesseract302.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_B878568AE37B4A0E8EBF1B5F66A7FC32"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_2313E6D985C84AD380BB78A46B3BF02A"
+            {
+            "SourcePath" = "8:..\\GT\\tar.exe"
+            "TargetName" = "8:tar.exe"
+            "Tag" = "8:"
+            "Folder" = "8:_B878568AE37B4A0E8EBF1B5F66A7FC32"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_278F390DECB4494FAE47E9EC82CCEA2E"
+            {
+            "SourcePath" = "8:..\\GT\\tessdata\\eng.traineddata"
+            "TargetName" = "8:eng.traineddata"
+            "Tag" = "8:"
+            "Folder" = "8:_8FD483EE26C64117961272E9688813E0"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3235980446944231AB78FCFFD4347B91"
+            {
+            "SourcePath" = "8:..\\GT\\gzip.exe"
+            "TargetName" = "8:gzip.exe"
             "Tag" = "8:"
             "Folder" = "8:_B878568AE37B4A0E8EBF1B5F66A7FC32"
             "Condition" = "8:"
@@ -295,6 +393,46 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_49F7EBAD9E404994A622F6BE494473DC"
+            {
+            "SourcePath" = "8:..\\GT\\tesseract-ocr-language-1.4.5.exe"
+            "TargetName" = "8:tesseract-ocr-language-1.4.5.exe"
+            "Tag" = "8:"
+            "Folder" = "8:_B878568AE37B4A0E8EBF1B5F66A7FC32"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4FB345036A3B8B5F95A5296C9A04162F"
+            {
+            "SourcePath" = "8:liblept168.dll"
+            "TargetName" = "8:liblept168.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_B878568AE37B4A0E8EBF1B5F66A7FC32"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6F6BB8DB1A84D7F971E58B19F1ABF486"
@@ -417,26 +555,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_FD281FC862544B1AB1781019EF45905C"
-            {
-            "SourcePath" = "8:..\\GT\\tessdata\\eng.traineddata"
-            "TargetName" = "8:eng.traineddata"
-            "Tag" = "8:"
-            "Folder" = "8:_8FD483EE26C64117961272E9688813E0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
         }
         "FileType"
         {
@@ -514,24 +632,24 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:Ground Truth Text"
-        "ProductCode" = "8:{5DE03281-D974-47AF-A07B-1FC22BC0917F}"
-        "PackageCode" = "8:{67768F7E-143A-4C42-8D67-407A2A4C3BD1}"
-        "UpgradeCode" = "8:{D620E1D3-93DC-4ED8-BB35-DD2388DCE7C4}"
+        "ProductName" = "8:GTText"
+        "ProductCode" = "8:{C8187D08-DC8E-4382-9AEB-00F311C119F9}"
+        "PackageCode" = "8:{F76D6A0F-033A-4FB3-B9EA-3CF12EC015B1}"
+        "UpgradeCode" = "8:{A7D0F865-C28F-44DF-B16A-67DE78E1D65F}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.4.2"
-        "Manufacturer" = "8:Universitat Autonoma de Barcelona"
+        "ProductVersion" = "8:1.4.5"
+        "Manufacturer" = "8:SoftOCR"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://gttext.googlecode.com"
         "Title" = "8:GTText"
         "Subject" = "8:"
         "ARPCONTACT" = "8:David Torne"
         "Keywords" = "8:"
-        "ARPCOMMENTS" = "8:Software to build a Ground Truth from complex color images with text"
+        "ARPCOMMENTS" = "8:Copy image text to clipboard or build a Ground Truth for image text."
         "ARPURLINFOABOUT" = "8:http://gttext.googlecode.com"
         "ARPPRODUCTICON" = "8:_37A0213F50794317BF8638FCC6EC8EFC"
         "ARPIconIndex" = "3:0"
@@ -1112,11 +1230,11 @@
         }
         "MergeModule"
         {
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_1E0AD158E5A84337B4822AB3BBA911E4"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_C7C9CAC0E5574976BD38F716F61D85C3"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
-            "SourcePath" = "8:Microsoft_VC100_MFC_x86.msm"
+            "SourcePath" = "8:Microsoft_VC100_CRT_x86.msm"
                 "Properties"
                 {
                 }
@@ -1126,11 +1244,11 @@
             "Feature" = "8:"
             "IsolateTo" = "8:"
             }
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_DD1C160CE97C44EC8D10BC3621753BF6"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_E6E40B2A73FD4D22B2857D424481BBCD"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
-            "SourcePath" = "8:Microsoft_VC100_CRT_x86.msm"
+            "SourcePath" = "8:Microsoft_VC100_MFC_x86.msm"
                 "Properties"
                 {
                 }

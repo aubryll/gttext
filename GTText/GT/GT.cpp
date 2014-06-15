@@ -10,6 +10,9 @@
 #include "GTView.h"
 #include "XMLDOMDocumentEventsSink.h"
 
+#include "./Scanner/BitmapWnd.h"
+
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
@@ -29,6 +32,8 @@ BEGIN_MESSAGE_MAP(CGTApp, CWinApp)
 	ON_COMMAND(ID_FILE_PRINT_SETUP, &CWinApp::OnFilePrintSetup)
 	ON_COMMAND(ID_FILE_FROMCLIPBOARD, &CGTApp::OnFileFromclipboard)
 	ON_UPDATE_COMMAND_UI(ID_FILE_FROMCLIPBOARD, &CGTApp::OnUpdateFileFromclipboard)
+	ON_COMMAND(ID_FROMSCANNERORCAMERA, &CGTApp::OnFileFromscannerorcamera)
+	ON_COMMAND(ID_FROMSCREEN, &CGTApp::OnFileFromscreen)
 END_MESSAGE_MAP()
 
 
@@ -38,6 +43,7 @@ CGTApp::CGTApp()
 {
 	// TODO: agregar aquí el código de construcción,
 	// Colocar toda la inicialización importante en InitInstance
+	m_importType = indetermined;
 }
 
 
@@ -112,6 +118,41 @@ BOOL CGTApp::InitInstance()
 	//  En una aplicación SDI, esto debe ocurrir después de ProcessShellCommand
 	// Habilitar apertura de arrastrar y colocar
 	m_pMainWnd->DragAcceptFiles();
+	
+
+	 // Initialize the global module instance value
+
+	g_hInstance = m_hInstance;
+
+    // Initialize the GDI+ library
+
+    CGdiplusInit GdiplusInit;
+
+    // Register window classes
+
+  
+
+   // CBitmapWnd::Register();
+    
+  //  CMainWindow::Register();
+
+    // Initialize the COM library 
+
+    //HRESULT hr = CoInitialize(NULL);
+
+    //if (SUCCEEDED(hr))
+    //{
+    //    // Create the main window and enter the message loop
+
+    //     // Close the COM library 
+
+    //    CoUninitialize();
+    //}
+	AfxOleGetMessageFilter()->SetMessagePendingDelay();
+	AfxOleGetMessageFilter()->EnableNotRespondingDialog(FALSE);
+	AfxOleGetMessageFilter()->EnableBusyDialog(FALSE);
+	m_active = false;
+
 	return TRUE;
 }
 
@@ -263,9 +304,20 @@ BOOL CGTApp::InitATL()
 
 void CGTApp::OnFileFromclipboard()
 {
-	m_newFromClipboard = true;
-	OnFileNew();
-	m_newFromClipboard = false;
+	bool existContent = false;
+	::OpenClipboard(AfxGetMainWnd()->GetSafeHwnd());
+	HANDLE hClip = ::GetClipboardData(CF_BITMAP);
+	HBITMAP hbClip = (HBITMAP) hClip;
+	if(hbClip != NULL)
+		existContent = true;
+	CloseClipboard();
+
+	if(existContent)
+	{
+		m_importType = clipboard;
+		OnFileNew();
+		m_importType = imagefile;
+	}
 }
 
 
@@ -279,4 +331,22 @@ void CGTApp::OnUpdateFileFromclipboard(CCmdUI *pCmdUI)
 	else
 		pCmdUI->Enable(false);
 	CloseClipboard();
+}
+
+
+void CGTApp::OnFileFromscannerorcamera()
+{
+	m_importType = scanner;
+	if(mainWindow.OnFromScannerOrCamera(AfxGetApp()->m_pMainWnd->m_hWnd) == S_OK)		
+	{
+		OnFileNew();
+	}
+	m_importType = imagefile;
+}
+
+void CGTApp::OnFileFromscreen()
+{
+	m_importType = snapshot;
+	OnFileNew();
+	m_importType = imagefile;
 }
